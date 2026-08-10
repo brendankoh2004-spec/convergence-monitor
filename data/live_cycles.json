@@ -7,72 +7,6 @@
     "balanced",
     "aggressive"
   ],
-  "ibkr": {
-    "tws_queried": false,
-    "tws_connected": false,
-    "any_stale_without_reconcile": false,
-    "submissions": [
-      {
-        "ticker": "ANET",
-        "profile": "conservative",
-        "bucket": "Foundation",
-        "order_ref": "CON-B|2026-08-07|ANET",
-        "shares_requested": 150,
-        "submission_status": "SUBMITTED_ACCEPTED",
-        "submission_detail": "orderStatus=PreSubmitted",
-        "fill_capture_proven": false,
-        "recorded_at": "2026-08-10T12:18:32Z",
-        "tws_reconciled_at": null,
-        "stale": null,
-        "live_status": null,
-        "prove_artifact": "/Users/brendan/Documents/Convergence-index-/PaperV1/broker/ibkr_first_test_output/portfolio_b_monthly/b_fill_prove_ANET_2026-08-10.json"
-      },
-      {
-        "ticker": "AVGO",
-        "profile": "conservative",
-        "bucket": "Opportunity",
-        "order_ref": "CON-B|2026-08-07|AVGO",
-        "shares_requested": 86,
-        "submission_status": "SUBMITTED_ACCEPTED",
-        "submission_detail": "orderStatus=PreSubmitted",
-        "fill_capture_proven": false,
-        "recorded_at": "2026-08-10T12:20:48Z",
-        "tws_reconciled_at": null,
-        "stale": null,
-        "live_status": null,
-        "prove_artifact": "/Users/brendan/Documents/Convergence-index-/PaperV1/broker/ibkr_first_test_output/portfolio_b_monthly/b_fill_prove_AVGO_2026-08-10.json"
-      },
-      {
-        "ticker": "ETN",
-        "profile": "conservative",
-        "bucket": "Exploration",
-        "order_ref": "CON-B|2026-08-07|ETN",
-        "shares_requested": 141,
-        "submission_status": "SUBMITTED_ACCEPTED",
-        "submission_detail": "orderStatus=PreSubmitted",
-        "fill_capture_proven": false,
-        "recorded_at": "2026-08-10T12:23:00Z",
-        "tws_reconciled_at": null,
-        "stale": null,
-        "live_status": null,
-        "prove_artifact": "/Users/brendan/Documents/Convergence-index-/PaperV1/broker/ibkr_first_test_output/portfolio_b_monthly/b_fill_prove_ETN_2026-08-10.json"
-      }
-    ],
-    "reconciliation_runs": [
-      {
-        "prove_path": "/Users/brendan/Documents/Convergence-index-/PaperV1/broker/ibkr_first_test_output/portfolio_b_monthly/b_fill_prove_ANET_2026-08-10.json",
-        "skipped_live": true
-      },
-      {
-        "prove_path": "/Users/brendan/Documents/Convergence-index-/PaperV1/broker/ibkr_first_test_output/portfolio_b_monthly/b_fill_prove_AVGO_2026-08-10.json",
-        "skipped_live": true
-      },
-      {
-        "prove_path": "/Users/brendan/Documents/Convergence-index-/PaperV1/broker/ibkr_first_test_output/portfolio_b_monthly/b_fill_prove_ETN_2026-08-10.json",
-        "skipped_live": true
-      }
-    ]
-  },
   "display": {
     "holdings_label": "Holdings as of last monthly review",
     "holdings_field": "holdings_as_of",
@@ -1643,11 +1577,6 @@
           }
         }
       ],
-      "sources": {
-        "dashboard_json": "/Users/brendan/Documents/Convergence-index-/PaperV1/paper_portfolios/reports/dashboard_2026-08-07_aggressive.json",
-        "cycle_json": "/Users/brendan/Documents/Convergence-index-/PaperV1/paper_portfolios/reports/cycle_2026-08-07_aggressive.json",
-        "archive_manifest": "/Users/brendan/Documents/Convergence-index-/PaperV1/paper_portfolios/archive/2026-08/aggressive/manifest.json"
-      },
       "holdings_as_of": "2026-08-07",
       "b_holding_now": [
         {
@@ -3447,11 +3376,6 @@
           }
         }
       ],
-      "sources": {
-        "dashboard_json": "/Users/brendan/Documents/Convergence-index-/PaperV1/paper_portfolios/reports/dashboard_2026-08-07_balanced.json",
-        "cycle_json": "/Users/brendan/Documents/Convergence-index-/PaperV1/paper_portfolios/reports/cycle_2026-08-07_balanced.json",
-        "archive_manifest": "/Users/brendan/Documents/Convergence-index-/PaperV1/paper_portfolios/archive/2026-08/balanced/manifest.json"
-      },
       "holdings_as_of": "2026-08-07",
       "b_holding_now": [
         {
@@ -5230,11 +5154,6 @@
           }
         }
       ],
-      "sources": {
-        "dashboard_json": "/Users/brendan/Documents/Convergence-index-/PaperV1/paper_portfolios/reports/dashboard_2026-08-07_conservative.json",
-        "cycle_json": "/Users/brendan/Documents/Convergence-index-/PaperV1/paper_portfolios/reports/cycle_2026-08-07_conservative.json",
-        "archive_manifest": "/Users/brendan/Documents/Convergence-index-/PaperV1/paper_portfolios/archive/2026-08/conservative/manifest.json"
-      },
       "holdings_as_of": "2026-08-07",
       "b_holding_now": [
         {
