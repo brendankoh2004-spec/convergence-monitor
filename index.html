@@ -297,7 +297,13 @@
       if (key === "B") {
         const picks = cycle.b_holding_now || [];
         if (picks.length) {
-          return picks.map((h) => h.holding_now || h.ticker).filter(Boolean).join(", ");
+          const all = [];
+          for (const h of picks) {
+            const ts = h.recorded_picks || [];
+            if (ts.length) all.push(...ts);
+            else if (h.holding_now || h.ticker) all.push(h.holding_now || h.ticker);
+          }
+          if (all.length) return [...new Set(all)].join(", ");
         }
       }
       const tickers = p.holdings_display || p.tickers || [];
@@ -307,7 +313,11 @@
     function bPicksLine(cycle) {
       const picks = cycle.b_holding_now || [];
       if (!picks.length) return "";
-      return picks.map((h) => h.bucket + ": <span>" + (h.holding_now || h.ticker) + "</span>").join(" · ");
+      return picks.map((h) => {
+        const label = h.recorded_pick || h.holding_now ||
+          (h.recorded_picks || []).join(", ") || h.ticker || "—";
+        return h.bucket + ": <span>" + label + "</span>";
+      }).join(" · ");
     }
 
     function aheadBadge(returns) {
@@ -526,6 +536,7 @@
         const vr = live.valuation_refresh || {};
         const marketThru = vr.market_data_through || vr.prices_as_of || "—";
         pricesStrip.innerHTML = "Prices through <strong>" + marketThru + "</strong>" +
+          " · last refreshed <strong>" + fmtTimestamp(vr.refreshed_at) + "</strong>" +
           (vr.stale_vs_calendar ? ' · <span class="warn">Awaiting newer close</span>' : "");
 
         const cyclesByProfile = {};
