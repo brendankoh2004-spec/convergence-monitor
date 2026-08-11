@@ -114,7 +114,7 @@
           ],
           "missing_prices": [],
           "valuation": {
-            "refreshed_at": "2026-08-11T12:14:51Z",
+            "refreshed_at": "2026-08-11T12:58:17Z",
             "prices_as_of": "2026-08-10",
             "price_source": "yfinance+local_cache"
           },
@@ -147,12 +147,13 @@
           "name": "Convergence + human judgment (AI advisory)",
           "status": "OK",
           "nav_at_review": 1000000.0,
-          "nav": 1001004.2208862305,
-          "cash": 852931.0610046387,
+          "nav": 996432.9210510254,
+          "cash": 493181.4556732178,
           "period_return": null,
-          "return_since_review": 0.0010042208862304225,
-          "n_holdings": 4,
+          "return_since_review": -0.003567078948974567,
+          "n_holdings": 5,
           "tickers": [
+            "AMD",
             "ANET",
             "AVGO",
             "ETN",
@@ -160,21 +161,30 @@
           ],
           "holdings": [
             {
+              "ticker": "AMD",
+              "shares": 331.0,
+              "price": 469.55999755859375,
+              "market_value": 155424.35919189453,
+              "weight": 0.15598075485899723,
+              "cost_basis": 159992.1551513672,
+              "max_position_pct": null
+            },
+            {
               "ticker": "ANET",
               "shares": 342.0,
               "price": 191.52000427246094,
               "market_value": 65499.84146118164,
-              "weight": 0.06543413114001849,
+              "weight": 0.06573432097375226,
               "cost_basis": 64525.1393737793,
               "max_position_pct": null
             },
             {
               "ticker": "AVGO",
-              "shares": 88.0,
+              "shares": 368.0,
               "price": 422.3999938964844,
-              "market_value": 37171.199462890625,
-              "weight": 0.03713390881607015,
-              "cost_basis": 37642.880859375,
+              "market_value": 155443.19775390625,
+              "weight": 0.1559996608602079,
+              "cost_basis": 157415.68359375,
               "max_position_pct": null
             },
             {
@@ -182,42 +192,43 @@
               "shares": 28.0,
               "price": 444.9599914550781,
               "market_value": 12458.879760742188,
-              "weight": 0.012446380845139519,
+              "weight": 0.012503480663405533,
               "cost_basis": 12563.039794921875,
               "max_position_pct": null
             },
             {
               "ticker": "PLTR",
-              "shares": 188.0,
+              "shares": 653.0,
               "price": 175.22999572753906,
-              "market_value": 32943.239196777344,
-              "weight": 0.03291019009651261,
-              "cost_basis": 32337.878967285156,
+              "market_value": 114425.18721008301,
+              "weight": 0.11483481205075872,
+              "cost_basis": 112322.52641296387,
               "max_position_pct": null
             }
           ],
           "missing_prices": [],
           "valuation": {
-            "refreshed_at": "2026-08-11T12:14:51Z",
+            "refreshed_at": "2026-08-11T12:58:17Z",
             "prices_as_of": "2026-08-10",
             "price_source": "yfinance+local_cache"
           },
           "inception_nav": 1000000.0,
-          "gain_loss_since_inception": 1004.2208862304688,
-          "gain_loss_pct_since_inception": 0.0010042208862304687,
-          "equity": 148073.1598815918,
-          "cash_pct": 0.8520753891022592,
-          "deployed_pct": 0.14792461089774078,
+          "gain_loss_since_inception": -3567.0789489746094,
+          "gain_loss_pct_since_inception": -0.0035670789489746094,
+          "equity": 503251.4653778076,
+          "cash_pct": 0.4949469705928784,
+          "deployed_pct": 0.5050530294071216,
           "ledger_last_as_of": "2026-08-07",
           "returns_pct": {
-            "since_start_pct": 0.0010042208862304687,
-            "month_pct": 0.0010042208862304225,
-            "ytd_pct": 0.0010042208862304687,
+            "since_start_pct": -0.0035670789489746094,
+            "month_pct": -0.003567078948974567,
+            "ytd_pct": -0.0035670789489746094,
             "ytd_same_as_since_start": true,
             "spy_since_start_pct": -0.0002974167383470672,
-            "vs_spy_since_start_pct": 0.001301637624577536
+            "vs_spy_since_start_pct": -0.0032696622106275423
           },
           "holdings_display": [
+            "AMD",
             "ANET",
             "AVGO",
             "ETN",
@@ -1499,7 +1510,7 @@
           ],
           "missing_prices": [],
           "valuation": {
-            "refreshed_at": "2026-08-11T12:14:51Z",
+            "refreshed_at": "2026-08-11T12:58:17Z",
             "prices_as_of": "2026-08-10",
             "price_source": "yfinance+local_cache"
           },
@@ -1672,7 +1683,7 @@
           ],
           "missing_prices": [],
           "valuation": {
-            "refreshed_at": "2026-08-11T12:14:51Z",
+            "refreshed_at": "2026-08-11T12:58:17Z",
             "prices_as_of": "2026-08-10",
             "price_source": "yfinance+local_cache"
           },
@@ -1770,52 +1781,56 @@
           "recorded_at": "2026-08-11T11:18:45Z",
           "human_decision_recorded": true,
           "holding_now": "ANET, PLTR",
-          "shares_held": 530.0,
+          "shares_held": 995.0,
           "is_live_position": true,
-          "ledger_status": "In B ledger \u2014 ANET (342), PLTR (188)"
+          "ledger_status": "In B ledger \u2014 ANET (342), PLTR (653)"
         },
         {
           "bucket": "Opportunity",
-          "recorded_pick": "AVGO",
+          "recorded_pick": "AMD, AVGO",
           "recorded_picks": [
+            "AMD",
             "AVGO"
           ],
-          "ticker": "AVGO",
+          "ticker": null,
           "action": "modify",
           "spy_fallback": false,
-          "recorded_at": "2026-08-10T12:25:41Z",
+          "recorded_at": "2026-08-11T12:44:50Z",
           "human_decision_recorded": true,
-          "broker": {
-            "is_live_position": false,
-            "note": "Decision recorded; no matching IBKR submission or not yet executed."
-          },
-          "holding_now": "AVGO",
-          "shares_held": 88.0,
+          "holding_now": "AMD, AVGO",
+          "shares_held": 699.0,
           "is_live_position": true,
-          "ledger_status": "In B ledger \u2014 AVGO (88)"
+          "ledger_status": "In B ledger \u2014 AMD (331), AVGO (368)"
         },
         {
           "bucket": "Exploration",
-          "recorded_pick": "ETN",
+          "recorded_pick": "PLTR",
           "recorded_picks": [
-            "ETN"
+            "PLTR"
           ],
-          "ticker": "ETN",
+          "ticker": "PLTR",
           "action": "modify",
           "spy_fallback": false,
-          "recorded_at": "2026-08-10T12:31:41Z",
+          "recorded_at": "2026-08-11T12:44:50Z",
           "human_decision_recorded": true,
           "broker": {
             "is_live_position": false,
             "note": "Decision recorded; no matching IBKR submission or not yet executed."
           },
-          "holding_now": "ETN",
-          "shares_held": 28.0,
+          "holding_now": "PLTR",
+          "shares_held": 653.0,
           "is_live_position": true,
-          "ledger_status": "In B ledger \u2014 ETN (28)"
+          "ledger_status": "In B ledger \u2014 PLTR (653)"
         }
       ],
       "b_ledger_holdings": [
+        {
+          "ticker": "AMD",
+          "shares": 331.0,
+          "price": null,
+          "market_value": null,
+          "weight": null
+        },
         {
           "ticker": "ANET",
           "shares": 342.0,
@@ -1825,7 +1840,7 @@
         },
         {
           "ticker": "AVGO",
-          "shares": 88.0,
+          "shares": 368.0,
           "price": null,
           "market_value": null,
           "weight": null
@@ -1839,7 +1854,7 @@
         },
         {
           "ticker": "PLTR",
-          "shares": 188.0,
+          "shares": 653.0,
           "price": null,
           "market_value": null,
           "weight": null
@@ -1934,10 +1949,10 @@
               "date": "2026-08-10",
               "label": "Latest refresh",
               "role": "current",
-              "nav": 1001004.2208862305,
-              "nav_index": 100.10042208862305,
+              "nav": 996432.9210510254,
+              "nav_index": 99.64329210510255,
               "spy_index": 99.9702583261653,
-              "ahead": true
+              "ahead": false
             }
           ],
           "chart_points": [
@@ -1953,7 +1968,7 @@
             },
             {
               "date": "2026-08-10",
-              "portfolio_pct": 0.1004,
+              "portfolio_pct": -0.3567,
               "spy_pct": -0.0297
             }
           ]
@@ -2182,7 +2197,7 @@
           ],
           "missing_prices": [],
           "valuation": {
-            "refreshed_at": "2026-08-11T12:14:51Z",
+            "refreshed_at": "2026-08-11T12:58:17Z",
             "prices_as_of": "2026-08-10",
             "price_source": "yfinance+local_cache"
           },
@@ -2217,70 +2232,103 @@
           "name": "Convergence + human judgment (AI advisory)",
           "status": "OK",
           "nav_at_review": 1000000.0,
-          "nav": 1000080.7501525879,
-          "cash": 972053.070022583,
+          "nav": 996318.419342041,
+          "cash": 282730.4649963379,
           "period_return": null,
-          "return_since_review": 8.075015258790508e-05,
-          "n_holdings": 3,
+          "return_since_review": -0.0036815806579589827,
+          "n_holdings": 6,
           "tickers": [
+            "AMD",
             "ANET",
             "AVGO",
-            "ETN"
+            "ETN",
+            "NVDA",
+            "ORCL"
           ],
           "holdings": [
             {
+              "ticker": "AMD",
+              "shares": 248.0,
+              "price": 469.55999755859375,
+              "market_value": 116450.87939453125,
+              "weight": 0.11688118691154407,
+              "cost_basis": 119873.2763671875,
+              "max_position_pct": null
+            },
+            {
               "ticker": "ANET",
-              "shares": 79.0,
+              "shares": 635.0,
               "price": 191.52000427246094,
-              "market_value": 15130.080337524414,
-              "weight": 0.015128858679877533,
-              "cost_basis": 14904.92985534668,
+              "market_value": 121615.2027130127,
+              "weight": 0.12206459335894461,
+              "cost_basis": 119805.44883728027,
               "max_position_pct": null
             },
             {
               "ticker": "AVGO",
-              "shares": 20.0,
+              "shares": 230.0,
               "price": 422.3999938964844,
-              "market_value": 8447.999877929688,
-              "weight": 0.008447317755731954,
-              "cost_basis": 8555.2001953125,
+              "market_value": 97151.9985961914,
+              "weight": 0.09751099318263096,
+              "cost_basis": 98384.80224609375,
               "max_position_pct": null
             },
             {
               "ticker": "ETN",
-              "shares": 10.0,
+              "shares": 177.0,
               "price": 444.9599914550781,
-              "market_value": 4449.599914550781,
-              "weight": 0.004449240637690388,
-              "cost_basis": 4486.7999267578125,
+              "market_value": 78757.91848754883,
+              "weight": 0.07904894354915147,
+              "cost_basis": 79416.35870361328,
+              "max_position_pct": null
+            },
+            {
+              "ticker": "NVDA",
+              "shares": 669.0,
+              "price": 217.5500030517578,
+              "market_value": 145540.95204162598,
+              "weight": 0.14607875275229762,
+              "cost_basis": 149829.24449157715,
+              "max_position_pct": null
+            },
+            {
+              "ticker": "ORCL",
+              "shares": 1020.0,
+              "price": 151.0500030517578,
+              "market_value": 154071.00311279297,
+              "weight": 0.1546403239383449,
+              "cost_basis": 149960.40435791016,
               "max_position_pct": null
             }
           ],
           "missing_prices": [],
           "valuation": {
-            "refreshed_at": "2026-08-11T12:14:51Z",
+            "refreshed_at": "2026-08-11T12:58:17Z",
             "prices_as_of": "2026-08-10",
             "price_source": "yfinance+local_cache"
           },
           "inception_nav": 1000000.0,
-          "gain_loss_since_inception": 80.75015258789062,
-          "gain_loss_pct_since_inception": 8.075015258789063e-05,
-          "equity": 28027.680130004883,
-          "cash_pct": 0.9719745829267001,
-          "deployed_pct": 0.028025417073299873,
+          "gain_loss_since_inception": -3681.5806579589844,
+          "gain_loss_pct_since_inception": -0.0036815806579589844,
+          "equity": 713587.9543457031,
+          "cash_pct": 0.28377520630708636,
+          "deployed_pct": 0.7162247936929136,
           "ledger_last_as_of": "2026-08-07",
           "returns_pct": {
-            "since_start_pct": 8.075015258789063e-05,
-            "month_pct": 8.075015258790508e-05,
-            "ytd_pct": 8.075015258789063e-05,
+            "since_start_pct": -0.0036815806579589844,
+            "month_pct": -0.0036815806579589827,
+            "ytd_pct": -0.0036815806579589844,
             "ytd_same_as_since_start": true,
             "spy_since_start_pct": -0.0002974167383470672,
-            "vs_spy_since_start_pct": 0.00037816689093495785
+            "vs_spy_since_start_pct": -0.0033841639196119174
           },
           "holdings_display": [
+            "AMD",
             "ANET",
             "AVGO",
-            "ETN"
+            "ETN",
+            "NVDA",
+            "ORCL"
           ]
         },
         "C": {
@@ -3558,7 +3606,7 @@
           ],
           "missing_prices": [],
           "valuation": {
-            "refreshed_at": "2026-08-11T12:14:51Z",
+            "refreshed_at": "2026-08-11T12:58:17Z",
             "prices_as_of": "2026-08-10",
             "price_source": "yfinance+local_cache"
           },
@@ -3731,7 +3779,7 @@
           ],
           "missing_prices": [],
           "valuation": {
-            "refreshed_at": "2026-08-11T12:14:51Z",
+            "refreshed_at": "2026-08-11T12:58:17Z",
             "prices_as_of": "2026-08-10",
             "price_source": "yfinance+local_cache"
           },
@@ -3818,43 +3866,38 @@
       "b_holding_now": [
         {
           "bucket": "Foundation",
-          "recorded_pick": "ANET",
+          "recorded_pick": "NVDA, ORCL, ANET",
           "recorded_picks": [
+            "NVDA",
+            "ORCL",
             "ANET"
           ],
-          "ticker": "ANET",
+          "ticker": null,
           "action": "modify",
           "spy_fallback": false,
-          "recorded_at": "2026-08-10T12:25:24Z",
+          "recorded_at": "2026-08-11T12:44:02Z",
           "human_decision_recorded": true,
-          "broker": {
-            "is_live_position": false,
-            "note": "Decision recorded; no matching IBKR submission or not yet executed."
-          },
-          "holding_now": "ANET",
-          "shares_held": 79.0,
+          "holding_now": "NVDA, ORCL, ANET",
+          "shares_held": 2324.0,
           "is_live_position": true,
-          "ledger_status": "In B ledger \u2014 ANET (79)"
+          "ledger_status": "In B ledger \u2014 NVDA (669), ORCL (1020), ANET (635)"
         },
         {
           "bucket": "Opportunity",
-          "recorded_pick": "AVGO",
+          "recorded_pick": "AMD, AVGO",
           "recorded_picks": [
+            "AMD",
             "AVGO"
           ],
-          "ticker": "AVGO",
+          "ticker": null,
           "action": "modify",
           "spy_fallback": false,
-          "recorded_at": "2026-08-10T12:25:24Z",
+          "recorded_at": "2026-08-11T12:44:02Z",
           "human_decision_recorded": true,
-          "broker": {
-            "is_live_position": false,
-            "note": "Decision recorded; no matching IBKR submission or not yet executed."
-          },
-          "holding_now": "AVGO",
-          "shares_held": 20.0,
+          "holding_now": "AMD, AVGO",
+          "shares_held": 478.0,
           "is_live_position": true,
-          "ledger_status": "In B ledger \u2014 AVGO (20)"
+          "ledger_status": "In B ledger \u2014 AMD (248), AVGO (230)"
         },
         {
           "bucket": "Exploration",
@@ -3865,36 +3908,57 @@
           "ticker": "ETN",
           "action": "modify",
           "spy_fallback": false,
-          "recorded_at": "2026-08-10T12:31:41Z",
+          "recorded_at": "2026-08-11T12:44:02Z",
           "human_decision_recorded": true,
           "broker": {
             "is_live_position": false,
             "note": "Decision recorded; no matching IBKR submission or not yet executed."
           },
           "holding_now": "ETN",
-          "shares_held": 10.0,
+          "shares_held": 177.0,
           "is_live_position": true,
-          "ledger_status": "In B ledger \u2014 ETN (10)"
+          "ledger_status": "In B ledger \u2014 ETN (177)"
         }
       ],
       "b_ledger_holdings": [
         {
+          "ticker": "AMD",
+          "shares": 248.0,
+          "price": null,
+          "market_value": null,
+          "weight": null
+        },
+        {
           "ticker": "ANET",
-          "shares": 79.0,
+          "shares": 635.0,
           "price": null,
           "market_value": null,
           "weight": null
         },
         {
           "ticker": "AVGO",
-          "shares": 20.0,
+          "shares": 230.0,
           "price": null,
           "market_value": null,
           "weight": null
         },
         {
           "ticker": "ETN",
-          "shares": 10.0,
+          "shares": 177.0,
+          "price": null,
+          "market_value": null,
+          "weight": null
+        },
+        {
+          "ticker": "NVDA",
+          "shares": 669.0,
+          "price": null,
+          "market_value": null,
+          "weight": null
+        },
+        {
+          "ticker": "ORCL",
+          "shares": 1020.0,
           "price": null,
           "market_value": null,
           "weight": null
@@ -3989,10 +4053,10 @@
               "date": "2026-08-10",
               "label": "Latest refresh",
               "role": "current",
-              "nav": 1000080.7501525879,
-              "nav_index": 100.0080750152588,
+              "nav": 996318.419342041,
+              "nav_index": 99.6318419342041,
               "spy_index": 99.9702583261653,
-              "ahead": true
+              "ahead": false
             }
           ],
           "chart_points": [
@@ -4008,7 +4072,7 @@
             },
             {
               "date": "2026-08-10",
-              "portfolio_pct": 0.0081,
+              "portfolio_pct": -0.3682,
               "spy_pct": -0.0297
             }
           ]
@@ -4207,7 +4271,7 @@
           ],
           "missing_prices": [],
           "valuation": {
-            "refreshed_at": "2026-08-11T12:14:51Z",
+            "refreshed_at": "2026-08-11T12:58:17Z",
             "prices_as_of": "2026-08-10",
             "price_source": "yfinance+local_cache"
           },
@@ -4239,70 +4303,92 @@
           "name": "Convergence + human judgment (AI advisory)",
           "status": "OK",
           "nav_at_review": 1000000.0,
-          "nav": 999513.9794006348,
-          "cash": 900254.3003234863,
+          "nav": 1000691.4888305664,
+          "cash": 181107.46174621582,
           "period_return": null,
-          "return_since_review": -0.00048602059936520003,
-          "n_holdings": 3,
+          "return_since_review": 0.0006914888305664668,
+          "n_holdings": 5,
           "tickers": [
             "ANET",
             "AVGO",
-            "ETN"
+            "ETN",
+            "LRCX",
+            "PLTR"
           ],
           "holdings": [
             {
               "ticker": "ANET",
-              "shares": 106.0,
+              "shares": 1590.0,
               "price": 191.52000427246094,
-              "market_value": 20301.12045288086,
-              "weight": 0.02031099201339291,
-              "cost_basis": 19999.019805908203,
+              "market_value": 304516.8067932129,
+              "weight": 0.3043063823287625,
+              "cost_basis": 299985.29708862305,
               "max_position_pct": null
             },
             {
               "ticker": "AVGO",
-              "shares": 70.0,
+              "shares": 350.0,
               "price": 422.3999938964844,
-              "market_value": 29567.999572753906,
-              "weight": 0.029582377217459783,
-              "cost_basis": 29943.20068359375,
+              "market_value": 147839.99786376953,
+              "weight": 0.14773783879838842,
+              "cost_basis": 149716.00341796875,
               "max_position_pct": null
             },
             {
               "ticker": "ETN",
-              "shares": 111.0,
+              "shares": 333.0,
               "price": 444.9599914550781,
-              "market_value": 49390.55905151367,
-              "weight": 0.04941457555314139,
-              "cost_basis": 49803.47918701172,
+              "market_value": 148171.67715454102,
+              "weight": 0.14806928889512014,
+              "cost_basis": 149410.43756103516,
+              "max_position_pct": null
+            },
+            {
+              "ticker": "LRCX",
+              "shares": 449.0,
+              "price": 306.3999938964844,
+              "market_value": 137573.59725952148,
+              "weight": 0.13747853238993119,
+              "cost_basis": 139796.15274047852,
+              "max_position_pct": null
+            },
+            {
+              "ticker": "PLTR",
+              "shares": 465.0,
+              "price": 175.22999572753906,
+              "market_value": 81481.94801330566,
+              "weight": 0.08142564309058684,
+              "cost_basis": 79984.64744567871,
               "max_position_pct": null
             }
           ],
           "missing_prices": [],
           "valuation": {
-            "refreshed_at": "2026-08-11T12:14:51Z",
+            "refreshed_at": "2026-08-11T12:58:17Z",
             "prices_as_of": "2026-08-10",
             "price_source": "yfinance+local_cache"
           },
           "inception_nav": 1000000.0,
-          "gain_loss_since_inception": -486.0205993652344,
-          "gain_loss_pct_since_inception": -0.00048602059936523435,
-          "equity": 99259.67907714844,
-          "cash_pct": 0.9006920552160059,
-          "deployed_pct": 0.09930794478399409,
+          "gain_loss_since_inception": 691.4888305664062,
+          "gain_loss_pct_since_inception": 0.0006914888305664062,
+          "equity": 819584.0270843506,
+          "cash_pct": 0.18098231449721094,
+          "deployed_pct": 0.8190176855027891,
           "ledger_last_as_of": "2026-08-07",
           "returns_pct": {
-            "since_start_pct": -0.00048602059936523435,
-            "month_pct": -0.00048602059936520003,
-            "ytd_pct": -0.00048602059936523435,
+            "since_start_pct": 0.0006914888305664062,
+            "month_pct": 0.0006914888305664668,
+            "ytd_pct": 0.0006914888305664062,
             "ytd_same_as_since_start": true,
             "spy_since_start_pct": -0.0002974167383470672,
-            "vs_spy_since_start_pct": -0.00018860386101816716
+            "vs_spy_since_start_pct": 0.0009889055689134734
           },
           "holdings_display": [
             "ANET",
             "AVGO",
-            "ETN"
+            "ETN",
+            "LRCX",
+            "PLTR"
           ]
         },
         "C": {
@@ -5580,7 +5666,7 @@
           ],
           "missing_prices": [],
           "valuation": {
-            "refreshed_at": "2026-08-11T12:14:51Z",
+            "refreshed_at": "2026-08-11T12:58:17Z",
             "prices_as_of": "2026-08-10",
             "price_source": "yfinance+local_cache"
           },
@@ -5753,7 +5839,7 @@
           ],
           "missing_prices": [],
           "valuation": {
-            "refreshed_at": "2026-08-11T12:14:51Z",
+            "refreshed_at": "2026-08-11T12:58:17Z",
             "prices_as_of": "2026-08-10",
             "price_source": "yfinance+local_cache"
           },
@@ -5849,26 +5935,20 @@
       "b_holding_now": [
         {
           "bucket": "Foundation",
-          "recorded_pick": "ANET",
+          "recorded_pick": "ANET, LRCX",
           "recorded_picks": [
-            "ANET"
+            "ANET",
+            "LRCX"
           ],
-          "ticker": "ANET",
+          "ticker": null,
           "action": "modify",
           "spy_fallback": false,
-          "recorded_at": "2026-08-10T12:25:02Z",
+          "recorded_at": "2026-08-11T12:42:01Z",
           "human_decision_recorded": true,
-          "broker": {
-            "order_status": "SUBMITTED_ACCEPTED",
-            "live_status": null,
-            "is_live_position": false,
-            "fill_capture_proven": false,
-            "note": "See IBKR prove artifact for current broker state."
-          },
-          "holding_now": "ANET",
-          "shares_held": 106.0,
+          "holding_now": "ANET, LRCX",
+          "shares_held": 2039.0,
           "is_live_position": true,
-          "ledger_status": "In B ledger \u2014 ANET (106)"
+          "ledger_status": "In B ledger \u2014 ANET (1590), LRCX (449)"
         },
         {
           "bucket": "Opportunity",
@@ -5879,7 +5959,7 @@
           "ticker": "AVGO",
           "action": "modify",
           "spy_fallback": false,
-          "recorded_at": "2026-08-10T12:25:02Z",
+          "recorded_at": "2026-08-11T12:25:30Z",
           "human_decision_recorded": true,
           "broker": {
             "order_status": "SUBMITTED_ACCEPTED",
@@ -5889,52 +5969,63 @@
             "note": "See IBKR prove artifact for current broker state."
           },
           "holding_now": "AVGO",
-          "shares_held": 70.0,
+          "shares_held": 350.0,
           "is_live_position": true,
-          "ledger_status": "In B ledger \u2014 AVGO (70)"
+          "ledger_status": "In B ledger \u2014 AVGO (350)"
         },
         {
           "bucket": "Exploration",
-          "recorded_pick": "ETN",
+          "recorded_pick": "PLTR",
           "recorded_picks": [
-            "ETN"
+            "PLTR"
           ],
-          "ticker": "ETN",
+          "ticker": "PLTR",
           "action": "modify",
           "spy_fallback": false,
-          "recorded_at": "2026-08-10T12:25:02Z",
+          "recorded_at": "2026-08-11T12:42:01Z",
           "human_decision_recorded": true,
           "broker": {
-            "order_status": "SUBMITTED_ACCEPTED",
-            "live_status": null,
             "is_live_position": false,
-            "fill_capture_proven": false,
-            "note": "See IBKR prove artifact for current broker state."
+            "note": "Decision recorded; no matching IBKR submission or not yet executed."
           },
-          "holding_now": "ETN",
-          "shares_held": 111.0,
+          "holding_now": "PLTR",
+          "shares_held": 465.0,
           "is_live_position": true,
-          "ledger_status": "In B ledger \u2014 ETN (111)"
+          "ledger_status": "In B ledger \u2014 PLTR (465)"
         }
       ],
       "b_ledger_holdings": [
         {
           "ticker": "ANET",
-          "shares": 106.0,
+          "shares": 1590.0,
           "price": null,
           "market_value": null,
           "weight": null
         },
         {
           "ticker": "AVGO",
-          "shares": 70.0,
+          "shares": 350.0,
           "price": null,
           "market_value": null,
           "weight": null
         },
         {
           "ticker": "ETN",
-          "shares": 111.0,
+          "shares": 333.0,
+          "price": null,
+          "market_value": null,
+          "weight": null
+        },
+        {
+          "ticker": "LRCX",
+          "shares": 449.0,
+          "price": null,
+          "market_value": null,
+          "weight": null
+        },
+        {
+          "ticker": "PLTR",
+          "shares": 465.0,
           "price": null,
           "market_value": null,
           "weight": null
@@ -6029,10 +6120,10 @@
               "date": "2026-08-10",
               "label": "Latest refresh",
               "role": "current",
-              "nav": 999513.9794006348,
-              "nav_index": 99.95139794006349,
+              "nav": 1000691.4888305664,
+              "nav_index": 100.06914888305664,
               "spy_index": 99.9702583261653,
-              "ahead": false
+              "ahead": true
             }
           ],
           "chart_points": [
@@ -6048,7 +6139,7 @@
             },
             {
               "date": "2026-08-10",
-              "portfolio_pct": -0.0486,
+              "portfolio_pct": 0.0691,
               "spy_pct": -0.0297
             }
           ]
@@ -6185,15 +6276,15 @@
     ]
   },
   "valuation_refresh": {
-    "refreshed_at": "2026-08-11T12:14:51Z",
+    "refreshed_at": "2026-08-11T12:58:17Z",
     "prices_as_of": "2026-08-10",
     "calendar_today": "2026-08-11",
     "market_data_through": "2026-08-10",
     "stale_vs_calendar": true,
     "market_data_note": "prices_as_of is the latest market close available from yfinance/local cache, not calendar today. When the market has not yet published a close for the current session (or over a weekend), NAV will match the prior session and unchanged NAV vs the last refresh is expected.",
     "price_source": "yfinance+local_cache",
-    "n_tickers_requested": 138,
-    "n_tickers_priced": 138,
+    "n_tickers_requested": 141,
+    "n_tickers_priced": 141,
     "disclaimer": "Valuation refresh only \u2014 updates NAV and mark-to-market prices against existing share counts. Does NOT re-run review_cycle, change holdings, re-evaluate eligibility, record Portfolio B picks, or archive a monthly cycle. Full portfolio decisions happen on the monthly review (7th of each month) via run_monthly_review.py.",
     "does": [
       "Recompute NAV from existing share counts \u00d7 latest market prices",

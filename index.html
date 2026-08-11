@@ -191,11 +191,11 @@
     <div class="hero">
       <div class="hero-card">
         <h2>Three versions of the same framework</h2>
-        <p>How settled the structural read is for the companies each version is willing to hold — not a claim about which performs better.</p>
+        <p>Mix 1 holds only the most fully-resolved structural reads. Mix 2 blends across resolution stages. Mix 3 also holds companies where the signal is still resolving. Not a claim about which performs better.</p>
         <div class="profile-pills">
-          <span class="pill">Clearer Signal</span>
-          <span class="pill">Balanced Mix</span>
-          <span class="pill">Less Clear Signal</span>
+          <span class="pill">Mix 1</span>
+          <span class="pill">Mix 2</span>
+          <span class="pill">Mix 3</span>
         </div>
       </div>
       <div class="hero-card">
@@ -233,9 +233,9 @@
   <script>
     const PROFILE_ORDER = ["conservative", "balanced", "aggressive"];
     const PROFILE_LABELS = {
-      conservative: "Clearer Signal",
-      balanced: "Balanced Mix",
-      aggressive: "Less Clear Signal",
+      conservative: "Mix 1",
+      balanced: "Mix 2",
+      aggressive: "Mix 3",
     };
     // Display letters A/B/C (page order) map to internal data keys in live_cycles.json
     const PORTFOLIO_META = {
@@ -243,7 +243,7 @@
         dataKey: "C",
         title: "Portfolio A · Structural Filter",
         single: true,
-        sub: "Structural filter applied once — identical holdings and rules across Clearer Signal, Balanced Mix, and Less Clear Signal.",
+        sub: "Structural filter applied once — identical holdings and rules across Mix 1, Mix 2, and Mix 3.",
       },
       B: {
         dataKey: "A",
