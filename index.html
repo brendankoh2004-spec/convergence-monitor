@@ -159,7 +159,15 @@
     .metric-value.up { color: var(--up); }
     .metric-value.down { color: var(--down); }
     .metric-value.neutral { color: var(--text); }
-    .chart-box { position: relative; height: 120px; margin: 0 -0.05rem; }
+    .chart-box {
+      position: relative;
+      height: 120px;
+      overflow: hidden;
+      width: 100%;
+    }
+    .chart-box canvas { max-width: 100% !important; }
+    .c-single { margin-bottom: 1.25rem; }
+    .c-single .variant-card { max-width: 100%; }
     .holdings { margin-top: 0.45rem; padding-top: 0.4rem; border-top: 1px solid var(--line); font-size: 0.72rem; }
     .holdings-label { font-weight: 600; color: var(--muted); font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.12rem; }
     .holdings-tickers { line-height: 1.4; word-break: break-word; color: var(--text); }
@@ -207,15 +215,16 @@
       </div>
     </div>
     <p class="prices-strip" id="prices-strip">Loading…</p>
+    <div id="portfolio-c"></div>
+    <div id="portfolios"></div>
     <section class="spy-section" id="spy-section" hidden>
       <h2>SPY benchmark</h2>
       <div class="spy-head">
         <div class="spy-stat since">Since start: <strong id="spy-since">—</strong></div>
-        <div class="spy-stat" id="spy-refreshed">Prices last refreshed: —</div>
+        <div class="spy-stat" id="spy-refreshed">Last refreshed: —</div>
       </div>
       <div class="chart-box"><canvas id="chart-spy-benchmark" aria-label="SPY return since tracking start"></canvas></div>
     </section>
-    <div id="portfolios"></div>
   </main>
   <footer id="footer"></footer>
 
@@ -226,7 +235,7 @@
       balanced: "Balanced Mix",
       aggressive: "Less Clear Signal",
     };
-    const PORTFOLIO_KEYS = ["A", "B", "C"];
+    const PORTFOLIO_KEYS = ["A", "B"];
     const PORTFOLIO_TITLES = {
       A: "Portfolio A · Pure Convergence",
       B: "Portfolio B · Convergence + Human",
@@ -254,7 +263,11 @@
       try {
         const d = new Date(iso);
         if (Number.isNaN(d.getTime())) return iso;
-        return d.toLocaleString(undefined, { dateStyle: "medium", timeStyle: "short", timeZone: "UTC" }) + " UTC";
+        return d.toLocaleString("en-SG", {
+          dateStyle: "medium",
+          timeStyle: "short",
+          timeZone: "Asia/Singapore",
+        }) + " SGT";
       } catch (_) {
         return iso;
       }
@@ -266,7 +279,11 @@
       const maxVal = vals.length ? Math.max(...vals, 0) : 0.5;
       const span = maxVal - minVal || 1;
       const pad = Math.max(0.25, span * 0.12);
-      return { min: minVal - pad, max: maxVal + pad };
+      let min = minVal - pad;
+      let max = maxVal + pad;
+      if (min > 0) min = -0.25;
+      if (max < 0) max = 0.25;
+      return { min, max };
     }
 
     async function loadJson(name) {
@@ -346,7 +363,7 @@
       }
 
       const holdingsLabel = portfolioKey === "C"
-        ? (p.n_holdings || (p.holdings_display || []).length || 126) + " holdings"
+        ? (p.n_holdings || (p.holdings_display || []).length || 126) + " holdings (same across all versions)"
         : "Holdings";
 
       const tickers = p.holdings_display || p.tickers || [];
@@ -372,25 +389,75 @@
       );
     }
 
-    function renderPortfolioBlock(portfolioKey, cyclesByProfile, trackingSince) {
+    function renderPortfolioCSection(cycle) {
+      if (!cycle) return "";
+      const p = cycle.portfolios?.C || {};
+      const series = cycle.performance_vs_spy?.C;
+      const ret = p.returns_pct || computeReturnsFallback(p, series);
+      const f = cycle.portfolio_c_filter || {};
+      const tickers = p.holdings_display || p.tickers || [];
+      const n = p.n_holdings || tickers.length;
+      const holdingsText = tickers.length > 14
+        ? tickers.slice(0, 10).join(", ") + " … +" + (n - 10) + " more"
+        : (tickers.length ? tickers.join(", ") : "None");
+
+      return (
+        '<section class="portfolio-block block-c c-single">' +
+        "<h2>" + PORTFOLIO_TITLES.C + "</h2>" +
+        '<p class="block-sub">Structural filter applied once — identical holdings and rules across Clearer Signal, Balanced Mix, and Less Clear Signal.</p>' +
+        '<article class="variant-card">' +
+        '<div class="card-head">' + aheadBadge(ret) + "</div>" +
+        '<div class="metrics">' +
+        '<div class="metric"><span class="metric-label">Since start</span><span class="metric-value ' + retClass(ret.since_start_pct) + '">' + fmtRet(ret.since_start_pct) + "</span></div>" +
+        '<div class="metric"><span class="metric-label">YTD</span><span class="metric-value ' + retClass(ret.ytd_pct) + '">' + fmtRet(ret.ytd_pct) + "</span></div>" +
+        '<div class="metric"><span class="metric-label">Month</span><span class="metric-value ' + retClass(ret.month_pct) + '">' + fmtRet(ret.month_pct) + "</span></div>" +
+        "</div>" +
+        '<div class="chart-box"><canvas id="chart-C-single"></canvas></div>' +
+        '<div class="c-stats"><span>Excluded <strong>' + (f.n_excluded ?? "—") +
+        "</strong></span><span>Forensic fail <strong>" + (f.n_forensic_reject ?? "—") + "</strong></span></div>" +
+        '<div class="holdings"><div class="holdings-label">' + n + " holdings (same across all versions)</div>" +
+        '<div class="holdings-tickers' + (tickers.length ? "" : " empty") + '">' + holdingsText + "</div>" +
+        "</article></section>"
+      );
+    }
+
+    function renderPortfolioBlock(portfolioKey, cyclesByProfile) {
       const blockClass = "portfolio-block block-" + portfolioKey.toLowerCase();
-      let sub = "";
-      if (portfolioKey === "C") {
-        sub = '<p class="block-sub">Same filter and holdings across all three versions.</p>';
-      }
       const cards = PROFILE_ORDER.map((pk) => {
         const cycle = cyclesByProfile[pk];
         if (!cycle) return "";
-        return renderVariantCard(portfolioKey, pk, cycle, trackingSince);
+        return renderVariantCard(portfolioKey, pk, cycle);
       }).join("");
 
       return (
         '<section class="' + blockClass + '">' +
         "<h2>" + PORTFOLIO_TITLES[portfolioKey] + "</h2>" +
-        sub +
         '<div class="variant-grid">' + cards + "</div></section>"
       );
     }
+
+    const zeroLinePlugin = {
+      id: "zeroLine",
+      afterDatasetsDraw(chart) {
+        const yScale = chart.scales.y;
+        if (!yScale) return;
+        const y0 = yScale.getPixelForValue(0);
+        const { top, bottom, left, right } = chart.chartArea;
+        if (y0 < top || y0 > bottom) return;
+        const ctx = chart.ctx;
+        ctx.save();
+        ctx.strokeStyle = "rgba(87, 83, 78, 0.55)";
+        ctx.lineWidth = 1.25;
+        ctx.beginPath();
+        ctx.moveTo(left, y0);
+        ctx.lineTo(right, y0);
+        ctx.stroke();
+        ctx.fillStyle = "#78716c";
+        ctx.font = '600 8px "IBM Plex Sans", system-ui, sans-serif';
+        ctx.fillText("0%", left + 2, y0 - 3);
+        ctx.restore();
+      },
+    };
 
     const endLabelPlugin = {
       id: "endLabels",
@@ -407,8 +474,9 @@
         ctx.font = '600 9px "IBM Plex Sans", system-ui, sans-serif';
         ctx.fillStyle = ds.borderColor;
         const tw = ctx.measureText(label).width;
-        let x = pt.x + 4;
-        if (x + tw > chartArea.right) x = pt.x - tw - 4;
+        const pad = 4;
+        let x = pt.x + pad;
+        if (x + tw > chartArea.right - 2) x = Math.max(chartArea.left + 2, pt.x - tw - pad);
         ctx.fillText(label, x, pt.y + 3);
         ctx.beginPath();
         ctx.arc(pt.x, pt.y, 2.5, 0, Math.PI * 2);
@@ -458,7 +526,7 @@
         options: {
           responsive: true,
           maintainAspectRatio: false,
-          layout: { padding: { top: 4, right: 48, bottom: 2, left: 2 } },
+          layout: { padding: { top: 6, right: 52, bottom: 2, left: 4 } },
           plugins: {
             legend: { display: false },
             tooltip: {
@@ -477,7 +545,11 @@
             y: {
               min: bounds.min,
               max: bounds.max,
-              grid: { color: "rgba(120,113,108,0.12)" },
+              grid: {
+                color: (ctx) => (ctx.tick && Math.abs(ctx.tick.value) < 0.001)
+                  ? "rgba(87, 83, 78, 0.35)" : "rgba(120,113,108,0.12)",
+                lineWidth: (ctx) => (ctx.tick && Math.abs(ctx.tick.value) < 0.001) ? 1.25 : 1,
+              },
               ticks: {
                 color: "#78716c",
                 font: { size: 9 },
@@ -486,7 +558,7 @@
             },
           },
         },
-        plugins: [endLabelPlugin],
+        plugins: [zeroLinePlugin, endLabelPlugin],
       });
     }
 
@@ -495,7 +567,7 @@
       document.getElementById("spy-section").hidden = false;
       const vr = live?.valuation_refresh || {};
       document.getElementById("spy-refreshed").textContent =
-        "Prices last refreshed: " + fmtTimestamp(vr.refreshed_at);
+        "Last refreshed: " + fmtTimestamp(vr.refreshed_at);
       const since = spy.since_start_pct;
       const el = document.getElementById("spy-since");
       el.textContent = fmtRet(since);
@@ -524,6 +596,7 @@
 
     async function init() {
       const pricesStrip = document.getElementById("prices-strip");
+      const portfolioCEl = document.getElementById("portfolio-c");
       const portfoliosEl = document.getElementById("portfolios");
 
       if (typeof Chart === "undefined") {
@@ -535,7 +608,8 @@
         const live = await loadJson("live_cycles.json");
         const vr = live.valuation_refresh || {};
         const marketThru = vr.market_data_through || vr.prices_as_of || "—";
-        pricesStrip.innerHTML = "Prices through <strong>" + marketThru + "</strong>" +
+        pricesStrip.innerHTML =
+          'Prices through <strong>' + marketThru + "</strong> — the most recent trading day&rsquo;s closing prices" +
           " · last refreshed <strong>" + fmtTimestamp(vr.refreshed_at) + "</strong>" +
           (vr.stale_vs_calendar ? ' · <span class="warn">Awaiting newer close</span>' : "");
 
@@ -544,17 +618,27 @@
           if (c.profile) cyclesByProfile[c.profile] = c;
         }
 
+        const referenceCycle = cyclesByProfile.conservative || cyclesByProfile.balanced || cyclesByProfile.aggressive;
+        portfolioCEl.innerHTML = renderPortfolioCSection(referenceCycle);
+
         const firstCycle = cyclesByProfile[PROFILE_ORDER.find((p) => cyclesByProfile[p])];
         const spyPayload = live.spy_benchmark || buildSpyFallback(firstCycle);
 
         portfoliosEl.innerHTML = PORTFOLIO_KEYS.map((pk) =>
-          renderPortfolioBlock(pk, cyclesByProfile, live.tracking_since)
+          renderPortfolioBlock(pk, cyclesByProfile)
         ).join("");
 
         requestAnimationFrame(() => {
           charts.forEach((c) => c.destroy());
           charts.length = 0;
           renderSpyBenchmark(spyPayload, live);
+          if (referenceCycle) {
+            const cCanvas = document.getElementById("chart-C-single");
+            if (cCanvas) {
+              const ch = buildPortfolioChart(cCanvas, referenceCycle.performance_vs_spy?.C, "C");
+              if (ch) charts.push(ch);
+            }
+          }
           for (const pk of PORTFOLIO_KEYS) {
             for (const profileKey of PROFILE_ORDER) {
               const cycle = cyclesByProfile[profileKey];
@@ -571,6 +655,7 @@
           "Tracking since " + (live.tracking_since || "—");
       } catch (err) {
         pricesStrip.innerHTML = '<span class="error">Failed to load: ' + err.message + "</span>";
+        portfolioCEl.innerHTML = "";
         portfoliosEl.innerHTML = "";
       }
     }

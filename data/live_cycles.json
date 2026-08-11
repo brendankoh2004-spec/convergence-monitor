@@ -33,125 +33,114 @@
           "name": "Pure Convergence (control)",
           "status": "OK",
           "nav_at_review": 1000000.0,
-          "nav": 1025513.4894489372,
-          "cash": 152631.60263160264,
+          "nav": 1000805.8096200129,
+          "cash": 128947.32894732896,
           "period_return": null,
-          "return_since_review": 0.025513489448937277,
-          "n_holdings": 8,
+          "return_since_review": 0.0008058096200129761,
+          "n_holdings": 7,
           "tickers": [
-            "ALK",
-            "EIX",
-            "GE",
-            "HCA",
-            "PLTR",
-            "PNW",
-            "PWR",
-            "RSG"
+            "CAT",
+            "CRM",
+            "DXCM",
+            "HUBS",
+            "NVDA",
+            "PEG",
+            "PPL"
           ],
           "holdings": [
             {
-              "ticker": "ALK",
-              "shares": 829.8597997266533,
-              "price": 47.2599983215332,
-              "market_value": 39219.17274218951,
-              "weight": 0.03824344891188516,
-              "cost_basis": 47368.39736839737,
-              "max_position_pct": 0.08
-            },
-            {
-              "ticker": "EIX",
-              "shares": 1646.2260268334842,
-              "price": 67.83000183105469,
-              "market_value": 111663.51441444512,
-              "weight": 0.10888546622087618,
-              "cost_basis": 120000.0,
+              "ticker": "CAT",
+              "shares": 133.11169899946847,
+              "price": 837.5800170898438,
+              "market_value": 111491.69912283294,
+              "weight": 0.11140193037564824,
+              "cost_basis": 112105.34210534208,
               "max_position_pct": 0.12
             },
             {
-              "ticker": "GE",
-              "shares": 388.2315374065939,
-              "price": 366.70001220703125,
-              "market_value": 142364.50950615248,
-              "weight": 0.13882265905897784,
-              "cost_basis": 120000.0,
-              "max_position_pct": 0.12
+              "ticker": "CRM",
+              "shares": 830.1338354256442,
+              "price": 197.50999450683594,
+              "market_value": 163959.72927485764,
+              "weight": 0.16382771532582335,
+              "cost_basis": 160000.0,
+              "max_position_pct": 0.16
             },
             {
-              "ticker": "HCA",
-              "shares": 148.58609189604024,
-              "price": 414.0299987792969,
-              "market_value": 61519.099446338034,
-              "weight": 0.05998858140754005,
-              "cost_basis": 80000.0,
-              "max_position_pct": 0.08
+              "ticker": "DXCM",
+              "shares": 1179.9410029498524,
+              "price": 87.6500015258789,
+              "market_value": 103421.83070900165,
+              "weight": 0.10333855950363534,
+              "cost_basis": 100000.0,
+              "max_position_pct": 0.1
             },
             {
-              "ticker": "PLTR",
-              "shares": 591.5409642117717,
-              "price": 175.22999572753906,
-              "market_value": 103655.72063149308,
-              "weight": 0.10107689630410692,
-              "cost_basis": 80000.0,
-              "max_position_pct": 0.08
+              "ticker": "HUBS",
+              "shares": 470.1702560331419,
+              "price": 215.91000366210938,
+              "market_value": 101514.46170193057,
+              "weight": 0.101432726235346,
+              "cost_basis": 98947.32894732896,
+              "max_position_pct": 0.1
             },
             {
-              "ticker": "PNW",
-              "shares": 802.838032444692,
-              "price": 99.2300033569336,
-              "market_value": 79665.62065456074,
-              "weight": 0.07768363992692998,
-              "cost_basis": 80000.0,
-              "max_position_pct": 0.08
-            },
-            {
-              "ticker": "PWR",
-              "shares": 211.26325390832616,
-              "price": 660.8599853515625,
-              "market_value": 139615.43088317986,
-              "weight": 0.13614197406433204,
-              "cost_basis": 120000.0,
-              "max_position_pct": 0.12
-            },
-            {
-              "ticker": "RSG",
-              "shares": 909.4158185606312,
-              "price": 214.6199951171875,
-              "market_value": 195178.81853897576,
-              "weight": 0.19032301432120186,
+              "ticker": "NVDA",
+              "shares": 893.0165833381196,
+              "price": 217.5500030517578,
+              "market_value": 194275.76043047826,
+              "weight": 0.19411933720113106,
               "cost_basis": 200000.0,
               "max_position_pct": 0.2
+            },
+            {
+              "ticker": "PEG",
+              "shares": 1586.0427463882895,
+              "price": 74.55999755859375,
+              "market_value": 118255.34329853619,
+              "weight": 0.11816012873010351,
+              "cost_basis": 120000.0,
+              "max_position_pct": 0.12
+            },
+            {
+              "ticker": "PPL",
+              "shares": 2256.063228017134,
+              "price": 34.9900016784668,
+              "market_value": 78939.65613504674,
+              "weight": 0.07887609701728114,
+              "cost_basis": 80000.0,
+              "max_position_pct": 0.08
             }
           ],
           "missing_prices": [],
           "valuation": {
-            "refreshed_at": "2026-08-11T11:19:39Z",
+            "refreshed_at": "2026-08-11T11:59:10Z",
             "prices_as_of": "2026-08-10",
             "price_source": "yfinance+local_cache"
           },
           "inception_nav": 1000000.0,
-          "gain_loss_since_inception": 25513.48944893724,
-          "gain_loss_pct_since_inception": 0.02551348944893724,
-          "equity": 872881.8868173346,
-          "cash_pct": 0.14883431978415,
-          "deployed_pct": 0.85116568021585,
+          "gain_loss_since_inception": 805.8096200128784,
+          "gain_loss_pct_since_inception": 0.0008058096200128785,
+          "equity": 871858.4806726839,
+          "cash_pct": 0.12884350561103142,
+          "deployed_pct": 0.8711564943889686,
           "ledger_last_as_of": "2026-08-07",
           "returns_pct": {
-            "since_start_pct": 0.02551348944893724,
-            "month_pct": 0.025513489448937277,
-            "ytd_pct": 0.02551348944893724,
+            "since_start_pct": 0.0008058096200128785,
+            "month_pct": 0.0008058096200129761,
+            "ytd_pct": 0.0008058096200128785,
             "ytd_same_as_since_start": true,
             "spy_since_start_pct": -0.0002974167383470672,
-            "vs_spy_since_start_pct": 0.025810906187284304
+            "vs_spy_since_start_pct": 0.0011032263583599456
           },
           "holdings_display": [
-            "ALK",
-            "EIX",
-            "GE",
-            "HCA",
-            "PLTR",
-            "PNW",
-            "PWR",
-            "RSG"
+            "CAT",
+            "CRM",
+            "DXCM",
+            "HUBS",
+            "NVDA",
+            "PEG",
+            "PPL"
           ]
         },
         "B": {
@@ -209,7 +198,7 @@
           ],
           "missing_prices": [],
           "valuation": {
-            "refreshed_at": "2026-08-11T11:19:39Z",
+            "refreshed_at": "2026-08-11T11:59:10Z",
             "prices_as_of": "2026-08-10",
             "price_source": "yfinance+local_cache"
           },
@@ -1510,7 +1499,7 @@
           ],
           "missing_prices": [],
           "valuation": {
-            "refreshed_at": "2026-08-11T11:19:39Z",
+            "refreshed_at": "2026-08-11T11:59:10Z",
             "prices_as_of": "2026-08-10",
             "price_source": "yfinance+local_cache"
           },
@@ -1683,7 +1672,7 @@
           ],
           "missing_prices": [],
           "valuation": {
-            "refreshed_at": "2026-08-11T11:19:39Z",
+            "refreshed_at": "2026-08-11T11:59:10Z",
             "prices_as_of": "2026-08-10",
             "price_source": "yfinance+local_cache"
           },
@@ -1894,8 +1883,8 @@
               "date": "2026-08-10",
               "label": "Latest refresh",
               "role": "current",
-              "nav": 1025513.4894489372,
-              "nav_index": 102.55134894489373,
+              "nav": 1000805.8096200129,
+              "nav_index": 100.08058096200129,
               "spy_index": 99.9702583261653,
               "ahead": true
             }
@@ -1913,7 +1902,7 @@
             },
             {
               "date": "2026-08-10",
-              "portfolio_pct": 2.5513,
+              "portfolio_pct": 0.0806,
               "spy_pct": -0.0297
             }
           ]
@@ -2092,136 +2081,136 @@
           "name": "Pure Convergence (control)",
           "status": "OK",
           "nav_at_review": 1000000.0,
-          "nav": 1228736.6720962306,
-          "cash": 78421.0,
+          "nav": 1003769.7010146688,
+          "cash": 69473.75,
           "period_return": null,
-          "return_since_review": 0.2287366720962305,
+          "return_since_review": 0.0037697010146688914,
           "n_holdings": 9,
           "tickers": [
-            "AAL",
-            "AVGO",
-            "D",
+            "COP",
+            "CRM",
+            "GLW",
             "GRMN",
-            "INCY",
-            "KLAC",
-            "LHX",
-            "TAP",
-            "TRV"
+            "KEYS",
+            "NSC",
+            "PLTR",
+            "RSG",
+            "SNA"
           ],
           "holdings": [
             {
-              "ticker": "AAL",
-              "shares": 11600.92807424594,
-              "price": 15.0,
-              "market_value": 174013.92111368908,
-              "weight": 0.1416201901232593,
+              "ticker": "COP",
+              "shares": 1275.4017449328846,
+              "price": 123.02999877929688,
+              "market_value": 156912.6751222059,
+              "weight": 0.15632338270779586,
               "cost_basis": 150000.0,
               "max_position_pct": 0.15
             },
             {
-              "ticker": "AVGO",
-              "shares": 258.5925268483691,
-              "price": 422.3999938964844,
-              "market_value": 109229.48176242759,
-              "weight": 0.08889576118541459,
-              "cost_basis": 90000.0,
-              "max_position_pct": 0.09
+              "ticker": "CRM",
+              "shares": 622.600376569233,
+              "price": 197.50999450683594,
+              "market_value": 122969.79695614321,
+              "weight": 0.12250797850526689,
+              "cost_basis": 120000.0,
+              "max_position_pct": 0.12
             },
             {
-              "ticker": "D",
-              "shares": 966.7969694137665,
-              "price": 67.1500015258789,
-              "market_value": 64920.417971349525,
-              "weight": 0.05283509432545461,
-              "cost_basis": 60000.0,
-              "max_position_pct": 0.06
+              "ticker": "GLW",
+              "shares": 543.2158617734899,
+              "price": 157.75999450683594,
+              "market_value": 85697.73136941192,
+              "weight": 0.0853758897910384,
+              "cost_basis": 90000.0,
+              "max_position_pct": 0.09
             },
             {
               "ticker": "GRMN",
-              "shares": 244.82690941526764,
+              "shares": 192.9942975744961,
               "price": 313.1600036621094,
-              "market_value": 76669.99584906813,
-              "weight": 0.06239741808818057,
+              "market_value": 60438.094935195426,
+              "weight": 0.06021111702624724,
               "cost_basis": 60000.0,
               "max_position_pct": 0.06
             },
             {
-              "ticker": "INCY",
-              "shares": 890.2077151335312,
-              "price": 121.55000305175781,
-              "market_value": 108204.75049117907,
-              "weight": 0.08806178976214754,
-              "cost_basis": 90000.0,
-              "max_position_pct": 0.09
-            },
-            {
-              "ticker": "KLAC",
-              "shares": 1589.9936400254398,
-              "price": 192.74000549316406,
-              "market_value": 306455.3829125992,
-              "weight": 0.2494068825908686,
+              "ticker": "KEYS",
+              "shares": 439.9213991347819,
+              "price": 335.4100036621094,
+              "market_value": 147554.03809483748,
+              "weight": 0.14699989245110834,
               "cost_basis": 150000.0,
               "max_position_pct": 0.15
             },
             {
-              "ticker": "LHX",
-              "shares": 261.633078793418,
-              "price": 289.7200012207031,
-              "market_value": 75800.33590740539,
-              "weight": 0.06168965054008656,
-              "cost_basis": 90000.0,
-              "max_position_pct": 0.09
-            },
-            {
-              "ticker": "TAP",
-              "shares": 3100.038233804884,
-              "price": 42.52000045776367,
-              "market_value": 131813.62712046856,
-              "weight": 0.10727573296530159,
-              "cost_basis": 150000.0,
-              "max_position_pct": 0.15
-            },
-            {
-              "ticker": "TRV",
-              "shares": 274.7664136885065,
-              "price": 375.6199951171875,
-              "market_value": 103207.75896804393,
-              "weight": 0.08399501806352944,
+              "ticker": "NSC",
+              "shares": 243.9855352733786,
+              "price": 333.95001220703125,
+              "market_value": 81478.97248288384,
+              "weight": 0.08117297463802718,
               "cost_basis": 81579.0,
               "max_position_pct": 0.15
+            },
+            {
+              "ticker": "PLTR",
+              "shares": 348.81694038781865,
+              "price": 175.22999572753906,
+              "market_value": 61123.19097385071,
+              "weight": 0.06089364015676488,
+              "cost_basis": 60000.0,
+              "max_position_pct": 0.06
+            },
+            {
+              "ticker": "RSG",
+              "shares": 699.1051533687532,
+              "price": 214.6199951171875,
+              "market_value": 150041.94460240245,
+              "weight": 0.149478455516969,
+              "cost_basis": 150000.0,
+              "max_position_pct": 0.15
+            },
+            {
+              "ticker": "SNA",
+              "shares": 165.59925300651463,
+              "price": 411.1099853515625,
+              "market_value": 68079.50647773792,
+              "weight": 0.06782383091352448,
+              "cost_basis": 68947.25,
+              "max_position_pct": 0.09
             }
           ],
           "missing_prices": [],
           "valuation": {
-            "refreshed_at": "2026-08-11T11:19:39Z",
+            "refreshed_at": "2026-08-11T11:59:10Z",
             "prices_as_of": "2026-08-10",
             "price_source": "yfinance+local_cache"
           },
           "inception_nav": 1000000.0,
-          "gain_loss_since_inception": 228736.67209623056,
-          "gain_loss_pct_since_inception": 0.22873667209623055,
-          "equity": 1150315.6720962306,
-          "cash_pct": 0.06382246235575716,
-          "deployed_pct": 0.9361775376442428,
+          "gain_loss_since_inception": 3769.701014668797,
+          "gain_loss_pct_since_inception": 0.0037697010146687973,
+          "equity": 934295.9510146688,
+          "cash_pct": 0.06921283829325779,
+          "deployed_pct": 0.9307871617067422,
           "ledger_last_as_of": "2026-08-07",
           "returns_pct": {
-            "since_start_pct": 0.22873667209623055,
-            "month_pct": 0.2287366720962305,
-            "ytd_pct": 0.22873667209623055,
+            "since_start_pct": 0.0037697010146687973,
+            "month_pct": 0.0037697010146688914,
+            "ytd_pct": 0.0037697010146687973,
             "ytd_same_as_since_start": true,
             "spy_since_start_pct": -0.0002974167383470672,
-            "vs_spy_since_start_pct": 0.22903408883457763
+            "vs_spy_since_start_pct": 0.004067117753015864
           },
           "holdings_display": [
-            "AAL",
-            "AVGO",
-            "D",
+            "COP",
+            "CRM",
+            "GLW",
             "GRMN",
-            "INCY",
-            "KLAC",
-            "LHX",
-            "TAP",
-            "TRV"
+            "KEYS",
+            "NSC",
+            "PLTR",
+            "RSG",
+            "SNA"
           ]
         },
         "B": {
@@ -2269,7 +2258,7 @@
           ],
           "missing_prices": [],
           "valuation": {
-            "refreshed_at": "2026-08-11T11:19:39Z",
+            "refreshed_at": "2026-08-11T11:59:10Z",
             "prices_as_of": "2026-08-10",
             "price_source": "yfinance+local_cache"
           },
@@ -3569,7 +3558,7 @@
           ],
           "missing_prices": [],
           "valuation": {
-            "refreshed_at": "2026-08-11T11:19:39Z",
+            "refreshed_at": "2026-08-11T11:59:10Z",
             "prices_as_of": "2026-08-10",
             "price_source": "yfinance+local_cache"
           },
@@ -3742,7 +3731,7 @@
           ],
           "missing_prices": [],
           "valuation": {
-            "refreshed_at": "2026-08-11T11:19:39Z",
+            "refreshed_at": "2026-08-11T11:59:10Z",
             "prices_as_of": "2026-08-10",
             "price_source": "yfinance+local_cache"
           },
@@ -3949,8 +3938,8 @@
               "date": "2026-08-10",
               "label": "Latest refresh",
               "role": "current",
-              "nav": 1228736.6720962306,
-              "nav_index": 122.87366720962305,
+              "nav": 1003769.7010146688,
+              "nav_index": 100.3769701014669,
               "spy_index": 99.9702583261653,
               "ahead": true
             }
@@ -3968,7 +3957,7 @@
             },
             {
               "date": "2026-08-10",
-              "portfolio_pct": 22.8737,
+              "portfolio_pct": 0.377,
               "spy_pct": -0.0297
             }
           ]
@@ -4147,103 +4136,103 @@
           "name": "Pure Convergence (control)",
           "status": "OK",
           "nav_at_review": 1000000.0,
-          "nav": 1128090.3413595108,
+          "nav": 997989.3290268413,
           "cash": 100000.0,
           "period_return": null,
-          "return_since_review": 0.1280903413595107,
+          "return_since_review": -0.002010670973158657,
           "n_holdings": 6,
           "tickers": [
-            "EXPE",
-            "NSC",
-            "PWR",
-            "SLB",
-            "TRGP",
-            "TTD"
+            "DXCM",
+            "MNST",
+            "SWKS",
+            "SYY",
+            "TXN",
+            "WDC"
           ],
           "holdings": [
             {
-              "ticker": "EXPE",
-              "shares": 985.6198070156418,
-              "price": 314.010009765625,
-              "market_value": 309494.4852261751,
-              "weight": 0.2743525707818665,
+              "ticker": "DXCM",
+              "shares": 1179.9410029498524,
+              "price": 87.6500015258789,
+              "market_value": 103421.83070900165,
+              "weight": 0.10363019693792745,
+              "cost_basis": 100000.0,
+              "max_position_pct": 0.1
+            },
+            {
+              "ticker": "MNST",
+              "shares": 4426.737464565448,
+              "price": 45.71500015258789,
+              "market_value": 202368.303868076,
+              "weight": 0.20277601972498968,
               "cost_basis": 200000.0,
               "max_position_pct": 0.2
             },
             {
-              "ticker": "NSC",
-              "shares": 638.5999844820204,
-              "price": 333.95001220703125,
-              "market_value": 213260.4726131807,
-              "weight": 0.18904556203909273,
+              "ticker": "SWKS",
+              "shares": 2832.058796679669,
+              "price": 68.79000091552734,
+              "market_value": 194817.3272164217,
+              "weight": 0.19520982995518782,
               "cost_basis": 200000.0,
               "max_position_pct": 0.2
             },
             {
-              "ticker": "PWR",
-              "shares": 211.26325390832616,
-              "price": 660.8599853515625,
-              "market_value": 139615.43088317986,
-              "weight": 0.1237626329775355,
+              "ticker": "SYY",
+              "shares": 2372.7606813106268,
+              "price": 83.87000274658203,
+              "market_value": 199003.4448585041,
+              "weight": 0.19940438146022685,
+              "cost_basis": 200000.0,
+              "max_position_pct": 0.2
+            },
+            {
+              "ticker": "TXN",
+              "shares": 419.4631069366582,
+              "price": 280.44000244140625,
+              "market_value": 117634.23473339628,
+              "weight": 0.11787123500418957,
               "cost_basis": 120000.0,
               "max_position_pct": 0.12
             },
             {
-              "ticker": "SLB",
-              "shares": 4138.207866319333,
-              "price": 53.20000076293945,
-              "market_value": 220152.6616453906,
-              "weight": 0.1951551693812705,
-              "cost_basis": 200000.0,
-              "max_position_pct": 0.2
-            },
-            {
-              "ticker": "TRGP",
-              "shares": 346.9781026456647,
-              "price": 266.2099914550781,
-              "market_value": 92369.03774040162,
-              "weight": 0.08188088697673244,
+              "ticker": "WDC",
+              "shares": 184.2044721358272,
+              "price": 438.3399963378906,
+              "market_value": 80744.18764144156,
+              "weight": 0.08090686472587515,
               "cost_basis": 80000.0,
               "max_position_pct": 0.08
-            },
-            {
-              "ticker": "TTD",
-              "shares": 3972.9837107667854,
-              "price": 13.390000343322754,
-              "market_value": 53198.25325118296,
-              "weight": 0.0471577951700849,
-              "cost_basis": 100000.0,
-              "max_position_pct": 0.1
             }
           ],
           "missing_prices": [],
           "valuation": {
-            "refreshed_at": "2026-08-11T11:19:39Z",
+            "refreshed_at": "2026-08-11T11:59:10Z",
             "prices_as_of": "2026-08-10",
             "price_source": "yfinance+local_cache"
           },
           "inception_nav": 1000000.0,
-          "gain_loss_since_inception": 128090.34135951078,
-          "gain_loss_pct_since_inception": 0.12809034135951078,
-          "equity": 1028090.3413595108,
-          "cash_pct": 0.0886453826734175,
-          "deployed_pct": 0.9113546173265825,
+          "gain_loss_since_inception": -2010.6709731586743,
+          "gain_loss_pct_since_inception": -0.0020106709731586743,
+          "equity": 897989.3290268413,
+          "cash_pct": 0.10020147219160343,
+          "deployed_pct": 0.8997985278083965,
           "ledger_last_as_of": "2026-08-07",
           "returns_pct": {
-            "since_start_pct": 0.12809034135951078,
-            "month_pct": 0.1280903413595107,
-            "ytd_pct": 0.12809034135951078,
+            "since_start_pct": -0.0020106709731586743,
+            "month_pct": -0.002010670973158657,
+            "ytd_pct": -0.0020106709731586743,
             "ytd_same_as_since_start": true,
             "spy_since_start_pct": -0.0002974167383470672,
-            "vs_spy_since_start_pct": 0.12838775809785785
+            "vs_spy_since_start_pct": -0.0017132542348116072
           },
           "holdings_display": [
-            "EXPE",
-            "NSC",
-            "PWR",
-            "SLB",
-            "TRGP",
-            "TTD"
+            "DXCM",
+            "MNST",
+            "SWKS",
+            "SYY",
+            "TXN",
+            "WDC"
           ]
         },
         "B": {
@@ -4291,7 +4280,7 @@
           ],
           "missing_prices": [],
           "valuation": {
-            "refreshed_at": "2026-08-11T11:19:39Z",
+            "refreshed_at": "2026-08-11T11:59:10Z",
             "prices_as_of": "2026-08-10",
             "price_source": "yfinance+local_cache"
           },
@@ -5591,7 +5580,7 @@
           ],
           "missing_prices": [],
           "valuation": {
-            "refreshed_at": "2026-08-11T11:19:39Z",
+            "refreshed_at": "2026-08-11T11:59:10Z",
             "prices_as_of": "2026-08-10",
             "price_source": "yfinance+local_cache"
           },
@@ -5764,7 +5753,7 @@
           ],
           "missing_prices": [],
           "valuation": {
-            "refreshed_at": "2026-08-11T11:19:39Z",
+            "refreshed_at": "2026-08-11T11:59:10Z",
             "prices_as_of": "2026-08-10",
             "price_source": "yfinance+local_cache"
           },
@@ -5989,10 +5978,10 @@
               "date": "2026-08-10",
               "label": "Latest refresh",
               "role": "current",
-              "nav": 1128090.3413595108,
-              "nav_index": 112.80903413595107,
+              "nav": 997989.3290268413,
+              "nav_index": 99.79893290268413,
               "spy_index": 99.9702583261653,
-              "ahead": true
+              "ahead": false
             }
           ],
           "chart_points": [
@@ -6008,7 +5997,7 @@
             },
             {
               "date": "2026-08-10",
-              "portfolio_pct": 12.809,
+              "portfolio_pct": -0.2011,
               "spy_pct": -0.0297
             }
           ]
@@ -6192,15 +6181,15 @@
     ]
   },
   "valuation_refresh": {
-    "refreshed_at": "2026-08-11T11:19:39Z",
+    "refreshed_at": "2026-08-11T11:59:10Z",
     "prices_as_of": "2026-08-10",
     "calendar_today": "2026-08-11",
     "market_data_through": "2026-08-10",
     "stale_vs_calendar": true,
     "market_data_note": "prices_as_of is the latest market close available from yfinance/local cache, not calendar today. When the market has not yet published a close for the current session (or over a weekend), NAV will match the prior session and unchanged NAV vs the last refresh is expected.",
     "price_source": "yfinance+local_cache",
-    "n_tickers_requested": 137,
-    "n_tickers_priced": 137,
+    "n_tickers_requested": 138,
+    "n_tickers_priced": 138,
     "disclaimer": "Valuation refresh only \u2014 updates NAV and mark-to-market prices against existing share counts. Does NOT re-run review_cycle, change holdings, re-evaluate eligibility, record Portfolio B picks, or archive a monthly cycle. Full portfolio decisions happen on the monthly review (7th of each month) via run_monthly_review.py.",
     "does": [
       "Recompute NAV from existing share counts \u00d7 latest market prices",
