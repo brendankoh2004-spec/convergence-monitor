@@ -6,7 +6,7 @@
   <title>Convergence Paper Monitor</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&display=swap" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <style>
     :root {
@@ -23,260 +23,164 @@
       --warn: #fbbf24;
     }
     *, *::before, *::after { box-sizing: border-box; }
-    html { -webkit-font-smoothing: antialiased; }
     body {
       margin: 0;
       font-family: "DM Sans", system-ui, sans-serif;
       background: var(--bg);
       color: var(--text);
-      line-height: 1.5;
+      line-height: 1.55;
       font-size: 15px;
+      -webkit-font-smoothing: antialiased;
     }
     header {
       padding: 1.5rem 1.25rem 1rem;
       border-bottom: 1px solid var(--line);
-      background: linear-gradient(180deg, #121820 0%, var(--bg) 100%);
     }
-    header h1 {
-      margin: 0 0 0.25rem;
-      font-size: 1.5rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-    }
-    header .sub { margin: 0; color: var(--muted); font-size: 0.92rem; }
-    main {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 1.25rem 1.25rem 2.5rem;
-    }
-    .status-bar {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 0.85rem 1rem;
-      margin-bottom: 1.75rem;
-    }
-    .pills { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-    .pill {
-      font-size: 0.75rem;
-      font-weight: 500;
-      padding: 0.2rem 0.55rem;
-      border-radius: 999px;
-      background: var(--surface-2);
-      color: var(--muted);
-      border: 1px solid var(--line);
-    }
-    .pill.warn { color: var(--warn); border-color: rgba(251,191,36,0.35); }
-    .tracking-note {
-      margin: 0.55rem 0 0;
-      font-size: 0.82rem;
-      color: var(--muted);
-      font-style: italic;
-    }
-    .profile-section { margin-bottom: 2.25rem; }
-    .profile-head {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 0.5rem;
-      margin-bottom: 1rem;
-    }
-    .profile-head h2 {
-      margin: 0;
-      font-size: 1.2rem;
-      font-weight: 700;
-      text-transform: capitalize;
-      letter-spacing: -0.01em;
-    }
-    .profile-meta { font-size: 0.8rem; color: var(--muted); }
-    .cards {
-      display: grid;
-      gap: 1rem;
-      grid-template-columns: repeat(3, 1fr);
-    }
-    @media (max-width: 960px) {
-      .cards { grid-template-columns: 1fr; }
-    }
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 1rem 1rem 0.85rem;
-      display: flex;
-      flex-direction: column;
-      min-height: 320px;
-    }
-    .card-head {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 0.5rem;
-      margin-bottom: 0.75rem;
-    }
-    .card-title {
-      margin: 0;
-      font-size: 0.95rem;
-      font-weight: 600;
-      line-height: 1.3;
-    }
-    .card-title .key {
-      display: inline-block;
-      color: var(--accent);
-      font-weight: 700;
-      margin-right: 0.35rem;
-    }
-    .badge {
-      font-size: 0.68rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      padding: 0.2rem 0.45rem;
-      border-radius: 6px;
-      white-space: nowrap;
-    }
-    .badge.ahead { background: rgba(52,211,153,0.15); color: var(--up); }
-    .badge.behind { background: rgba(240,113,120,0.15); color: var(--down); }
-    .badge.flat { background: var(--surface-2); color: var(--muted); }
-    .metrics {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0.5rem;
-      margin-bottom: 0.85rem;
-    }
-    .metric {
-      background: var(--surface-2);
-      border-radius: 8px;
-      padding: 0.45rem 0.5rem;
-      text-align: center;
-    }
-    .metric-label {
-      display: block;
-      font-size: 0.65rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--muted);
-      margin-bottom: 0.15rem;
-    }
-    .metric-value {
-      font-size: 1.05rem;
-      font-weight: 700;
-      font-variant-numeric: tabular-nums;
-      letter-spacing: -0.02em;
-    }
-    .metric-value.up { color: var(--up); }
-    .metric-value.down { color: var(--down); }
-    .metric-value.neutral { color: var(--text); }
-    .chart-box {
-      flex: 1;
-      position: relative;
-      min-height: 150px;
-      margin: 0 -0.25rem;
-    }
-    .holdings {
-      margin-top: 0.75rem;
-      padding-top: 0.65rem;
-      border-top: 1px solid var(--line);
-      font-size: 0.78rem;
-    }
-    .holdings-label {
-      font-weight: 600;
-      color: var(--muted);
-      font-size: 0.68rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 0.25rem;
-    }
-    .holdings-tickers {
-      color: var(--text);
-      line-height: 1.45;
-      word-break: break-word;
-    }
-    .holdings-tickers.empty { color: var(--muted); font-style: italic; }
-    .b-bucket {
-      display: flex;
-      justify-content: space-between;
-      gap: 0.5rem;
-      padding: 0.12rem 0;
-      font-size: 0.76rem;
-    }
-    .c-stat {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.76rem;
-      padding: 0.1rem 0;
-      color: var(--muted);
-    }
-    .c-stat span:last-child { color: var(--text); }
-    .backtest {
+    header h1 { margin: 0; font-size: 1.45rem; font-weight: 700; letter-spacing: -0.02em; }
+    main { max-width: 1100px; margin: 0 auto; padding: 1.25rem 1.25rem 2rem; }
+    .intro {
       background: var(--surface);
       border: 1px solid var(--line);
       border-radius: 12px;
       padding: 1rem 1.1rem;
-    }
-    .backtest h2 {
-      margin: 0 0 0.75rem;
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: var(--accent);
-    }
-    .backtest-row {
-      display: flex;
-      justify-content: space-between;
-      padding: 0.35rem 0;
-      border-bottom: 1px solid var(--line);
-      font-size: 0.88rem;
-    }
-    .backtest-row:last-child { border-bottom: none; }
-    footer {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 1.25rem 1.5rem;
-      font-size: 0.75rem;
+      margin-bottom: 1.5rem;
+      font-size: 0.92rem;
       color: var(--muted);
     }
+    .intro strong { color: var(--text); }
+    .intro ul { margin: 0.65rem 0 0.5rem; padding-left: 1.2rem; }
+    .intro li { margin: 0.35rem 0; }
+    .intro .honest { margin-top: 0.75rem; font-size: 0.88rem; border-top: 1px solid var(--line); padding-top: 0.65rem; }
+    .prices-strip {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+    }
+    .prices-strip .warn { color: var(--warn); }
+    .profile-section { margin-bottom: 2rem; }
+    .profile-section h2 {
+      margin: 0 0 0.85rem;
+      font-size: 1.1rem;
+      font-weight: 700;
+      text-transform: capitalize;
+    }
+    .cards { display: grid; gap: 1rem; grid-template-columns: 1fr 1fr; }
+    @media (max-width: 720px) { .cards { grid-template-columns: 1fr; } }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+    }
+    .card-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.7rem; }
+    .card-title { margin: 0; font-size: 0.92rem; font-weight: 600; line-height: 1.35; }
+    .card-title .key { color: var(--accent); font-weight: 700; margin-right: 0.3rem; }
+    .badge { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; padding: 0.2rem 0.45rem; border-radius: 6px; white-space: nowrap; }
+    .badge.ahead { background: rgba(52,211,153,0.15); color: var(--up); }
+    .badge.behind { background: rgba(240,113,120,0.15); color: var(--down); }
+    .badge.flat { background: var(--surface-2); color: var(--muted); }
+    .metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.45rem; margin-bottom: 0.75rem; }
+    .metric { background: var(--surface-2); border-radius: 8px; padding: 0.4rem 0.35rem; text-align: center; }
+    .metric-label { display: block; font-size: 0.62rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); margin-bottom: 0.1rem; }
+    .metric-value { font-size: 0.98rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+    .metric-value.up { color: var(--up); }
+    .metric-value.down { color: var(--down); }
+    .metric-value.neutral { color: var(--text); }
+    .chart-box { position: relative; height: 155px; margin: 0 -0.15rem; }
+    .holdings { margin-top: 0.65rem; padding-top: 0.55rem; border-top: 1px solid var(--line); font-size: 0.76rem; }
+    .holdings-label { font-weight: 600; color: var(--muted); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.2rem; }
+    .holdings-tickers { line-height: 1.45; word-break: break-word; }
+    .holdings-tickers.empty { color: var(--muted); font-style: italic; }
+    .c-section {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 1.1rem 1.15rem;
+      margin-bottom: 2rem;
+    }
+    .c-section h2 { margin: 0 0 0.35rem; font-size: 1.05rem; color: var(--accent); }
+    .c-section .sub { margin: 0 0 1rem; font-size: 0.85rem; color: var(--muted); }
+    .c-grid { display: grid; gap: 1rem; grid-template-columns: 1fr 1fr; }
+    @media (max-width: 720px) { .c-grid { grid-template-columns: 1fr; } }
+    .c-stat { display: flex; justify-content: space-between; font-size: 0.8rem; padding: 0.15rem 0; color: var(--muted); }
+    .c-stat span:last-child { color: var(--text); font-weight: 500; }
+    .backtest, .how-it-works {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 1rem 1.1rem;
+      margin-bottom: 1.25rem;
+    }
+    .backtest h2, .how-it-works h2 { margin: 0 0 0.75rem; font-size: 0.95rem; font-weight: 600; color: var(--accent); }
+    .how-it-works p, .how-it-works li { font-size: 0.85rem; color: var(--muted); margin: 0.4rem 0; }
+    .how-it-works ul { padding-left: 1.15rem; margin: 0.35rem 0; }
+    .backtest-row { display: flex; justify-content: space-between; padding: 0.3rem 0; border-bottom: 1px solid var(--line); font-size: 0.86rem; }
+    .backtest-row:last-child { border-bottom: none; }
+    footer { max-width: 1100px; margin: 0 auto; padding: 0 1.25rem 1.5rem; font-size: 0.72rem; color: var(--muted); }
     .error { color: var(--down); font-weight: 600; }
   </style>
 </head>
 <body>
   <header>
     <h1>Convergence Paper Monitor</h1>
-    <p class="sub">Live paper portfolios · percentage returns vs SPY</p>
   </header>
   <main>
-    <div class="status-bar">
-      <div class="pills" id="status-pills">Loading…</div>
-      <p class="tracking-note" id="tracking-note"></p>
+    <div class="intro" id="intro">
+      <p><strong>Three risk profiles</strong> — same framework, different target mixes of stable vs. speculative holdings:</p>
+      <ul>
+        <li><strong>Conservative</strong> — mostly Foundation (stable, 60–80% target); small Opportunity slice; minimal Exploration.</li>
+        <li><strong>Balanced</strong> — even spread across Foundation (40–60%), Opportunity (20–40%), and Exploration (10–20%).</li>
+        <li><strong>Aggressive</strong> — lighter Foundation (20–40%); heavier Opportunity and Exploration (each 20–40%).</li>
+      </ul>
+      <p class="honest">These profiles differ in <em>composition</em>, not a promised return ranking. HT-B backtest windows (below) show similar mean CAGRs across profiles — none has demonstrated a reliably superior live pattern so far. Pick a profile for how much stable vs. speculative exposure you want, not because one is “the winner.”</p>
     </div>
+    <p class="prices-strip" id="prices-strip">Loading prices…</p>
     <div id="profiles"></div>
+    <section class="c-section" id="portfolio-c-section" hidden>
+      <h2>C · SPY structural filter</h2>
+      <p class="sub">One universe-wide filter — same holdings regardless of risk profile. Buys the included set; excludes forensic failures and active L4 fractures.</p>
+      <div class="c-grid">
+        <div>
+          <div class="metrics" style="margin-bottom:0.5rem">
+            <div class="metric"><span class="metric-label">Since start</span><span class="metric-value" id="c-since">—</span></div>
+            <div class="metric"><span class="metric-label">YTD</span><span class="metric-value" id="c-ytd">—</span></div>
+            <div class="metric"><span class="metric-label">This month</span><span class="metric-value" id="c-month">—</span></div>
+          </div>
+          <div id="c-filter-stats"></div>
+        </div>
+        <div class="chart-box"><canvas id="chart-portfolio-c" aria-label="Portfolio C vs SPY"></canvas></div>
+      </div>
+      <div class="holdings"><div class="holdings-label">Holdings</div><div class="holdings-tickers" id="c-holdings">—</div></div>
+    </section>
     <section class="backtest">
       <h2>Portfolio A — HT-B backtest (Definition A)</h2>
       <div id="backtest"></div>
+    </section>
+    <section class="how-it-works" id="how-it-works">
+      <h2>How this works</h2>
+      <ul id="how-list"></ul>
     </section>
   </main>
   <footer id="footer"></footer>
 
   <script>
-    const PORTFOLIO_KEYS = ["A", "B", "C"];
-    const LABELS = {
-      A: "Pure Convergence",
-      B: "Convergence + human judgment",
-      C: "SPY structural filter",
-    };
+    const PROFILE_KEYS = ["A", "B"];
+    const LABELS = { A: "Pure Convergence", B: "Convergence + human judgment" };
     const charts = [];
 
     function fmtRet(v) {
       if (v == null || Number.isNaN(v)) return "—";
       const pct = v * 100;
       const sign = pct > 0 ? "+" : "";
-      return sign + pct.toFixed(1) + "%";
+      return sign + pct.toFixed(2) + "%";
     }
 
     function retClass(v) {
       if (v == null || Number.isNaN(v)) return "neutral";
-      if (v > 0.0001) return "up";
-      if (v < -0.0001) return "down";
+      if (v > 0.00005) return "up";
+      if (v < -0.00005) return "down";
       return "neutral";
     }
 
@@ -292,122 +196,77 @@
       return res.json();
     }
 
-    function getHoldings(key, cycle, p) {
-      if (key === "A") {
-        const tickers = p.holdings_display || p.tickers || [];
-        return tickers.length ? tickers.join(", ") : null;
-      }
-      if (key === "B") {
-        const ledger = (cycle.b_ledger_holdings || [])
-          .map((h) => h.ticker)
-          .filter(Boolean);
-        if (ledger.length) return ledger.join(", ");
-        const picks = (cycle.b_holding_now || [])
-          .map((d) => d.holding_now || d.recorded_pick)
-          .filter((t) => t && t !== "defer");
-        return picks.length ? picks.join(" · ") + " (decisions)" : null;
-      }
-      if (key === "C") {
-        const tickers = p.holdings_display || p.tickers || [];
-        const n = p.n_holdings || tickers.length;
-        if (!n) return null;
-        if (tickers.length <= 12) return tickers.join(", ");
-        return tickers.slice(0, 10).join(", ") + " … +" + (n - 10) + " more (" + n + " total)";
-      }
-      return null;
-    }
-
-    function aheadBadge(returns) {
-      const vs = returns?.vs_spy_since_start_pct;
-      if (vs == null || Number.isNaN(vs)) return '<span class="badge flat">vs SPY —</span>';
-      if (vs > 0.0001) return '<span class="badge ahead">+' + (vs * 100).toFixed(1) + '% vs SPY</span>';
-      if (vs < -0.0001) return '<span class="badge behind">' + (vs * 100).toFixed(1) + '% vs SPY</span>';
-      return '<span class="badge flat">Even with SPY</span>';
-    }
-
-    function renderExtra(key, cycle) {
-      if (key === "B") {
-        const rows = (cycle.b_holding_now || [])
-          .map((d) => '<div class="b-bucket"><span>' + d.bucket + '</span><strong>' +
-            (d.holding_now || d.recorded_pick || "—") + "</strong></div>")
-          .join("");
-        return rows ? '<div style="margin-top:0.4rem">' + rows + "</div>" : "";
-      }
-      if (key === "C") {
-        const f = cycle.portfolio_c_filter;
-        if (!f) return "";
-        return (
-          '<div style="margin-top:0.4rem">' +
-          '<div class="c-stat"><span>Excluded</span><span>' + (f.n_excluded ?? "—") + " / " + (f.n_universe ?? "—") + "</span></div>" +
-          '<div class="c-stat"><span>Forensic fail</span><span>' + (f.n_forensic_reject ?? "—") + "</span></div>" +
-          '<div class="c-stat"><span>Active fracture</span><span>' + (f.n_active_l4_fracture ?? "—") + "</span></div>" +
-          "</div>"
-        );
-      }
-      return "";
-    }
-
     function computeReturnsFallback(p, series, trackingSince, pricesAsOf) {
       const since = p.gain_loss_pct_since_inception;
       const month = p.return_since_review;
       const pts = series?.chart_points || (series?.points || []).map((pt) => ({
-        date: pt.date,
         portfolio_pct: pt.nav_index - 100,
         spy_pct: pt.spy_index - 100,
       }));
       const last = pts[pts.length - 1];
       const spySince = last ? last.spy_pct / 100 : 0;
-      const priceYear = (pricesAsOf || "").slice(0, 4);
       const trackYear = (trackingSince || "").slice(0, 4);
+      const priceYear = (pricesAsOf || "").slice(0, 4);
       return {
         since_start_pct: since,
         month_pct: month,
         ytd_pct: since,
-        ytd_same_as_since_start: priceYear === trackYear,
+        ytd_same_as_since_start: trackYear === priceYear,
         vs_spy_since_start_pct: since != null ? since - spySince : null,
       };
+    }
+
+    function getHoldings(key, cycle, p) {
+      const tickers = p.holdings_display || p.tickers || [];
+      if (key === "B") {
+        const ledger = (cycle.b_ledger_holdings || []).map((h) => h.ticker).filter(Boolean);
+        if (ledger.length) return ledger.join(", ");
+        if (tickers.length) return tickers.join(", ");
+        return null;
+      }
+      return tickers.length ? tickers.join(", ") : null;
+    }
+
+    function aheadBadge(returns) {
+      const vs = returns?.vs_spy_since_start_pct;
+      if (vs == null || Number.isNaN(vs)) return '<span class="badge flat">vs SPY —</span>';
+      if (vs > 0.00005) return '<span class="badge ahead">' + fmtRet(vs).replace("+", "+") + " vs SPY</span>";
+      if (vs < -0.00005) return '<span class="badge behind">' + fmtRet(vs) + " vs SPY</span>";
+      return '<span class="badge flat">Even with SPY</span>';
     }
 
     function renderCard(key, cycle, trackingSince) {
       const p = cycle.portfolios?.[key] || {};
       const series = cycle.performance_vs_spy?.[key];
       const ret = p.returns_pct || computeReturnsFallback(p, series, trackingSince, cycle.prices_as_of);
-      const chartId = "chart-" + cycle.profile + "-" + key;
       const holdings = getHoldings(key, cycle, p);
-      const ytdNote = ret.ytd_same_as_since_start ? "" : "";
+      const chartId = "chart-" + cycle.profile + "-" + key;
 
       return (
         '<article class="card">' +
         '<div class="card-head">' +
-        '<h3 class="card-title"><span class="key">' + key + "</span>" + (LABELS[key] || p.name || "") + "</h3>" +
+        '<h3 class="card-title"><span class="key">' + key + "</span>" + (LABELS[key] || "") + "</h3>" +
         aheadBadge(ret) +
         "</div>" +
         '<div class="metrics">' +
         '<div class="metric"><span class="metric-label">Since start</span><span class="metric-value ' + retClass(ret.since_start_pct) + '">' + fmtRet(ret.since_start_pct) + "</span></div>" +
-        '<div class="metric"><span class="metric-label">YTD</span><span class="metric-value ' + retClass(ret.ytd_pct) + '">' + fmtRet(ret.ytd_pct) + ytdNote + "</span></div>" +
+        '<div class="metric"><span class="metric-label">YTD</span><span class="metric-value ' + retClass(ret.ytd_pct) + '">' + fmtRet(ret.ytd_pct) + "</span></div>" +
         '<div class="metric"><span class="metric-label">This month</span><span class="metric-value ' + retClass(ret.month_pct) + '">' + fmtRet(ret.month_pct) + "</span></div>" +
         "</div>" +
-        '<div class="chart-box"><canvas id="' + chartId + '" aria-label="' + key + ' vs SPY percentage return"></canvas></div>' +
-        '<div class="holdings">' +
-        '<div class="holdings-label">Holdings</div>' +
-        '<div class="holdings-tickers' + (holdings ? "" : " empty") + '">' + (holdings || "No positions recorded") + "</div>" +
-        renderExtra(key, cycle) +
-        "</div>" +
+        '<div class="chart-box"><canvas id="' + chartId + '"></canvas></div>' +
+        '<div class="holdings"><div class="holdings-label">Holdings</div>' +
+        '<div class="holdings-tickers' + (holdings ? "" : " empty") + '">' + (holdings || "No positions recorded") + "</div></div>" +
         "</article>"
       );
     }
 
     function renderProfile(cycle, trackingSince) {
-      const cards = PORTFOLIO_KEYS.map((k) => renderCard(k, cycle, trackingSince)).join("");
       return (
-        '<section class="profile-section" data-profile="' + cycle.profile + '">' +
-        '<div class="profile-head">' +
+        '<section class="profile-section">' +
         "<h2>" + cycle.profile + "</h2>" +
-        '<span class="profile-meta">Review ' + (cycle.holdings_as_of || cycle.as_of) +
-        " · Prices " + (cycle.prices_as_of || "—") + "</span>" +
-        "</div>" +
-        '<div class="cards">' + cards + "</div>" +
-        "</section>"
+        '<div class="cards">' +
+        PROFILE_KEYS.map((k) => renderCard(k, cycle, trackingSince)).join("") +
+        "</div></section>"
       );
     }
 
@@ -425,7 +284,7 @@
         ctx.closePath();
         const lastP = m0.data[m0.data.length - 1]?.y ?? 0;
         const lastS = m1.data[m1.data.length - 1]?.y ?? 0;
-        ctx.fillStyle = lastP <= lastS ? "rgba(52,211,153,0.22)" : "rgba(240,113,120,0.16)";
+        ctx.fillStyle = lastP <= lastS ? "rgba(52,211,153,0.2)" : "rgba(240,113,120,0.15)";
         ctx.fill();
         ctx.restore();
       },
@@ -435,80 +294,60 @@
       id: "endLabels",
       afterDatasetsDraw(chart) {
         const { ctx, chartArea } = chart;
-        chart.data.datasets.forEach((ds, i) => {
-          const meta = chart.getDatasetMeta(i);
+        chart.data.datasets.forEach((ds) => {
+          const meta = chart.getDatasetMeta(chart.data.datasets.indexOf(ds));
           const pt = meta.data[meta.data.length - 1];
-          if (!pt) return;
           const val = ds.data[ds.data.length - 1];
-          if (val == null) return;
-          const label = ds.label + " " + (val >= 0 ? "+" : "") + val.toFixed(1) + "%";
+          if (!pt || val == null) return;
+          const label = ds.label + " " + (val >= 0 ? "+" : "") + Number(val).toFixed(2) + "%";
           ctx.save();
           ctx.font = '600 10px "DM Sans", system-ui, sans-serif';
           ctx.fillStyle = ds.borderColor;
           const tw = ctx.measureText(label).width;
-          let x = pt.x + 6;
-          if (x + tw > chartArea.right) x = pt.x - tw - 6;
+          let x = pt.x + 5;
+          if (x + tw > chartArea.right) x = pt.x - tw - 5;
           ctx.fillText(label, x, pt.y + 3);
           ctx.beginPath();
-          ctx.arc(pt.x, pt.y, 3.5, 0, Math.PI * 2);
-          ctx.fillStyle = ds.borderColor;
+          ctx.arc(pt.x, pt.y, 3, 0, Math.PI * 2);
           ctx.fill();
           ctx.restore();
         });
       },
     };
 
-    function buildChart(canvas, series, portfolioLabel) {
+    function seriesToChartData(series, portfolioLabel) {
       const pts = series?.chart_points || [];
-      if (!pts.length) {
-        const legacy = (series?.points || []).filter((p) => p.nav_index != null && p.spy_index != null);
-        legacy.forEach((p) => {
-          pts.push({
-            date: p.date,
-            portfolio_pct: p.nav_index - 100,
-            spy_pct: p.spy_index - 100,
-          });
+      if (!pts.length && series?.points) {
+        series.points.forEach((p) => {
+          if (p.nav_index != null && p.spy_index != null) {
+            pts.push({ date: p.date, portfolio_pct: p.nav_index - 100, spy_pct: p.spy_index - 100 });
+          }
         });
       }
-      if (!pts.length) return null;
+      return {
+        labels: pts.map((p) => p.date.slice(5)),
+        portData: pts.map((p) => p.portfolio_pct),
+        spyData: pts.map((p) => p.spy_pct),
+        portfolioLabel,
+      };
+    }
 
-      const labels = pts.map((p) => p.date.slice(5));
-      const portData = pts.map((p) => p.portfolio_pct);
-      const spyData = pts.map((p) => p.spy_pct);
-
+    function buildChart(canvas, series, portfolioLabel) {
+      const { labels, portData, spyData } = seriesToChartData(series, portfolioLabel);
+      if (!labels.length) return null;
       return new Chart(canvas, {
         type: "line",
         data: {
           labels,
           datasets: [
-            {
-              label: portfolioLabel,
-              data: portData,
-              borderColor: "#5b9cf5",
-              backgroundColor: "transparent",
-              borderWidth: 2.5,
-              pointRadius: 0,
-              pointHoverRadius: 4,
-              tension: 0.15,
-            },
-            {
-              label: "SPY",
-              data: spyData,
-              borderColor: "#9aa3af",
-              backgroundColor: "transparent",
-              borderWidth: 1.5,
-              borderDash: [5, 4],
-              pointRadius: 0,
-              pointHoverRadius: 4,
-              tension: 0.15,
-            },
+            { label: portfolioLabel, data: portData, borderColor: "#5b9cf5", borderWidth: 2.5, pointRadius: 0, tension: 0.15 },
+            { label: "SPY", data: spyData, borderColor: "#9aa3af", borderWidth: 1.5, borderDash: [5, 4], pointRadius: 0, tension: 0.15 },
           ],
         },
         options: {
           responsive: true,
           maintainAspectRatio: false,
-          interaction: { mode: "index", intersect: false },
-          layout: { padding: { top: 8, right: 72, bottom: 4, left: 4 } },
+          layout: { padding: { top: 6, right: 78, bottom: 2, left: 2 } },
           plugins: {
             legend: { display: false },
             tooltip: {
@@ -520,17 +359,10 @@
             },
           },
           scales: {
-            x: {
-              grid: { color: "rgba(42,52,68,0.5)" },
-              ticks: { color: "#8b97a8", font: { size: 10, family: "DM Sans" }, maxTicksLimit: 4 },
-            },
+            x: { grid: { color: "rgba(42,52,68,0.45)" }, ticks: { color: "#8b97a8", font: { size: 10 }, maxTicksLimit: 4 } },
             y: {
-              grid: { color: "rgba(42,52,68,0.5)" },
-              ticks: {
-                color: "#8b97a8",
-                font: { size: 10, family: "DM Sans" },
-                callback: (v) => (v >= 0 ? "+" : "") + v + "%",
-              },
+              grid: { color: "rgba(42,52,68,0.45)" },
+              ticks: { color: "#8b97a8", font: { size: 10 }, callback: (v) => (v >= 0 ? "+" : "") + v + "%" },
             },
           },
         },
@@ -538,41 +370,65 @@
       });
     }
 
-    function paintCharts(cycles) {
-      charts.forEach((c) => c.destroy());
-      charts.length = 0;
-      for (const cycle of cycles) {
-        for (const key of PORTFOLIO_KEYS) {
-          const canvas = document.getElementById("chart-" + cycle.profile + "-" + key);
-          if (!canvas) continue;
-          const ch = buildChart(canvas, cycle.performance_vs_spy?.[key], key);
-          if (ch) charts.push(ch);
-        }
-      }
+    function renderPortfolioC(cycle, trackingSince) {
+      const p = cycle.portfolios?.C || {};
+      const series = cycle.performance_vs_spy?.C;
+      const ret = p.returns_pct || computeReturnsFallback(p, series, trackingSince, cycle.prices_as_of);
+      const f = cycle.portfolio_c_filter || {};
+
+      document.getElementById("portfolio-c-section").hidden = false;
+      ["c-since", "c-ytd", "c-month"].forEach((id, i) => {
+        const key = ["since_start_pct", "ytd_pct", "month_pct"][i];
+        const el = document.getElementById(id);
+        el.textContent = fmtRet(ret[key]);
+        el.className = "metric-value " + retClass(ret[key]);
+      });
+
+      document.getElementById("c-filter-stats").innerHTML = [
+        '<div class="c-stat"><span>Universe</span><span>' + (f.n_universe ?? "—") + "</span></div>",
+        '<div class="c-stat"><span>Excluded</span><span>' + (f.n_excluded ?? "—") + " of " + (f.n_universe ?? "—") + "</span></div>",
+        '<div class="c-stat"><span>Forensic fail</span><span>' + (f.n_forensic_reject ?? "—") + "</span></div>",
+        '<div class="c-stat"><span>Active L4 fracture</span><span>' + (f.n_active_l4_fracture ?? "—") + "</span></div>",
+      ].join("");
+
+      const tickers = p.holdings_display || p.tickers || [];
+      const n = p.n_holdings || tickers.length;
+      document.getElementById("c-holdings").textContent = tickers.length <= 14
+        ? tickers.join(", ")
+        : tickers.slice(0, 12).join(", ") + " … +" + (n - 12) + " more (" + n + " total)";
+
+      const canvas = document.getElementById("chart-portfolio-c");
+      const ch = buildChart(canvas, series, "C");
+      if (ch) charts.push(ch);
+    }
+
+    function renderHowItWorks(live) {
+      const vr = live.valuation_refresh || {};
+      const items = [
+        "Tracking started " + (live.tracking_since || "—") + ". Percent returns are from that date (not holding duration — positions may change at each monthly review).",
+        "Prices through " + (vr.market_data_through || vr.prices_as_of || "—") + "; refreshed " + (vr.refreshed_at || live.exported_at || "—") + ".",
+        "Portfolio returns come from paper ledger share counts × latest market prices (yfinance + local cache).",
+        "SPY line: total return since tracking start, same baseline date. SPY at 0% on day one is by design — it is the benchmark anchor, not missing data. A flat-looking SPY line over a few days usually means the index barely moved (e.g. −0.03% over Aug 7–10), not that SPY prices failed to load.",
+        live.tracking_note || "",
+      ].filter(Boolean);
+      document.getElementById("how-list").innerHTML = items.map((t) => "<li>" + t + "</li>").join("");
     }
 
     function renderBacktest(bt) {
-      const order = ["conservative", "balanced", "aggressive"];
-      return order
+      return ["conservative", "balanced", "aggressive"]
         .map((p) => {
           const b = (bt.profiles || {})[p] || {};
-          return (
-            '<div class="backtest-row"><span>' + p.charAt(0).toUpperCase() + p.slice(1) +
-            '</span><span>mean ' + fmtCagr(b.mean_cagr_pct) + " · " + (b.cagr_range?.label || "—") + "</span></div>"
-          );
-        })
-        .join("");
+          return '<div class="backtest-row"><span>' + p.charAt(0).toUpperCase() + p.slice(1) +
+            '</span><span>mean ' + fmtCagr(b.mean_cagr_pct) + " · " + (b.cagr_range?.label || "—") + "</span></div>";
+        }).join("");
     }
 
     async function init() {
-      const statusEl = document.getElementById("status-pills");
-      const noteEl = document.getElementById("tracking-note");
+      const pricesStrip = document.getElementById("prices-strip");
       const profilesEl = document.getElementById("profiles");
-      const backtestEl = document.getElementById("backtest");
-      const footerEl = document.getElementById("footer");
 
       if (typeof Chart === "undefined") {
-        statusEl.innerHTML = '<span class="error">Chart.js failed to load — check CDN / network.</span>';
+        pricesStrip.innerHTML = '<span class="error">Chart.js failed to load.</span>';
         return;
       }
 
@@ -584,39 +440,34 @@
 
         const vr = live.valuation_refresh || {};
         const marketThru = vr.market_data_through || vr.prices_as_of || "—";
+        pricesStrip.innerHTML = "Market prices through <strong>" + marketThru + "</strong>" +
+          (vr.stale_vs_calendar ? ' · <span class="warn">No newer session close yet (calendar ' + (vr.calendar_today || "today") + ")</span>" : "");
 
-        statusEl.innerHTML = [
-          '<span class="pill">Tracking since ' + (live.tracking_since || "—") + "</span>",
-          '<span class="pill">Prices through ' + marketThru + "</span>",
-          vr.stale_vs_calendar
-            ? '<span class="pill warn">No newer close yet (calendar ' + (vr.calendar_today || "today") + ")</span>"
-            : "",
-        ].join("");
-
-        noteEl.textContent =
-          live.tracking_note ||
-          "Tracking duration is not holding duration — positions may change at every monthly review.";
+        renderHowItWorks(live);
 
         const cycles = (live.cycles || []).slice().sort((a, b) => (a.profile || "").localeCompare(b.profile || ""));
         profilesEl.innerHTML = cycles.map((c) => renderProfile(c, live.tracking_since)).join("");
-        requestAnimationFrame(() => paintCharts(cycles));
 
-        let t;
-        window.addEventListener("resize", () => {
-          clearTimeout(t);
-          t = setTimeout(() => paintCharts(cycles), 200);
+        if (cycles.length) renderPortfolioC(cycles[0], live.tracking_since);
+
+        requestAnimationFrame(() => {
+          charts.forEach((c) => c.destroy());
+          charts.length = 0;
+          for (const cycle of cycles) {
+            for (const key of PROFILE_KEYS) {
+              const canvas = document.getElementById("chart-" + cycle.profile + "-" + key);
+              if (!canvas) continue;
+              const ch = buildChart(canvas, cycle.performance_vs_spy?.[key], key);
+              if (ch) charts.push(ch);
+            }
+          }
         });
 
-        backtestEl.innerHTML = renderBacktest(backtest);
-        footerEl.textContent = [
-          live.display?.note || "",
-          backtest.harness_generation?.label ? "Backtest: " + backtest.harness_generation.label + "." : "",
-        ].filter(Boolean).join(" ");
+        document.getElementById("backtest").innerHTML = renderBacktest(backtest);
+        document.getElementById("footer").textContent = "Schema live " + (live.schema || "?") + " · backtest " + (backtest.schema || "?");
       } catch (err) {
-        statusEl.innerHTML = '<span class="error">Failed to load: ' + err.message + "</span>";
-        noteEl.textContent = "";
+        pricesStrip.innerHTML = '<span class="error">Failed to load: ' + err.message + "</span>";
         profilesEl.innerHTML = "";
-        backtestEl.innerHTML = "";
       }
     }
 
