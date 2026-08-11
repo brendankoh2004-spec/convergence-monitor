@@ -101,7 +101,27 @@
       margin-bottom: 2rem;
     }
     .c-section h2 { margin: 0 0 0.35rem; font-size: 1.05rem; color: var(--accent); }
-    .c-section .sub { margin: 0 0 1rem; font-size: 0.85rem; color: var(--muted); }
+    .c-section .sub, .spy-section .sub { margin: 0 0 1rem; font-size: 0.85rem; color: var(--muted); }
+    .spy-section {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 1.1rem 1.15rem;
+      margin-bottom: 2rem;
+    }
+    .spy-section h2 { margin: 0 0 0.35rem; font-size: 1.05rem; color: var(--spy); }
+    .spy-grid { display: grid; gap: 1rem; grid-template-columns: 1fr 1.4fr; }
+    @media (max-width: 720px) { .spy-grid { grid-template-columns: 1fr; } }
+    .spy-refreshed {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin: 0 0 0.85rem;
+      padding: 0.45rem 0.55rem;
+      background: var(--surface-2);
+      border-radius: 8px;
+    }
+    .spy-refreshed strong { color: var(--text); }
+    .spy-prices strong { color: var(--text); font-variant-numeric: tabular-nums; }
     .c-grid { display: grid; gap: 1rem; grid-template-columns: 1fr 1fr; }
     @media (max-width: 720px) { .c-grid { grid-template-columns: 1fr; } }
     .c-stat { display: flex; justify-content: space-between; font-size: 0.8rem; padding: 0.15rem 0; color: var(--muted); }
@@ -137,6 +157,22 @@
       <p class="honest">These profiles differ in <em>composition</em>, not a promised return ranking. HT-B backtest windows (below) show similar mean CAGRs across profiles — none has demonstrated a reliably superior live pattern so far. Pick a profile for how much stable vs. speculative exposure you want, not because one is “the winner.”</p>
     </div>
     <p class="prices-strip" id="prices-strip">Loading prices…</p>
+    <section class="spy-section" id="spy-section" hidden>
+      <h2>SPY · benchmark reference</h2>
+      <p class="sub">S&amp;P 500 ETF total return since tracking began — the comparison baseline for all “vs SPY” badges above.</p>
+      <p class="spy-refreshed" id="spy-refreshed">Prices last refreshed: —</p>
+      <div class="spy-grid">
+        <div>
+          <div class="metrics" style="margin-bottom:0.5rem">
+            <div class="metric"><span class="metric-label">Since start</span><span class="metric-value" id="spy-since">—</span></div>
+            <div class="metric"><span class="metric-label">Start price</span><span class="metric-value neutral" id="spy-base" style="font-size:0.85rem">—</span></div>
+            <div class="metric"><span class="metric-label">Latest price</span><span class="metric-value neutral" id="spy-latest" style="font-size:0.85rem">—</span></div>
+          </div>
+          <div id="spy-price-table" class="spy-prices"></div>
+        </div>
+        <div class="chart-box"><canvas id="chart-spy-benchmark" aria-label="SPY return since tracking start"></canvas></div>
+      </div>
+    </section>
     <div id="profiles"></div>
     <section class="c-section" id="portfolio-c-section" hidden>
       <h2>C · SPY structural filter</h2>
@@ -150,7 +186,7 @@
           </div>
           <div id="c-filter-stats"></div>
         </div>
-        <div class="chart-box"><canvas id="chart-portfolio-c" aria-label="Portfolio C vs SPY"></canvas></div>
+        <div class="chart-box"><canvas id="chart-portfolio-c" aria-label="Portfolio C return"></canvas></div>
       </div>
       <div class="holdings"><div class="holdings-label">Holdings</div><div class="holdings-tickers" id="c-holdings">—</div></div>
     </section>
@@ -270,84 +306,78 @@
       );
     }
 
-    const fillBetweenPlugin = {
-      id: "fillBetween",
-      beforeDatasetsDraw(chart) {
-        const m0 = chart.getDatasetMeta(0);
-        const m1 = chart.getDatasetMeta(1);
-        if (!m0?.data?.length || !m1?.data?.length) return;
-        const ctx = chart.ctx;
+    const endLabelPlugin = {
+      id: "endLabels",
+      afterDatasetsDraw(chart) {
+        const { ctx, chartArea } = chart;
+        const ds = chart.data.datasets[0];
+        if (!ds) return;
+        const meta = chart.getDatasetMeta(0);
+        const pt = meta.data[meta.data.length - 1];
+        const val = ds.data[ds.data.length - 1];
+        if (!pt || val == null) return;
+        const label = ds.label + " " + (val >= 0 ? "+" : "") + Number(val).toFixed(2) + "%";
         ctx.save();
+        ctx.font = '600 10px "DM Sans", system-ui, sans-serif';
+        ctx.fillStyle = ds.borderColor;
+        const tw = ctx.measureText(label).width;
+        let x = pt.x + 5;
+        if (x + tw > chartArea.right) x = pt.x - tw - 5;
+        ctx.fillText(label, x, pt.y + 3);
         ctx.beginPath();
-        m0.data.forEach((pt, i) => (i === 0 ? ctx.moveTo(pt.x, pt.y) : ctx.lineTo(pt.x, pt.y)));
-        for (let i = m1.data.length - 1; i >= 0; i--) ctx.lineTo(m1.data[i].x, m1.data[i].y);
-        ctx.closePath();
-        const lastP = m0.data[m0.data.length - 1]?.y ?? 0;
-        const lastS = m1.data[m1.data.length - 1]?.y ?? 0;
-        ctx.fillStyle = lastP <= lastS ? "rgba(52,211,153,0.2)" : "rgba(240,113,120,0.15)";
+        ctx.arc(pt.x, pt.y, 3, 0, Math.PI * 2);
+        ctx.fillStyle = ds.borderColor;
         ctx.fill();
         ctx.restore();
       },
     };
 
-    const endLabelPlugin = {
-      id: "endLabels",
-      afterDatasetsDraw(chart) {
-        const { ctx, chartArea } = chart;
-        chart.data.datasets.forEach((ds) => {
-          const meta = chart.getDatasetMeta(chart.data.datasets.indexOf(ds));
-          const pt = meta.data[meta.data.length - 1];
-          const val = ds.data[ds.data.length - 1];
-          if (!pt || val == null) return;
-          const label = ds.label + " " + (val >= 0 ? "+" : "") + Number(val).toFixed(2) + "%";
-          ctx.save();
-          ctx.font = '600 10px "DM Sans", system-ui, sans-serif';
-          ctx.fillStyle = ds.borderColor;
-          const tw = ctx.measureText(label).width;
-          let x = pt.x + 5;
-          if (x + tw > chartArea.right) x = pt.x - tw - 5;
-          ctx.fillText(label, x, pt.y + 3);
-          ctx.beginPath();
-          ctx.arc(pt.x, pt.y, 3, 0, Math.PI * 2);
-          ctx.fill();
-          ctx.restore();
-        });
-      },
-    };
-
-    function seriesToChartData(series, portfolioLabel) {
+    function portfolioSeriesData(series) {
       const pts = series?.chart_points || [];
       if (!pts.length && series?.points) {
         series.points.forEach((p) => {
-          if (p.nav_index != null && p.spy_index != null) {
-            pts.push({ date: p.date, portfolio_pct: p.nav_index - 100, spy_pct: p.spy_index - 100 });
+          if (p.nav_index != null) {
+            pts.push({ date: p.date, portfolio_pct: p.nav_index - 100 });
           }
         });
       }
       return {
         labels: pts.map((p) => p.date.slice(5)),
-        portData: pts.map((p) => p.portfolio_pct),
-        spyData: pts.map((p) => p.spy_pct),
-        portfolioLabel,
+        data: pts.map((p) => p.portfolio_pct),
       };
     }
 
-    function buildChart(canvas, series, portfolioLabel) {
-      const { labels, portData, spyData } = seriesToChartData(series, portfolioLabel);
+    function buildPortfolioChart(canvas, series, label) {
+      const { labels, data } = portfolioSeriesData(series);
       if (!labels.length) return null;
+      const color = label === "SPY" ? "#9aa3af" : "#5b9cf5";
       return new Chart(canvas, {
         type: "line",
         data: {
           labels,
-          datasets: [
-            { label: portfolioLabel, data: portData, borderColor: "#5b9cf5", borderWidth: 2.5, pointRadius: 0, tension: 0.15 },
-            { label: "SPY", data: spyData, borderColor: "#9aa3af", borderWidth: 1.5, borderDash: [5, 4], pointRadius: 0, tension: 0.15 },
-          ],
+          datasets: [{
+            label,
+            data,
+            borderColor: color,
+            backgroundColor: (ctx) => {
+              const chart = ctx.chart;
+              const { ctx: c, chartArea } = chart;
+              if (!chartArea) return "rgba(91,156,245,0.1)";
+              const grad = c.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+              grad.addColorStop(0, label === "SPY" ? "rgba(154,163,175,0.2)" : "rgba(91,156,245,0.2)");
+              grad.addColorStop(1, "rgba(0,0,0,0)");
+              return grad;
+            },
+            borderWidth: label === "SPY" ? 2 : 2.5,
+            pointRadius: 0,
+            tension: 0.15,
+            fill: true,
+          }],
         },
         options: {
           responsive: true,
           maintainAspectRatio: false,
-          layout: { padding: { top: 6, right: 78, bottom: 2, left: 2 } },
+          layout: { padding: { top: 6, right: 72, bottom: 2, left: 2 } },
           plugins: {
             legend: { display: false },
             tooltip: {
@@ -366,8 +396,53 @@
             },
           },
         },
-        plugins: [fillBetweenPlugin, endLabelPlugin],
+        plugins: [endLabelPlugin],
       });
+    }
+
+    function fmtTimestamp(iso) {
+      if (!iso) return "—";
+      try {
+        const d = new Date(iso);
+        if (Number.isNaN(d.getTime())) return iso;
+        return d.toLocaleString(undefined, { dateStyle: "medium", timeStyle: "short", timeZone: "UTC" }) + " UTC";
+      } catch (_) {
+        return iso;
+      }
+    }
+
+    function renderSpyBenchmark(spy, live) {
+      if (!spy?.points?.length) return;
+      document.getElementById("spy-section").hidden = false;
+      const vr = live?.valuation_refresh || {};
+      const refreshed = fmtTimestamp(vr.refreshed_at);
+      const through = vr.market_data_through || vr.prices_as_of || spy.prices_as_of || "—";
+      document.getElementById("spy-refreshed").innerHTML =
+        "Prices last refreshed: <strong>" + refreshed + "</strong> · market data through <strong>" + through + "</strong>";
+      const since = spy.since_start_pct;
+      const el = document.getElementById("spy-since");
+      el.textContent = fmtRet(since);
+      el.className = "metric-value " + retClass(since);
+      document.getElementById("spy-base").textContent = spy.base_price != null ? "$" + Number(spy.base_price).toFixed(2) : "—";
+      const latestPt = spy.points[spy.points.length - 1];
+      const latestPrice = spy.current_price ?? latestPt?.price;
+      document.getElementById("spy-latest").textContent = latestPrice != null ? "$" + Number(latestPrice).toFixed(2) : "—";
+      const seen = new Set();
+      const rows = spy.points.filter((p) => {
+        const k = p.date + "|" + (p.return_pct ?? "");
+        if (seen.has(k)) return false;
+        seen.add(k);
+        return true;
+      });
+      document.getElementById("spy-price-table").innerHTML = rows.map((p) =>
+        "<div class=\"c-stat\"><span>" + p.date + "</span><span>" +
+        (p.price != null ? "<strong>$" + Number(p.price).toFixed(2) + "</strong> · " : "") +
+        (p.return_pct >= 0 ? "+" : "") + Number(p.return_pct).toFixed(2) + "%</span></div>"
+      ).join("");
+      const canvas = document.getElementById("chart-spy-benchmark");
+      const pts = { chart_points: rows.map((p) => ({ date: p.date, portfolio_pct: p.return_pct })) };
+      const ch = buildPortfolioChart(canvas, pts, "SPY");
+      if (ch) charts.push(ch);
     }
 
     function renderPortfolioC(cycle, trackingSince) {
@@ -396,10 +471,23 @@
       document.getElementById("c-holdings").textContent = tickers.length <= 14
         ? tickers.join(", ")
         : tickers.slice(0, 12).join(", ") + " … +" + (n - 12) + " more (" + n + " total)";
+    }
 
-      const canvas = document.getElementById("chart-portfolio-c");
-      const ch = buildChart(canvas, series, "C");
-      if (ch) charts.push(ch);
+    function buildSpyFallback(cycle, trackingSince) {
+      if (!cycle) return null;
+      const s = cycle.performance_vs_spy?.A;
+      const pts = (s?.chart_points || []).map((p) => ({
+        date: p.date,
+        price: null,
+        return_pct: p.spy_pct,
+      }));
+      if (!pts.length) return null;
+      return {
+        since_start_pct: pts[pts.length - 1].return_pct / 100,
+        base_price: s?.base_spy_price,
+        current_price: null,
+        points: pts,
+      };
     }
 
     function renderHowItWorks(live) {
@@ -408,7 +496,8 @@
         "Tracking started " + (live.tracking_since || "—") + ". Percent returns are from that date (not holding duration — positions may change at each monthly review).",
         "Prices through " + (vr.market_data_through || vr.prices_as_of || "—") + "; refreshed " + (vr.refreshed_at || live.exported_at || "—") + ".",
         "Portfolio returns come from paper ledger share counts × latest market prices (yfinance + local cache).",
-        "SPY line: total return since tracking start, same baseline date. SPY at 0% on day one is by design — it is the benchmark anchor, not missing data. A flat-looking SPY line over a few days usually means the index barely moved (e.g. −0.03% over Aug 7–10), not that SPY prices failed to load.",
+        "Portfolio charts show each book’s own return since tracking start (0% = value at tracking start). Compare to SPY using the badge on each card or the SPY reference section above.",
+        "SPY benchmark: indexed to 0% on the tracking-start date by design. Actual SPY prices are listed in the SPY section.",
         live.tracking_note || "",
       ].filter(Boolean);
       document.getElementById("how-list").innerHTML = items.map((t) => "<li>" + t + "</li>").join("");
@@ -446,6 +535,9 @@
         renderHowItWorks(live);
 
         const cycles = (live.cycles || []).slice().sort((a, b) => (a.profile || "").localeCompare(b.profile || ""));
+
+        const spyPayload = live.spy_benchmark || buildSpyFallback(cycles[0], live.tracking_since);
+
         profilesEl.innerHTML = cycles.map((c) => renderProfile(c, live.tracking_since)).join("");
 
         if (cycles.length) renderPortfolioC(cycles[0], live.tracking_since);
@@ -453,11 +545,22 @@
         requestAnimationFrame(() => {
           charts.forEach((c) => c.destroy());
           charts.length = 0;
+
+          renderSpyBenchmark(spyPayload, live);
+
           for (const cycle of cycles) {
             for (const key of PROFILE_KEYS) {
               const canvas = document.getElementById("chart-" + cycle.profile + "-" + key);
               if (!canvas) continue;
-              const ch = buildChart(canvas, cycle.performance_vs_spy?.[key], key);
+              const ch = buildPortfolioChart(canvas, cycle.performance_vs_spy?.[key], key);
+              if (ch) charts.push(ch);
+            }
+          }
+
+          if (cycles.length) {
+            const cCanvas = document.getElementById("chart-portfolio-c");
+            if (cCanvas) {
+              const ch = buildPortfolioChart(cCanvas, cycles[0].performance_vs_spy?.C, "C");
               if (ch) charts.push(ch);
             }
           }
