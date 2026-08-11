@@ -16,9 +16,9 @@
       --text: #1c1917;
       --muted: #78716c;
       --line: #e4ddd2;
-      --a: #0f766e;
-      --b: #c2410c;
-      --c: #6d28d9;
+      --a: #6d28d9;
+      --b: #0f766e;
+      --c: #c2410c;
       --spy: #57534e;
       --up: #047857;
       --down: #b91c1c;
@@ -84,11 +84,11 @@
       line-height: 1.4;
     }
     .explainer-box strong { display: block; font-size: 0.76rem; margin-bottom: 0.12rem; }
-    .explainer-box.a { background: rgba(15, 118, 110, 0.08); border-left: 3px solid var(--a); }
+    .explainer-box.a { background: rgba(109, 40, 217, 0.08); border-left: 3px solid var(--a); }
     .explainer-box.a strong { color: var(--a); }
-    .explainer-box.b { background: rgba(194, 65, 12, 0.08); border-left: 3px solid var(--b); }
+    .explainer-box.b { background: rgba(15, 118, 110, 0.08); border-left: 3px solid var(--b); }
     .explainer-box.b strong { color: var(--b); }
-    .explainer-box.c { background: rgba(109, 40, 217, 0.08); border-left: 3px solid var(--c); }
+    .explainer-box.c { background: rgba(194, 65, 12, 0.08); border-left: 3px solid var(--c); }
     .explainer-box.c strong { color: var(--c); }
     .prices-strip { font-size: 0.78rem; color: var(--muted); margin-bottom: 1rem; }
     .prices-strip .warn { color: var(--warn); font-weight: 500; }
@@ -166,16 +166,18 @@
       width: 100%;
     }
     .chart-box canvas { max-width: 100% !important; }
-    .c-single { margin-bottom: 1.25rem; }
-    .c-single .variant-card { max-width: 100%; }
+    .a-single { margin-bottom: 1.25rem; }
+    .a-single .variant-card { max-width: 100%; }
+    .spy-metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.35rem; margin-bottom: 0.65rem; }
+    @media (max-width: 720px) { .spy-metrics { grid-template-columns: repeat(2, 1fr); } }
+    .filter-stats { display: flex; gap: 0.75rem; flex-wrap: wrap; font-size: 0.72rem; color: var(--muted); margin-top: 0.25rem; }
+    .filter-stats strong { color: var(--text); font-variant-numeric: tabular-nums; }
     .holdings { margin-top: 0.45rem; padding-top: 0.4rem; border-top: 1px solid var(--line); font-size: 0.72rem; }
     .holdings-label { font-weight: 600; color: var(--muted); font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.12rem; }
     .holdings-tickers { line-height: 1.4; word-break: break-word; color: var(--text); }
     .holdings-tickers.empty { color: var(--muted); font-style: italic; }
-    .b-picks { font-size: 0.7rem; color: var(--muted); margin-top: 0.15rem; }
-    .b-picks span { color: var(--text); font-weight: 500; }
-    .c-stats { display: flex; gap: 0.75rem; flex-wrap: wrap; font-size: 0.72rem; color: var(--muted); margin-top: 0.25rem; }
-    .c-stats strong { color: var(--text); font-variant-numeric: tabular-nums; }
+    .human-picks { font-size: 0.7rem; color: var(--muted); margin-top: 0.15rem; }
+    .human-picks span { color: var(--text); font-weight: 500; }
     footer { max-width: 1040px; margin: 0 auto; padding: 0 1.25rem 1.25rem; font-size: 0.7rem; color: var(--muted); }
     .error { color: var(--down); font-weight: 600; }
   </style>
@@ -200,27 +202,27 @@
         <h2>What each portfolio does</h2>
         <div class="portfolio-explainer">
           <div class="explainer-box a">
-            <strong>Portfolio A · Pure Convergence</strong>
-            Framework picks automatically — random choice among equally eligible candidates.
+            <strong>Portfolio A · Structural Filter</strong>
+            Removes companies with red flags from a broad list; holds the rest evenly.
           </div>
           <div class="explainer-box b">
-            <strong>Portfolio B · Convergence + Human</strong>
-            Same eligible pool — a human compares candidates and makes the final choice.
+            <strong>Portfolio B · Pure Convergence</strong>
+            The framework alone — no AI or human input, random tie-break among equally eligible candidates.
           </div>
           <div class="explainer-box c">
-            <strong>Portfolio C · Structural Filter</strong>
-            Removes companies with red flags from a broad list; holds the rest evenly.
+            <strong>Portfolio C · Convergence + Human</strong>
+            Same eligible pool as Portfolio B, but a human makes the final selection.
           </div>
         </div>
       </div>
     </div>
     <p class="prices-strip" id="prices-strip">Loading…</p>
-    <div id="portfolio-c"></div>
+    <div id="portfolio-a"></div>
     <div id="portfolios"></div>
     <section class="spy-section" id="spy-section" hidden>
       <h2>SPY benchmark</h2>
+      <div class="spy-metrics" id="spy-metrics"></div>
       <div class="spy-head">
-        <div class="spy-stat since">Since start: <strong id="spy-since">—</strong></div>
         <div class="spy-stat" id="spy-refreshed">Last refreshed: —</div>
       </div>
       <div class="chart-box"><canvas id="chart-spy-benchmark" aria-label="SPY return since tracking start"></canvas></div>
@@ -235,14 +237,38 @@
       balanced: "Balanced Mix",
       aggressive: "Less Clear Signal",
     };
-    const PORTFOLIO_KEYS = ["A", "B"];
-    const PORTFOLIO_TITLES = {
-      A: "Portfolio A · Pure Convergence",
-      B: "Portfolio B · Convergence + Human",
-      C: "Portfolio C · Structural Filter",
+    // Display letters A/B/C (page order) map to internal data keys in live_cycles.json
+    const PORTFOLIO_META = {
+      A: {
+        dataKey: "C",
+        title: "Portfolio A · Structural Filter",
+        single: true,
+        sub: "Structural filter applied once — identical holdings and rules across Clearer Signal, Balanced Mix, and Less Clear Signal.",
+      },
+      B: {
+        dataKey: "A",
+        title: "Portfolio B · Pure Convergence",
+        single: false,
+      },
+      C: {
+        dataKey: "B",
+        title: "Portfolio C · Convergence + Human",
+        single: false,
+      },
     };
-    const CHART_COLORS = { A: "#0f766e", B: "#c2410c", C: "#6d28d9", SPY: "#78716c" };
+    const DISPLAY_ORDER = ["A", "B", "C"];
+    const MULTI_VARIANT_DISPLAY = ["B", "C"];
+    const CHART_COLORS = { A: "#6d28d9", B: "#0f766e", C: "#c2410c", SPY: "#78716c" };
     const charts = [];
+
+    function dataKeyFor(displayLetter) {
+      return PORTFOLIO_META[displayLetter].dataKey;
+    }
+
+    function fmtPrice(v) {
+      if (v == null || Number.isNaN(v)) return "—";
+      return "$" + Number(v).toFixed(2);
+    }
 
     function fmtRet(v) {
       if (v == null || Number.isNaN(v)) return "—";
@@ -310,8 +336,8 @@
       };
     }
 
-    function getHoldings(key, cycle, p) {
-      if (key === "B") {
+    function getHoldings(dataKey, cycle, p) {
+      if (dataKey === "B") {
         const picks = cycle.b_holding_now || [];
         if (picks.length) {
           const all = [];
@@ -327,7 +353,7 @@
       return tickers.length ? tickers.join(", ") : null;
     }
 
-    function bPicksLine(cycle) {
+    function humanPicksLine(cycle) {
       const picks = cycle.b_holding_now || [];
       if (!picks.length) return "";
       return picks.map((h) => {
@@ -345,30 +371,31 @@
       return '<span class="badge flat">Even</span>';
     }
 
-    function renderVariantCard(portfolioKey, profileKey, cycle, trackingSince) {
-      const p = cycle.portfolios?.[portfolioKey] || {};
-      const series = cycle.performance_vs_spy?.[portfolioKey];
+    function renderVariantCard(displayLetter, profileKey, cycle) {
+      const dataKey = dataKeyFor(displayLetter);
+      const p = cycle.portfolios?.[dataKey] || {};
+      const series = cycle.performance_vs_spy?.[dataKey];
       const ret = p.returns_pct || computeReturnsFallback(p, series);
-      const holdings = getHoldings(portfolioKey, cycle, p);
-      const chartId = "chart-" + portfolioKey + "-" + profileKey;
+      const holdings = getHoldings(dataKey, cycle, p);
+      const chartId = "chart-" + displayLetter + "-" + profileKey;
       const label = PROFILE_LABELS[profileKey] || profileKey;
-      const bExtra = portfolioKey === "B" && bPicksLine(cycle)
-        ? '<div class="b-picks">' + bPicksLine(cycle) + "</div>" : "";
+      const humanExtra = dataKey === "B" && humanPicksLine(cycle)
+        ? '<div class="human-picks">' + humanPicksLine(cycle) + "</div>" : "";
 
-      let cStats = "";
-      if (portfolioKey === "C") {
+      let filterStats = "";
+      if (dataKey === "C") {
         const f = cycle.portfolio_c_filter || {};
-        cStats = '<div class="c-stats"><span>Excluded <strong>' + (f.n_excluded ?? "—") +
+        filterStats = '<div class="filter-stats"><span>Excluded <strong>' + (f.n_excluded ?? "—") +
           "</strong></span><span>Forensic fail <strong>" + (f.n_forensic_reject ?? "—") + "</strong></span></div>";
       }
 
-      const holdingsLabel = portfolioKey === "C"
+      const holdingsLabel = dataKey === "C"
         ? (p.n_holdings || (p.holdings_display || []).length || 126) + " holdings (same across all versions)"
         : "Holdings";
 
       const tickers = p.holdings_display || p.tickers || [];
       const n = p.n_holdings || tickers.length;
-      const holdingsText = portfolioKey === "C" && tickers.length > 14
+      const holdingsText = dataKey === "C" && tickers.length > 14
         ? tickers.slice(0, 10).join(", ") + " … +" + (n - 10) + " more"
         : (holdings || "None");
 
@@ -382,17 +409,19 @@
         '<div class="metric"><span class="metric-label">Month</span><span class="metric-value ' + retClass(ret.month_pct) + '">' + fmtRet(ret.month_pct) + "</span></div>" +
         "</div>" +
         '<div class="chart-box"><canvas id="' + chartId + '"></canvas></div>' +
-        cStats +
+        filterStats +
         '<div class="holdings"><div class="holdings-label">' + holdingsLabel + "</div>" +
         '<div class="holdings-tickers' + (holdings ? "" : " empty") + '">' + holdingsText + "</div>" +
-        bExtra + "</article>"
+        humanExtra + "</article>"
       );
     }
 
-    function renderPortfolioCSection(cycle) {
+    function renderPortfolioASection(cycle) {
       if (!cycle) return "";
-      const p = cycle.portfolios?.C || {};
-      const series = cycle.performance_vs_spy?.C;
+      const meta = PORTFOLIO_META.A;
+      const dataKey = meta.dataKey;
+      const p = cycle.portfolios?.[dataKey] || {};
+      const series = cycle.performance_vs_spy?.[dataKey];
       const ret = p.returns_pct || computeReturnsFallback(p, series);
       const f = cycle.portfolio_c_filter || {};
       const tickers = p.holdings_display || p.tickers || [];
@@ -402,9 +431,9 @@
         : (tickers.length ? tickers.join(", ") : "None");
 
       return (
-        '<section class="portfolio-block block-c c-single">' +
-        "<h2>" + PORTFOLIO_TITLES.C + "</h2>" +
-        '<p class="block-sub">Structural filter applied once — identical holdings and rules across Clearer Signal, Balanced Mix, and Less Clear Signal.</p>' +
+        '<section class="portfolio-block block-a a-single">' +
+        "<h2>" + meta.title + "</h2>" +
+        '<p class="block-sub">' + meta.sub + "</p>" +
         '<article class="variant-card">' +
         '<div class="card-head">' + aheadBadge(ret) + "</div>" +
         '<div class="metrics">' +
@@ -412,8 +441,8 @@
         '<div class="metric"><span class="metric-label">YTD</span><span class="metric-value ' + retClass(ret.ytd_pct) + '">' + fmtRet(ret.ytd_pct) + "</span></div>" +
         '<div class="metric"><span class="metric-label">Month</span><span class="metric-value ' + retClass(ret.month_pct) + '">' + fmtRet(ret.month_pct) + "</span></div>" +
         "</div>" +
-        '<div class="chart-box"><canvas id="chart-C-single"></canvas></div>' +
-        '<div class="c-stats"><span>Excluded <strong>' + (f.n_excluded ?? "—") +
+        '<div class="chart-box"><canvas id="chart-A-single"></canvas></div>' +
+        '<div class="filter-stats"><span>Excluded <strong>' + (f.n_excluded ?? "—") +
         "</strong></span><span>Forensic fail <strong>" + (f.n_forensic_reject ?? "—") + "</strong></span></div>" +
         '<div class="holdings"><div class="holdings-label">' + n + " holdings (same across all versions)</div>" +
         '<div class="holdings-tickers' + (tickers.length ? "" : " empty") + '">' + holdingsText + "</div>" +
@@ -421,17 +450,18 @@
       );
     }
 
-    function renderPortfolioBlock(portfolioKey, cyclesByProfile) {
-      const blockClass = "portfolio-block block-" + portfolioKey.toLowerCase();
+    function renderPortfolioBlock(displayLetter, cyclesByProfile) {
+      const meta = PORTFOLIO_META[displayLetter];
+      const blockClass = "portfolio-block block-" + displayLetter.toLowerCase();
       const cards = PROFILE_ORDER.map((pk) => {
         const cycle = cyclesByProfile[pk];
         if (!cycle) return "";
-        return renderVariantCard(portfolioKey, pk, cycle);
+        return renderVariantCard(displayLetter, pk, cycle);
       }).join("");
 
       return (
         '<section class="' + blockClass + '">' +
-        "<h2>" + PORTFOLIO_TITLES[portfolioKey] + "</h2>" +
+        "<h2>" + meta.title + "</h2>" +
         '<div class="variant-grid">' + cards + "</div></section>"
       );
     }
@@ -498,10 +528,10 @@
       };
     }
 
-    function buildPortfolioChart(canvas, series, portfolioKey) {
+    function buildPortfolioChart(canvas, series, displayLetter) {
       const { labels, data } = portfolioSeriesData(series);
       if (!labels.length) return null;
-      const color = CHART_COLORS[portfolioKey] || CHART_COLORS.A;
+      const color = CHART_COLORS[displayLetter] || CHART_COLORS.A;
       const bounds = yAxisBounds(data);
       const rgb = color.replace("#", "").match(/.{2}/g);
       const fillAlpha = rgb
@@ -513,7 +543,7 @@
         data: {
           labels,
           datasets: [{
-            label: portfolioKey,
+            label: displayLetter,
             data,
             borderColor: color,
             backgroundColor: fillAlpha,
@@ -568,10 +598,17 @@
       const vr = live?.valuation_refresh || {};
       document.getElementById("spy-refreshed").textContent =
         "Last refreshed: " + fmtTimestamp(vr.refreshed_at);
+
       const since = spy.since_start_pct;
-      const el = document.getElementById("spy-since");
-      el.textContent = fmtRet(since);
-      el.className = retClass(since);
+      const month = spy.month_pct ?? since;
+      const last30 = spy.last_30_days_pct;
+      const price = spy.current_price;
+
+      document.getElementById("spy-metrics").innerHTML =
+        '<div class="metric"><span class="metric-label">Since start</span><span class="metric-value ' + retClass(since) + '">' + fmtRet(since) + "</span></div>" +
+        '<div class="metric"><span class="metric-label">Last 30 days</span><span class="metric-value ' + retClass(last30) + '">' + fmtRet(last30) + "</span></div>" +
+        '<div class="metric"><span class="metric-label">This month</span><span class="metric-value ' + retClass(month) + '">' + fmtRet(month) + "</span></div>" +
+        '<div class="metric"><span class="metric-label">Current price</span><span class="metric-value neutral">' + fmtPrice(price) + "</span></div>";
 
       const seen = new Set();
       const rows = spy.points.filter((p) => {
@@ -591,12 +628,13 @@
       const s = cycle.performance_vs_spy?.A;
       const pts = (s?.chart_points || []).map((p) => ({ date: p.date, return_pct: p.spy_pct }));
       if (!pts.length) return null;
-      return { since_start_pct: pts[pts.length - 1].return_pct / 100, points: pts };
+      const since = pts[pts.length - 1].return_pct / 100;
+      return { since_start_pct: since, month_pct: since, points: pts };
     }
 
     async function init() {
       const pricesStrip = document.getElementById("prices-strip");
-      const portfolioCEl = document.getElementById("portfolio-c");
+      const portfolioAEl = document.getElementById("portfolio-a");
       const portfoliosEl = document.getElementById("portfolios");
 
       if (typeof Chart === "undefined") {
@@ -619,13 +657,13 @@
         }
 
         const referenceCycle = cyclesByProfile.conservative || cyclesByProfile.balanced || cyclesByProfile.aggressive;
-        portfolioCEl.innerHTML = renderPortfolioCSection(referenceCycle);
+        portfolioAEl.innerHTML = renderPortfolioASection(referenceCycle);
 
         const firstCycle = cyclesByProfile[PROFILE_ORDER.find((p) => cyclesByProfile[p])];
         const spyPayload = live.spy_benchmark || buildSpyFallback(firstCycle);
 
-        portfoliosEl.innerHTML = PORTFOLIO_KEYS.map((pk) =>
-          renderPortfolioBlock(pk, cyclesByProfile)
+        portfoliosEl.innerHTML = MULTI_VARIANT_DISPLAY.map((letter) =>
+          renderPortfolioBlock(letter, cyclesByProfile)
         ).join("");
 
         requestAnimationFrame(() => {
@@ -633,19 +671,24 @@
           charts.length = 0;
           renderSpyBenchmark(spyPayload, live);
           if (referenceCycle) {
-            const cCanvas = document.getElementById("chart-C-single");
-            if (cCanvas) {
-              const ch = buildPortfolioChart(cCanvas, referenceCycle.performance_vs_spy?.C, "C");
+            const aCanvas = document.getElementById("chart-A-single");
+            if (aCanvas) {
+              const ch = buildPortfolioChart(
+                aCanvas,
+                referenceCycle.performance_vs_spy?.[dataKeyFor("A")],
+                "A"
+              );
               if (ch) charts.push(ch);
             }
           }
-          for (const pk of PORTFOLIO_KEYS) {
+          for (const displayLetter of MULTI_VARIANT_DISPLAY) {
+            const dataKey = dataKeyFor(displayLetter);
             for (const profileKey of PROFILE_ORDER) {
               const cycle = cyclesByProfile[profileKey];
               if (!cycle) continue;
-              const canvas = document.getElementById("chart-" + pk + "-" + profileKey);
+              const canvas = document.getElementById("chart-" + displayLetter + "-" + profileKey);
               if (!canvas) continue;
-              const ch = buildPortfolioChart(canvas, cycle.performance_vs_spy?.[pk], pk);
+              const ch = buildPortfolioChart(canvas, cycle.performance_vs_spy?.[dataKey], displayLetter);
               if (ch) charts.push(ch);
             }
           }
@@ -655,7 +698,7 @@
           "Tracking since " + (live.tracking_since || "—");
       } catch (err) {
         pricesStrip.innerHTML = '<span class="error">Failed to load: ' + err.message + "</span>";
-        portfolioCEl.innerHTML = "";
+        portfolioAEl.innerHTML = "";
         portfoliosEl.innerHTML = "";
       }
     }

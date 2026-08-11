@@ -114,7 +114,7 @@
           ],
           "missing_prices": [],
           "valuation": {
-            "refreshed_at": "2026-08-11T11:59:10Z",
+            "refreshed_at": "2026-08-11T12:14:51Z",
             "prices_as_of": "2026-08-10",
             "price_source": "yfinance+local_cache"
           },
@@ -198,7 +198,7 @@
           ],
           "missing_prices": [],
           "valuation": {
-            "refreshed_at": "2026-08-11T11:59:10Z",
+            "refreshed_at": "2026-08-11T12:14:51Z",
             "prices_as_of": "2026-08-10",
             "price_source": "yfinance+local_cache"
           },
@@ -1499,7 +1499,7 @@
           ],
           "missing_prices": [],
           "valuation": {
-            "refreshed_at": "2026-08-11T11:59:10Z",
+            "refreshed_at": "2026-08-11T12:14:51Z",
             "prices_as_of": "2026-08-10",
             "price_source": "yfinance+local_cache"
           },
@@ -1672,7 +1672,7 @@
           ],
           "missing_prices": [],
           "valuation": {
-            "refreshed_at": "2026-08-11T11:59:10Z",
+            "refreshed_at": "2026-08-11T12:14:51Z",
             "prices_as_of": "2026-08-10",
             "price_source": "yfinance+local_cache"
           },
@@ -2182,7 +2182,7 @@
           ],
           "missing_prices": [],
           "valuation": {
-            "refreshed_at": "2026-08-11T11:59:10Z",
+            "refreshed_at": "2026-08-11T12:14:51Z",
             "prices_as_of": "2026-08-10",
             "price_source": "yfinance+local_cache"
           },
@@ -2258,7 +2258,7 @@
           ],
           "missing_prices": [],
           "valuation": {
-            "refreshed_at": "2026-08-11T11:59:10Z",
+            "refreshed_at": "2026-08-11T12:14:51Z",
             "prices_as_of": "2026-08-10",
             "price_source": "yfinance+local_cache"
           },
@@ -3558,7 +3558,7 @@
           ],
           "missing_prices": [],
           "valuation": {
-            "refreshed_at": "2026-08-11T11:59:10Z",
+            "refreshed_at": "2026-08-11T12:14:51Z",
             "prices_as_of": "2026-08-10",
             "price_source": "yfinance+local_cache"
           },
@@ -3731,7 +3731,7 @@
           ],
           "missing_prices": [],
           "valuation": {
-            "refreshed_at": "2026-08-11T11:59:10Z",
+            "refreshed_at": "2026-08-11T12:14:51Z",
             "prices_as_of": "2026-08-10",
             "price_source": "yfinance+local_cache"
           },
@@ -4207,7 +4207,7 @@
           ],
           "missing_prices": [],
           "valuation": {
-            "refreshed_at": "2026-08-11T11:59:10Z",
+            "refreshed_at": "2026-08-11T12:14:51Z",
             "prices_as_of": "2026-08-10",
             "price_source": "yfinance+local_cache"
           },
@@ -4280,7 +4280,7 @@
           ],
           "missing_prices": [],
           "valuation": {
-            "refreshed_at": "2026-08-11T11:59:10Z",
+            "refreshed_at": "2026-08-11T12:14:51Z",
             "prices_as_of": "2026-08-10",
             "price_source": "yfinance+local_cache"
           },
@@ -5580,7 +5580,7 @@
           ],
           "missing_prices": [],
           "valuation": {
-            "refreshed_at": "2026-08-11T11:59:10Z",
+            "refreshed_at": "2026-08-11T12:14:51Z",
             "prices_as_of": "2026-08-10",
             "price_source": "yfinance+local_cache"
           },
@@ -5753,7 +5753,7 @@
           ],
           "missing_prices": [],
           "valuation": {
-            "refreshed_at": "2026-08-11T11:59:10Z",
+            "refreshed_at": "2026-08-11T12:14:51Z",
             "prices_as_of": "2026-08-10",
             "price_source": "yfinance+local_cache"
           },
@@ -6165,8 +6165,12 @@
     "tracking_since": "2026-08-07",
     "prices_as_of": "2026-08-10",
     "base_price": 773.26000977,
-    "current_price": 773.03,
-    "since_start_pct": -2.9745462987085245e-06,
+    "current_price": 773.0300293,
+    "since_start_pct": -0.00029741673834704496,
+    "month_pct": -0.00029741673834704496,
+    "last_30_days_pct": 0.023948628117871795,
+    "last_30_days_from": "2026-07-11",
+    "price_30_days_ago": 754.95001221,
     "points": [
       {
         "date": "2026-08-07",
@@ -6181,7 +6185,7 @@
     ]
   },
   "valuation_refresh": {
-    "refreshed_at": "2026-08-11T11:59:10Z",
+    "refreshed_at": "2026-08-11T12:14:51Z",
     "prices_as_of": "2026-08-10",
     "calendar_today": "2026-08-11",
     "market_data_through": "2026-08-10",
