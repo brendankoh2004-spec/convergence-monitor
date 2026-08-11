@@ -4,195 +4,280 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Convergence Paper Monitor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <style>
     :root {
-      --bg: #0f1419;
-      --panel: #1a2332;
-      --text: #e7ecf3;
-      --muted: #8b9bb4;
-      --accent: #6ea8fe;
-      --border: #2a3548;
-      --ok: #3dd68c;
-      --ok-dim: rgba(61, 214, 140, 0.18);
-      --behind: #e07070;
-      --behind-dim: rgba(224, 112, 112, 0.15);
-      --spy: #c4cad4;
-      --warn: #f0c14b;
+      --bg: #0b0e13;
+      --surface: #141a22;
+      --surface-2: #1c2430;
+      --text: #eef2f7;
+      --muted: #8b97a8;
+      --line: #2a3444;
+      --accent: #5b9cf5;
+      --spy: #9aa3af;
+      --up: #34d399;
+      --down: #f07178;
+      --warn: #fbbf24;
     }
-    * { box-sizing: border-box; }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { -webkit-font-smoothing: antialiased; }
     body {
       margin: 0;
-      font-family: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+      font-family: "DM Sans", system-ui, sans-serif;
       background: var(--bg);
       color: var(--text);
-      line-height: 1.45;
+      line-height: 1.5;
+      font-size: 15px;
     }
     header {
-      padding: 1.25rem 1.5rem 0.75rem;
-      border-bottom: 1px solid var(--border);
+      padding: 1.5rem 1.25rem 1rem;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(180deg, #121820 0%, var(--bg) 100%);
     }
-    h1 { margin: 0 0 0.35rem; font-size: 1.35rem; font-weight: 600; }
-    .sub { color: var(--muted); font-size: 0.9rem; margin: 0.25rem 0; }
-    main { padding: 1rem 1.5rem 2rem; max-width: 1280px; margin: 0 auto; }
-    .status-panel {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 1rem 1.1rem;
-      margin-bottom: 1.25rem;
+    header h1 {
+      margin: 0 0 0.25rem;
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
     }
-    .status-row { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-bottom: 0.5rem; }
+    header .sub { margin: 0; color: var(--muted); font-size: 0.92rem; }
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1.25rem 1.25rem 2.5rem;
+    }
+    .status-bar {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 0.85rem 1rem;
+      margin-bottom: 1.75rem;
+    }
+    .pills { display: flex; flex-wrap: wrap; gap: 0.4rem; }
     .pill {
-      display: inline-block;
-      padding: 0.15rem 0.55rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      padding: 0.2rem 0.55rem;
       border-radius: 999px;
-      background: #243044;
+      background: var(--surface-2);
       color: var(--muted);
-      font-size: 0.78rem;
+      border: 1px solid var(--line);
     }
-    .pill.warn { color: var(--warn); }
+    .pill.warn { color: var(--warn); border-color: rgba(251,191,36,0.35); }
     .tracking-note {
+      margin: 0.55rem 0 0;
+      font-size: 0.82rem;
       color: var(--muted);
-      font-size: 0.85rem;
       font-style: italic;
-      margin: 0.35rem 0 0;
     }
-    .profile-block {
-      margin-bottom: 2rem;
+    .profile-section { margin-bottom: 2.25rem; }
+    .profile-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
     }
-    .profile-block h2 {
-      font-size: 1.15rem;
-      color: var(--accent);
-      margin: 0 0 0.35rem;
+    .profile-head h2 {
+      margin: 0;
+      font-size: 1.2rem;
+      font-weight: 700;
       text-transform: capitalize;
+      letter-spacing: -0.01em;
     }
-    .profile-meta { color: var(--muted); font-size: 0.85rem; margin-bottom: 0.75rem; }
-    .portfolio-grid {
+    .profile-meta { font-size: 0.8rem; color: var(--muted); }
+    .cards {
       display: grid;
       gap: 1rem;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      grid-template-columns: repeat(3, 1fr);
     }
-    .portfolio-panel {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 0.85rem 1rem 1rem;
+    @media (max-width: 960px) {
+      .cards { grid-template-columns: 1fr; }
     }
-    .portfolio-panel h3 {
-      margin: 0 0 0.5rem;
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 1rem 1rem 0.85rem;
+      display: flex;
+      flex-direction: column;
+      min-height: 320px;
+    }
+    .card-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+    .card-title {
+      margin: 0;
       font-size: 0.95rem;
       font-weight: 600;
+      line-height: 1.3;
     }
-    .portfolio-panel h3 span.key {
+    .card-title .key {
+      display: inline-block;
       color: var(--accent);
+      font-weight: 700;
       margin-right: 0.35rem;
     }
-    .stat-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0.35rem 0.75rem;
-      font-size: 0.84rem;
-      margin-bottom: 0.6rem;
-    }
-    .stat-label { color: var(--muted); }
-    .stat-value { text-align: right; font-variant-numeric: tabular-nums; }
-    .gain-pos { color: var(--ok); }
-    .gain-neg { color: var(--behind); }
-    .chart-wrap { position: relative; margin-top: 0.25rem; }
-    canvas.chart {
-      width: 100%;
-      height: 140px;
-      display: block;
+    .badge {
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 0.2rem 0.45rem;
       border-radius: 6px;
-      background: #121820;
+      white-space: nowrap;
     }
-    .chart-legend {
-      display: flex;
-      gap: 0.85rem;
-      font-size: 0.72rem;
+    .badge.ahead { background: rgba(52,211,153,0.15); color: var(--up); }
+    .badge.behind { background: rgba(240,113,120,0.15); color: var(--down); }
+    .badge.flat { background: var(--surface-2); color: var(--muted); }
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.5rem;
+      margin-bottom: 0.85rem;
+    }
+    .metric {
+      background: var(--surface-2);
+      border-radius: 8px;
+      padding: 0.45rem 0.5rem;
+      text-align: center;
+    }
+    .metric-label {
+      display: block;
+      font-size: 0.65rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
       color: var(--muted);
-      margin-top: 0.35rem;
+      margin-bottom: 0.15rem;
     }
-    .legend-item { display: flex; align-items: center; gap: 0.3rem; }
-    .legend-swatch {
-      width: 14px;
-      height: 3px;
-      border-radius: 2px;
+    .metric-value {
+      font-size: 1.05rem;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.02em;
     }
-    .legend-swatch.portfolio { background: var(--accent); }
-    .legend-swatch.spy { background: var(--spy); }
-    .b-holdings, .c-filter {
-      margin-top: 0.55rem;
-      padding-top: 0.55rem;
-      border-top: 1px solid var(--border);
-      font-size: 0.8rem;
+    .metric-value.up { color: var(--up); }
+    .metric-value.down { color: var(--down); }
+    .metric-value.neutral { color: var(--text); }
+    .chart-box {
+      flex: 1;
+      position: relative;
+      min-height: 150px;
+      margin: 0 -0.25rem;
     }
-    .b-row, .c-row {
+    .holdings {
+      margin-top: 0.75rem;
+      padding-top: 0.65rem;
+      border-top: 1px solid var(--line);
+      font-size: 0.78rem;
+    }
+    .holdings-label {
+      font-weight: 600;
+      color: var(--muted);
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.25rem;
+    }
+    .holdings-tickers {
+      color: var(--text);
+      line-height: 1.45;
+      word-break: break-word;
+    }
+    .holdings-tickers.empty { color: var(--muted); font-style: italic; }
+    .b-bucket {
       display: flex;
       justify-content: space-between;
-      padding: 0.15rem 0;
       gap: 0.5rem;
+      padding: 0.12rem 0;
+      font-size: 0.76rem;
     }
-    .b-row .muted, .c-row .muted { color: var(--muted); }
-    .backtest-section {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 1rem;
-      margin-top: 0.5rem;
+    .c-stat {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.76rem;
+      padding: 0.1rem 0;
+      color: var(--muted);
     }
-    .backtest-section h2 { margin: 0 0 0.75rem; font-size: 1rem; color: var(--accent); }
+    .c-stat span:last-child { color: var(--text); }
+    .backtest {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 1rem 1.1rem;
+    }
+    .backtest h2 {
+      margin: 0 0 0.75rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--accent);
+    }
     .backtest-row {
       display: flex;
       justify-content: space-between;
-      padding: 0.3rem 0;
-      border-bottom: 1px solid var(--border);
+      padding: 0.35rem 0;
+      border-bottom: 1px solid var(--line);
       font-size: 0.88rem;
     }
-    .error { color: #ff8a8a; }
-    footer { padding: 0 1.5rem 1.5rem; color: var(--muted); font-size: 0.8rem; max-width: 1280px; margin: 0 auto; }
+    .backtest-row:last-child { border-bottom: none; }
+    footer {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.25rem 1.5rem;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+    .error { color: var(--down); font-weight: 600; }
   </style>
 </head>
 <body>
   <header>
     <h1>Convergence Paper Monitor</h1>
-    <p class="sub">Live paper portfolios · mark-to-market from ledger data</p>
+    <p class="sub">Live paper portfolios · percentage returns vs SPY</p>
   </header>
   <main>
-    <div class="status-panel" id="status-panel">
-      <div class="status-row" id="status-pills">Loading live data…</div>
+    <div class="status-bar">
+      <div class="pills" id="status-pills">Loading…</div>
       <p class="tracking-note" id="tracking-note"></p>
     </div>
     <div id="profiles"></div>
-    <section class="backtest-section">
-      <h2>Portfolio A — HT-B backtest (canonical Definition A)</h2>
+    <section class="backtest">
+      <h2>Portfolio A — HT-B backtest (Definition A)</h2>
       <div id="backtest"></div>
     </section>
   </main>
   <footer id="footer"></footer>
 
   <script>
-    const DATA_BASE = "data";
-    const PORTFOLIO_KEYS = ["A", "B", "C", "D"];
-    const PORTFOLIO_LABELS = {
+    const PORTFOLIO_KEYS = ["A", "B", "C"];
+    const LABELS = {
       A: "Pure Convergence",
       B: "Convergence + human judgment",
       C: "SPY structural filter",
-      D: "Vanilla SPY",
     };
+    const charts = [];
 
-    function fmtMoney(v, signed) {
+    function fmtRet(v) {
       if (v == null || Number.isNaN(v)) return "—";
-      const n = Math.round(v);
-      const abs = Math.abs(n).toLocaleString();
-      if (signed && n > 0) return "+$" + abs;
-      if (signed && n < 0) return "−$" + abs;
-      return "$" + abs;
+      const pct = v * 100;
+      const sign = pct > 0 ? "+" : "";
+      return sign + pct.toFixed(1) + "%";
     }
 
-    function fmtPct(v) {
-      if (v == null || Number.isNaN(v)) return "—";
-      return (v * 100).toFixed(1) + "%";
+    function retClass(v) {
+      if (v == null || Number.isNaN(v)) return "neutral";
+      if (v > 0.0001) return "up";
+      if (v < -0.0001) return "down";
+      return "neutral";
     }
 
     function fmtCagr(v) {
@@ -200,218 +285,296 @@
       return Number(v).toFixed(2) + "%";
     }
 
-    async function loadJson(path) {
-      const res = await fetch(`${DATA_BASE}/${path}`, { cache: "no-store" });
-      if (!res.ok) throw new Error(`${path}: HTTP ${res.status}`);
+    async function loadJson(name) {
+      const url = new URL("data/" + name, window.location.href).href;
+      const res = await fetch(url, { cache: "no-store" });
+      if (!res.ok) throw new Error(name + ": HTTP " + res.status);
       return res.json();
     }
 
-    function drawVsSpyChart(canvas, series) {
-      const pts = (series?.points || []).filter(
-        (p) => p.nav_index != null && p.spy_index != null
-      );
-      if (!pts.length) return;
-
-      const dpr = window.devicePixelRatio || 1;
-      const rect = canvas.getBoundingClientRect();
-      const w = Math.max(rect.width, 280);
-      const h = 140;
-      canvas.width = w * dpr;
-      canvas.height = h * dpr;
-      const ctx = canvas.getContext("2d");
-      ctx.scale(dpr, dpr);
-
-      const pad = { l: 36, r: 10, t: 10, b: 22 };
-      const iw = w - pad.l - pad.r;
-      const ih = h - pad.t - pad.b;
-
-      const allY = pts.flatMap((p) => [p.nav_index, p.spy_index]);
-      let yMin = Math.min(...allY);
-      let yMax = Math.max(...allY);
-      const padY = (yMax - yMin) * 0.08 || 2;
-      yMin -= padY;
-      yMax += padY;
-
-      const xAt = (i) => pad.l + (i / Math.max(pts.length - 1, 1)) * iw;
-      const yAt = (v) => pad.t + ih - ((v - yMin) / (yMax - yMin)) * ih;
-
-      ctx.clearRect(0, 0, w, h);
-
-      // shaded area between lines
-      for (let i = 0; i < pts.length - 1; i++) {
-        const p0 = pts[i];
-        const p1 = pts[i + 1];
-        const x0 = xAt(i);
-        const x1 = xAt(i + 1);
-        const nav0 = yAt(p0.nav_index);
-        const nav1 = yAt(p1.nav_index);
-        const spy0 = yAt(p0.spy_index);
-        const spy1 = yAt(p1.spy_index);
-        const ahead = (p0.nav_index + p1.nav_index) / 2 >= (p0.spy_index + p1.spy_index) / 2;
-        ctx.beginPath();
-        ctx.moveTo(x0, nav0);
-        ctx.lineTo(x1, nav1);
-        ctx.lineTo(x1, spy1);
-        ctx.lineTo(x0, spy0);
-        ctx.closePath();
-        ctx.fillStyle = ahead ? "rgba(61, 214, 140, 0.22)" : "rgba(224, 112, 112, 0.18)";
-        ctx.fill();
+    function getHoldings(key, cycle, p) {
+      if (key === "A") {
+        const tickers = p.holdings_display || p.tickers || [];
+        return tickers.length ? tickers.join(", ") : null;
       }
-
-      // grid
-      ctx.strokeStyle = "#2a3548";
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      ctx.moveTo(pad.l, pad.t);
-      ctx.lineTo(pad.l, pad.t + ih);
-      ctx.lineTo(pad.l + iw, pad.t + ih);
-      ctx.stroke();
-
-      // SPY line
-      ctx.strokeStyle = "#c4cad4";
-      ctx.lineWidth = 1.5;
-      ctx.setLineDash([4, 3]);
-      ctx.beginPath();
-      pts.forEach((p, i) => {
-        const x = xAt(i);
-        const y = yAt(p.spy_index);
-        if (i === 0) ctx.moveTo(x, y);
-        else ctx.lineTo(x, y);
-      });
-      ctx.stroke();
-      ctx.setLineDash([]);
-
-      // portfolio line
-      ctx.strokeStyle = "#6ea8fe";
-      ctx.lineWidth = 2;
-      ctx.beginPath();
-      pts.forEach((p, i) => {
-        const x = xAt(i);
-        const y = yAt(p.nav_index);
-        if (i === 0) ctx.moveTo(x, y);
-        else ctx.lineTo(x, y);
-      });
-      ctx.stroke();
-
-      // x labels (first + last)
-      ctx.fillStyle = "#8b9bb4";
-      ctx.font = "10px IBM Plex Sans, sans-serif";
-      ctx.textAlign = "center";
-      ctx.fillText(pts[0].date.slice(5), xAt(0), h - 4);
-      if (pts.length > 1) {
-        ctx.fillText(pts[pts.length - 1].date.slice(5), xAt(pts.length - 1), h - 4);
+      if (key === "B") {
+        const ledger = (cycle.b_ledger_holdings || [])
+          .map((h) => h.ticker)
+          .filter(Boolean);
+        if (ledger.length) return ledger.join(", ");
+        const picks = (cycle.b_holding_now || [])
+          .map((d) => d.holding_now || d.recorded_pick)
+          .filter((t) => t && t !== "defer");
+        return picks.length ? picks.join(" · ") + " (decisions)" : null;
       }
-
-      // y labels
-      ctx.textAlign = "right";
-      ctx.fillText(yMin.toFixed(0), pad.l - 4, pad.t + ih);
-      ctx.fillText(yMax.toFixed(0), pad.l - 4, pad.t + 8);
+      if (key === "C") {
+        const tickers = p.holdings_display || p.tickers || [];
+        const n = p.n_holdings || tickers.length;
+        if (!n) return null;
+        if (tickers.length <= 12) return tickers.join(", ");
+        return tickers.slice(0, 10).join(", ") + " … +" + (n - 10) + " more (" + n + " total)";
+      }
+      return null;
     }
 
-    function renderPortfolioPanel(key, cycle) {
-      const p = cycle.portfolios?.[key] || {};
-      const gain = p.gain_loss_since_inception;
-      const gainClass = gain > 0 ? "gain-pos" : gain < 0 ? "gain-neg" : "";
-      const series = cycle.performance_vs_spy?.[key];
-      const chartId = `chart-${cycle.profile}-${key}`;
+    function aheadBadge(returns) {
+      const vs = returns?.vs_spy_since_start_pct;
+      if (vs == null || Number.isNaN(vs)) return '<span class="badge flat">vs SPY —</span>';
+      if (vs > 0.0001) return '<span class="badge ahead">+' + (vs * 100).toFixed(1) + '% vs SPY</span>';
+      if (vs < -0.0001) return '<span class="badge behind">' + (vs * 100).toFixed(1) + '% vs SPY</span>';
+      return '<span class="badge flat">Even with SPY</span>';
+    }
 
-      let extra = "";
+    function renderExtra(key, cycle) {
       if (key === "B") {
-        const rows = (cycle.b_holding_now || []).map((d) => {
-          const pick = `<strong>${d.holding_now || d.recorded_pick || "—"}</strong>`;
-          const status = d.is_live_position
-            ? `<span style="color:var(--ok)">${d.ledger_status || "In ledger"}</span>`
-            : `<span class="muted">${d.ledger_status || "Not in ledger"}</span>`;
-          return `<div class="b-row"><span>${d.bucket}</span><span>${pick}<br>${status}</span></div>`;
-        }).join("");
-        const ledgerHeld = (cycle.b_ledger_holdings || [])
-          .map((h) => `${h.ticker} (${Math.round(h.shares)} sh)`)
-          .join(", ");
-        const ledgerLine = ledgerHeld
-          ? `<div class="muted" style="margin-top:0.35rem">B ledger holdings: ${ledgerHeld}</div>`
-          : `<div class="muted" style="margin-top:0.35rem">B ledger holdings: none (100% cash)</div>`;
-        extra = rows
-          ? `<div class="b-holdings"><div class="muted" style="margin-bottom:0.25rem">Holding now (latest decision only)</div>${rows}${ledgerLine}</div>`
-          : ledgerLine;
+        const rows = (cycle.b_holding_now || [])
+          .map((d) => '<div class="b-bucket"><span>' + d.bucket + '</span><strong>' +
+            (d.holding_now || d.recorded_pick || "—") + "</strong></div>")
+          .join("");
+        return rows ? '<div style="margin-top:0.4rem">' + rows + "</div>" : "";
       }
       if (key === "C") {
         const f = cycle.portfolio_c_filter;
-        if (f) {
-          extra = `<div class="c-filter">
-            <div class="c-row"><span class="muted">Universe</span><span>${f.n_universe ?? "—"}</span></div>
-            <div class="c-row"><span class="muted">Excluded</span><span>${f.n_excluded ?? "—"} of ${f.n_universe ?? "—"}</span></div>
-            <div class="c-row"><span class="muted">Forensic fail</span><span>${f.n_forensic_reject ?? "—"}</span></div>
-            <div class="c-row"><span class="muted">Active L4 fracture</span><span>${f.n_active_l4_fracture ?? "—"}</span></div>
-            ${f.n_other_excluded != null ? `<div class="c-row"><span class="muted">Other excluded</span><span>${f.n_other_excluded}</span></div>` : ""}
-          </div>`;
-        }
+        if (!f) return "";
+        return (
+          '<div style="margin-top:0.4rem">' +
+          '<div class="c-stat"><span>Excluded</span><span>' + (f.n_excluded ?? "—") + " / " + (f.n_universe ?? "—") + "</span></div>" +
+          '<div class="c-stat"><span>Forensic fail</span><span>' + (f.n_forensic_reject ?? "—") + "</span></div>" +
+          '<div class="c-stat"><span>Active fracture</span><span>' + (f.n_active_l4_fracture ?? "—") + "</span></div>" +
+          "</div>"
+        );
       }
-
-      return `<div class="portfolio-panel">
-        <h3><span class="key">${key}</span>${PORTFOLIO_LABELS[key] || p.name || ""}</h3>
-        <div class="stat-grid">
-          <span class="stat-label">NAV</span>
-          <span class="stat-value">${fmtMoney(p.nav)}</span>
-          <span class="stat-label">Gain/loss since tracking</span>
-          <span class="stat-value ${gainClass}">${fmtMoney(gain, true)}</span>
-          <span class="stat-label">Cash</span>
-          <span class="stat-value">${fmtPct(p.cash_pct)}</span>
-          <span class="stat-label">Deployed</span>
-          <span class="stat-value">${fmtPct(p.deployed_pct)}</span>
-        </div>
-        <div class="chart-wrap">
-          <canvas class="chart" id="${chartId}" aria-label="Portfolio vs SPY indexed performance"></canvas>
-          <div class="chart-legend">
-            <span class="legend-item"><span class="legend-swatch portfolio"></span>Portfolio (indexed)</span>
-            <span class="legend-item"><span class="legend-swatch spy"></span>SPY (indexed)</span>
-          </div>
-        </div>
-        ${extra}
-      </div>`;
+      return "";
     }
 
-    function renderProfileBlock(cycle) {
-      const profile = cycle.profile;
-      const ho = cycle.holdings_as_of || cycle.as_of;
-      const po = cycle.prices_as_of || "—";
-      const panels = PORTFOLIO_KEYS.map((k) => renderPortfolioPanel(k, cycle)).join("");
-      return `<div class="profile-block" data-profile="${profile}">
-        <h2>${profile}</h2>
-        <p class="profile-meta">Holdings as of <strong>${ho}</strong> · Prices as of <strong>${po}</strong></p>
-        <div class="portfolio-grid">${panels}</div>
-      </div>`;
+    function computeReturnsFallback(p, series, trackingSince, pricesAsOf) {
+      const since = p.gain_loss_pct_since_inception;
+      const month = p.return_since_review;
+      const pts = series?.chart_points || (series?.points || []).map((pt) => ({
+        date: pt.date,
+        portfolio_pct: pt.nav_index - 100,
+        spy_pct: pt.spy_index - 100,
+      }));
+      const last = pts[pts.length - 1];
+      const spySince = last ? last.spy_pct / 100 : 0;
+      const priceYear = (pricesAsOf || "").slice(0, 4);
+      const trackYear = (trackingSince || "").slice(0, 4);
+      return {
+        since_start_pct: since,
+        month_pct: month,
+        ytd_pct: since,
+        ytd_same_as_since_start: priceYear === trackYear,
+        vs_spy_since_start_pct: since != null ? since - spySince : null,
+      };
     }
 
-    function renderBacktest(backtest) {
-      const profiles = backtest.profiles || {};
-      const order = ["conservative", "balanced", "aggressive"];
-      return order.map((p) => {
-        const block = profiles[p] || {};
-        const range = block.cagr_range?.label || "—";
-        return `<div class="backtest-row">
-          <span>${p.charAt(0).toUpperCase() + p.slice(1)}</span>
-          <span>mean ${fmtCagr(block.mean_cagr_pct)} · ${range}</span>
-        </div>`;
-      }).join("");
+    function renderCard(key, cycle, trackingSince) {
+      const p = cycle.portfolios?.[key] || {};
+      const series = cycle.performance_vs_spy?.[key];
+      const ret = p.returns_pct || computeReturnsFallback(p, series, trackingSince, cycle.prices_as_of);
+      const chartId = "chart-" + cycle.profile + "-" + key;
+      const holdings = getHoldings(key, cycle, p);
+      const ytdNote = ret.ytd_same_as_since_start ? "" : "";
+
+      return (
+        '<article class="card">' +
+        '<div class="card-head">' +
+        '<h3 class="card-title"><span class="key">' + key + "</span>" + (LABELS[key] || p.name || "") + "</h3>" +
+        aheadBadge(ret) +
+        "</div>" +
+        '<div class="metrics">' +
+        '<div class="metric"><span class="metric-label">Since start</span><span class="metric-value ' + retClass(ret.since_start_pct) + '">' + fmtRet(ret.since_start_pct) + "</span></div>" +
+        '<div class="metric"><span class="metric-label">YTD</span><span class="metric-value ' + retClass(ret.ytd_pct) + '">' + fmtRet(ret.ytd_pct) + ytdNote + "</span></div>" +
+        '<div class="metric"><span class="metric-label">This month</span><span class="metric-value ' + retClass(ret.month_pct) + '">' + fmtRet(ret.month_pct) + "</span></div>" +
+        "</div>" +
+        '<div class="chart-box"><canvas id="' + chartId + '" aria-label="' + key + ' vs SPY percentage return"></canvas></div>' +
+        '<div class="holdings">' +
+        '<div class="holdings-label">Holdings</div>' +
+        '<div class="holdings-tickers' + (holdings ? "" : " empty") + '">' + (holdings || "No positions recorded") + "</div>" +
+        renderExtra(key, cycle) +
+        "</div>" +
+        "</article>"
+      );
+    }
+
+    function renderProfile(cycle, trackingSince) {
+      const cards = PORTFOLIO_KEYS.map((k) => renderCard(k, cycle, trackingSince)).join("");
+      return (
+        '<section class="profile-section" data-profile="' + cycle.profile + '">' +
+        '<div class="profile-head">' +
+        "<h2>" + cycle.profile + "</h2>" +
+        '<span class="profile-meta">Review ' + (cycle.holdings_as_of || cycle.as_of) +
+        " · Prices " + (cycle.prices_as_of || "—") + "</span>" +
+        "</div>" +
+        '<div class="cards">' + cards + "</div>" +
+        "</section>"
+      );
+    }
+
+    const fillBetweenPlugin = {
+      id: "fillBetween",
+      beforeDatasetsDraw(chart) {
+        const m0 = chart.getDatasetMeta(0);
+        const m1 = chart.getDatasetMeta(1);
+        if (!m0?.data?.length || !m1?.data?.length) return;
+        const ctx = chart.ctx;
+        ctx.save();
+        ctx.beginPath();
+        m0.data.forEach((pt, i) => (i === 0 ? ctx.moveTo(pt.x, pt.y) : ctx.lineTo(pt.x, pt.y)));
+        for (let i = m1.data.length - 1; i >= 0; i--) ctx.lineTo(m1.data[i].x, m1.data[i].y);
+        ctx.closePath();
+        const lastP = m0.data[m0.data.length - 1]?.y ?? 0;
+        const lastS = m1.data[m1.data.length - 1]?.y ?? 0;
+        ctx.fillStyle = lastP <= lastS ? "rgba(52,211,153,0.22)" : "rgba(240,113,120,0.16)";
+        ctx.fill();
+        ctx.restore();
+      },
+    };
+
+    const endLabelPlugin = {
+      id: "endLabels",
+      afterDatasetsDraw(chart) {
+        const { ctx, chartArea } = chart;
+        chart.data.datasets.forEach((ds, i) => {
+          const meta = chart.getDatasetMeta(i);
+          const pt = meta.data[meta.data.length - 1];
+          if (!pt) return;
+          const val = ds.data[ds.data.length - 1];
+          if (val == null) return;
+          const label = ds.label + " " + (val >= 0 ? "+" : "") + val.toFixed(1) + "%";
+          ctx.save();
+          ctx.font = '600 10px "DM Sans", system-ui, sans-serif';
+          ctx.fillStyle = ds.borderColor;
+          const tw = ctx.measureText(label).width;
+          let x = pt.x + 6;
+          if (x + tw > chartArea.right) x = pt.x - tw - 6;
+          ctx.fillText(label, x, pt.y + 3);
+          ctx.beginPath();
+          ctx.arc(pt.x, pt.y, 3.5, 0, Math.PI * 2);
+          ctx.fillStyle = ds.borderColor;
+          ctx.fill();
+          ctx.restore();
+        });
+      },
+    };
+
+    function buildChart(canvas, series, portfolioLabel) {
+      const pts = series?.chart_points || [];
+      if (!pts.length) {
+        const legacy = (series?.points || []).filter((p) => p.nav_index != null && p.spy_index != null);
+        legacy.forEach((p) => {
+          pts.push({
+            date: p.date,
+            portfolio_pct: p.nav_index - 100,
+            spy_pct: p.spy_index - 100,
+          });
+        });
+      }
+      if (!pts.length) return null;
+
+      const labels = pts.map((p) => p.date.slice(5));
+      const portData = pts.map((p) => p.portfolio_pct);
+      const spyData = pts.map((p) => p.spy_pct);
+
+      return new Chart(canvas, {
+        type: "line",
+        data: {
+          labels,
+          datasets: [
+            {
+              label: portfolioLabel,
+              data: portData,
+              borderColor: "#5b9cf5",
+              backgroundColor: "transparent",
+              borderWidth: 2.5,
+              pointRadius: 0,
+              pointHoverRadius: 4,
+              tension: 0.15,
+            },
+            {
+              label: "SPY",
+              data: spyData,
+              borderColor: "#9aa3af",
+              backgroundColor: "transparent",
+              borderWidth: 1.5,
+              borderDash: [5, 4],
+              pointRadius: 0,
+              pointHoverRadius: 4,
+              tension: 0.15,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: { mode: "index", intersect: false },
+          layout: { padding: { top: 8, right: 72, bottom: 4, left: 4 } },
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label(ctx) {
+                  return ctx.dataset.label + ": " + (ctx.parsed.y >= 0 ? "+" : "") + ctx.parsed.y.toFixed(2) + "%";
+                },
+              },
+            },
+          },
+          scales: {
+            x: {
+              grid: { color: "rgba(42,52,68,0.5)" },
+              ticks: { color: "#8b97a8", font: { size: 10, family: "DM Sans" }, maxTicksLimit: 4 },
+            },
+            y: {
+              grid: { color: "rgba(42,52,68,0.5)" },
+              ticks: {
+                color: "#8b97a8",
+                font: { size: 10, family: "DM Sans" },
+                callback: (v) => (v >= 0 ? "+" : "") + v + "%",
+              },
+            },
+          },
+        },
+        plugins: [fillBetweenPlugin, endLabelPlugin],
+      });
     }
 
     function paintCharts(cycles) {
+      charts.forEach((c) => c.destroy());
+      charts.length = 0;
       for (const cycle of cycles) {
         for (const key of PORTFOLIO_KEYS) {
-          const id = `chart-${cycle.profile}-${key}`;
-          const canvas = document.getElementById(id);
+          const canvas = document.getElementById("chart-" + cycle.profile + "-" + key);
           if (!canvas) continue;
-          drawVsSpyChart(canvas, cycle.performance_vs_spy?.[key]);
+          const ch = buildChart(canvas, cycle.performance_vs_spy?.[key], key);
+          if (ch) charts.push(ch);
         }
       }
     }
 
+    function renderBacktest(bt) {
+      const order = ["conservative", "balanced", "aggressive"];
+      return order
+        .map((p) => {
+          const b = (bt.profiles || {})[p] || {};
+          return (
+            '<div class="backtest-row"><span>' + p.charAt(0).toUpperCase() + p.slice(1) +
+            '</span><span>mean ' + fmtCagr(b.mean_cagr_pct) + " · " + (b.cagr_range?.label || "—") + "</span></div>"
+          );
+        })
+        .join("");
+    }
+
     async function init() {
-      const statusPills = document.getElementById("status-pills");
-      const trackingNote = document.getElementById("tracking-note");
+      const statusEl = document.getElementById("status-pills");
+      const noteEl = document.getElementById("tracking-note");
       const profilesEl = document.getElementById("profiles");
       const backtestEl = document.getElementById("backtest");
-      const footer = document.getElementById("footer");
+      const footerEl = document.getElementById("footer");
+
+      if (typeof Chart === "undefined") {
+        statusEl.innerHTML = '<span class="error">Chart.js failed to load — check CDN / network.</span>';
+        return;
+      }
 
       try {
         const [live, backtest] = await Promise.all([
@@ -420,43 +583,38 @@
         ]);
 
         const vr = live.valuation_refresh || {};
-        const refreshed = vr.refreshed_at || live.exported_at || "—";
         const marketThru = vr.market_data_through || vr.prices_as_of || "—";
-        const trackingSince = live.tracking_since || "—";
 
-        statusPills.innerHTML = [
-          `<span class="pill">Tracking since ${trackingSince}</span>`,
-          `<span class="pill">Export ${live.exported_at || "—"}</span>`,
-          `<span class="pill">Price refresh ${refreshed}</span>`,
-          `<span class="pill">Market data through ${marketThru}</span>`,
-          vr.stale_vs_calendar ? `<span class="pill warn">Market data through ${marketThru} — no newer close yet (calendar ${vr.calendar_today || "today"})</span>` : "",
-        ].filter(Boolean).join(" ");
+        statusEl.innerHTML = [
+          '<span class="pill">Tracking since ' + (live.tracking_since || "—") + "</span>",
+          '<span class="pill">Prices through ' + marketThru + "</span>",
+          vr.stale_vs_calendar
+            ? '<span class="pill warn">No newer close yet (calendar ' + (vr.calendar_today || "today") + ")</span>"
+            : "",
+        ].join("");
 
-        trackingNote.textContent =
+        noteEl.textContent =
           live.tracking_note ||
           "Tracking duration is not holding duration — positions may change at every monthly review.";
 
-        const cycles = (live.cycles || []).slice().sort((a, b) =>
-          (a.profile || "").localeCompare(b.profile || "")
-        );
-        profilesEl.innerHTML = cycles.map(renderProfileBlock).join("");
-        paintCharts(cycles);
+        const cycles = (live.cycles || []).slice().sort((a, b) => (a.profile || "").localeCompare(b.profile || ""));
+        profilesEl.innerHTML = cycles.map((c) => renderProfile(c, live.tracking_since)).join("");
+        requestAnimationFrame(() => paintCharts(cycles));
 
-        let resizeTimer;
+        let t;
         window.addEventListener("resize", () => {
-          clearTimeout(resizeTimer);
-          resizeTimer = setTimeout(() => paintCharts(cycles), 150);
+          clearTimeout(t);
+          t = setTimeout(() => paintCharts(cycles), 200);
         });
 
         backtestEl.innerHTML = renderBacktest(backtest);
-        footer.textContent = [
+        footerEl.textContent = [
           live.display?.note || "",
-          backtest.harness_generation?.label ? `Backtest: ${backtest.harness_generation.label}.` : "",
-          `Schema live ${live.schema || "?"} · backtest ${backtest.schema || "?"}.`,
+          backtest.harness_generation?.label ? "Backtest: " + backtest.harness_generation.label + "." : "",
         ].filter(Boolean).join(" ");
       } catch (err) {
-        statusPills.innerHTML = `<span class="error">Failed to load data: ${err.message}</span>`;
-        trackingNote.textContent = "";
+        statusEl.innerHTML = '<span class="error">Failed to load: ' + err.message + "</span>";
+        noteEl.textContent = "";
         profilesEl.innerHTML = "";
         backtestEl.innerHTML = "";
       }
@@ -466,4 +624,3 @@
   </script>
 </body>
 </html>
-redeploy trigger
