@@ -41,12 +41,13 @@
       border-bottom: 1px solid var(--line);
     }
     header h1 {
-      margin: 0;
+      margin: 0 0 0.35rem;
       font-family: "IBM Plex Serif", Georgia, serif;
       font-size: 1.5rem;
       font-weight: 600;
       letter-spacing: -0.02em;
     }
+    .tagline { margin: 0; font-size: 0.92rem; color: var(--muted); max-width: 42rem; line-height: 1.45; }
     main { max-width: 1040px; margin: 0 auto; padding: 1.25rem 1.25rem 2rem; }
     .hero { display: grid; gap: 0.75rem; margin-bottom: 1.25rem; }
     .hero-card {
@@ -64,32 +65,34 @@
       letter-spacing: 0.06em;
       color: var(--muted);
     }
-    .hero-card p { margin: 0; font-size: 0.92rem; color: var(--text); }
-    .hero-card .profiles { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem; }
+    .hero-card p { margin: 0; font-size: 0.88rem; color: var(--text); line-height: 1.45; }
+    .profile-pills { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-top: 0.5rem; }
     .pill {
-      font-size: 0.78rem;
+      font-size: 0.76rem;
       font-weight: 600;
-      padding: 0.25rem 0.55rem;
+      padding: 0.22rem 0.5rem;
       border-radius: 999px;
       background: var(--surface-2);
       color: var(--text);
     }
-    .ab-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem; margin-top: 0.15rem; }
-    @media (max-width: 640px) { .ab-compare { grid-template-columns: 1fr; } }
-    .ab-box {
+    .portfolio-explainer { display: grid; gap: 0.55rem; margin-top: 0.15rem; }
+    @media (min-width: 720px) { .portfolio-explainer { grid-template-columns: 1fr 1fr 1fr; } }
+    .explainer-box {
       border-radius: 8px;
       padding: 0.55rem 0.65rem;
-      font-size: 0.84rem;
+      font-size: 0.82rem;
       line-height: 1.4;
     }
-    .ab-box.a { background: rgba(15, 118, 110, 0.08); border-left: 3px solid var(--a); }
-    .ab-box.b { background: rgba(194, 65, 12, 0.08); border-left: 3px solid var(--b); }
-    .ab-box strong { display: block; font-size: 0.78rem; margin-bottom: 0.15rem; }
-    .ab-box.a strong { color: var(--a); }
-    .ab-box.b strong { color: var(--b); }
+    .explainer-box strong { display: block; font-size: 0.76rem; margin-bottom: 0.12rem; }
+    .explainer-box.a { background: rgba(15, 118, 110, 0.08); border-left: 3px solid var(--a); }
+    .explainer-box.a strong { color: var(--a); }
+    .explainer-box.b { background: rgba(194, 65, 12, 0.08); border-left: 3px solid var(--b); }
+    .explainer-box.b strong { color: var(--b); }
+    .explainer-box.c { background: rgba(109, 40, 217, 0.08); border-left: 3px solid var(--c); }
+    .explainer-box.c strong { color: var(--c); }
     .prices-strip { font-size: 0.78rem; color: var(--muted); margin-bottom: 1rem; }
     .prices-strip .warn { color: var(--warn); font-weight: 500; }
-    .spy-section, .c-section, .backtest {
+    .spy-section, .portfolio-block {
       background: var(--surface);
       border: 1px solid var(--line);
       border-radius: 10px;
@@ -97,75 +100,74 @@
       margin-bottom: 1.25rem;
       box-shadow: var(--shadow);
     }
-    .spy-section h2, .c-section h2, .backtest h2 {
-      margin: 0 0 0.6rem;
-      font-size: 0.95rem;
+    .spy-section h2, .portfolio-block h2 {
+      margin: 0 0 0.25rem;
+      font-size: 1rem;
       font-weight: 700;
     }
+    .portfolio-block .block-sub {
+      margin: 0 0 0.75rem;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+    .portfolio-block.block-a h2 { color: var(--a); }
+    .portfolio-block.block-b h2 { color: var(--b); }
+    .portfolio-block.block-c h2 { color: var(--c); }
     .spy-section h2 { color: var(--spy); }
-    .c-section h2 { color: var(--c); }
     .spy-head { display: flex; flex-wrap: wrap; gap: 1rem 1.5rem; align-items: baseline; margin-bottom: 0.65rem; }
     .spy-stat { font-size: 0.85rem; color: var(--muted); }
     .spy-stat strong { color: var(--text); font-size: 1.05rem; font-variant-numeric: tabular-nums; }
     .spy-stat.since strong.up { color: var(--up); }
     .spy-stat.since strong.down { color: var(--down); }
-    .profile-section { margin-bottom: 1.5rem; }
-    .profile-section h2 {
-      margin: 0 0 0.65rem;
-      font-size: 1rem;
-      font-weight: 700;
-      text-transform: capitalize;
+    .variant-grid {
+      display: grid;
+      gap: 0.75rem;
+      grid-template-columns: repeat(3, 1fr);
     }
-    .cards { display: grid; gap: 0.75rem; grid-template-columns: 1fr 1fr; }
-    @media (max-width: 720px) { .cards { grid-template-columns: 1fr; } }
-    .card {
-      background: var(--surface);
+    @media (max-width: 900px) { .variant-grid { grid-template-columns: 1fr; } }
+    .variant-card {
+      background: var(--surface-2);
       border: 1px solid var(--line);
-      border-radius: 10px;
-      padding: 0.85rem;
-      box-shadow: var(--shadow);
+      border-radius: 9px;
+      padding: 0.75rem;
       display: flex;
       flex-direction: column;
     }
-    .card.card-a { border-top: 3px solid var(--a); }
-    .card.card-b { border-top: 3px solid var(--b); }
-    .card-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.55rem; }
-    .card-title { margin: 0; font-size: 0.88rem; font-weight: 600; line-height: 1.35; }
-    .card-title .key { font-weight: 700; margin-right: 0.25rem; }
-    .card-a .key { color: var(--a); }
-    .card-b .key { color: var(--b); }
+    .variant-card .variant-label {
+      margin: 0 0 0.45rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .card-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 0.4rem; margin-bottom: 0.45rem; }
     .badge {
-      font-size: 0.62rem;
+      font-size: 0.58rem;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.04em;
-      padding: 0.18rem 0.4rem;
+      padding: 0.15rem 0.35rem;
       border-radius: 5px;
       white-space: nowrap;
     }
     .badge.ahead { background: rgba(4, 120, 87, 0.12); color: var(--up); }
     .badge.behind { background: rgba(185, 28, 28, 0.1); color: var(--down); }
-    .badge.flat { background: var(--surface-2); color: var(--muted); }
-    .metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.35rem; margin-bottom: 0.6rem; }
-    .metric { background: var(--surface-2); border-radius: 7px; padding: 0.35rem 0.3rem; text-align: center; }
-    .metric-label { display: block; font-size: 0.58rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); }
-    .metric-value { font-size: 0.95rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+    .badge.flat { background: var(--surface); color: var(--muted); }
+    .metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.3rem; margin-bottom: 0.55rem; }
+    .metric { background: var(--surface); border-radius: 6px; padding: 0.3rem 0.25rem; text-align: center; }
+    .metric-label { display: block; font-size: 0.55rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); }
+    .metric-value { font-size: 0.88rem; font-weight: 700; font-variant-numeric: tabular-nums; }
     .metric-value.up { color: var(--up); }
     .metric-value.down { color: var(--down); }
     .metric-value.neutral { color: var(--text); }
-    .chart-box { position: relative; height: 140px; margin: 0 -0.1rem; }
-    .holdings { margin-top: 0.55rem; padding-top: 0.45rem; border-top: 1px solid var(--line); font-size: 0.75rem; }
-    .holdings-label { font-weight: 600; color: var(--muted); font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.15rem; }
-    .holdings-tickers { line-height: 1.45; word-break: break-word; color: var(--text); }
+    .chart-box { position: relative; height: 120px; margin: 0 -0.05rem; }
+    .holdings { margin-top: 0.45rem; padding-top: 0.4rem; border-top: 1px solid var(--line); font-size: 0.72rem; }
+    .holdings-label { font-weight: 600; color: var(--muted); font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.12rem; }
+    .holdings-tickers { line-height: 1.4; word-break: break-word; color: var(--text); }
     .holdings-tickers.empty { color: var(--muted); font-style: italic; }
-    .b-picks { font-size: 0.74rem; color: var(--muted); margin-top: 0.2rem; }
+    .b-picks { font-size: 0.7rem; color: var(--muted); margin-top: 0.15rem; }
     .b-picks span { color: var(--text); font-weight: 500; }
-    .c-grid { display: grid; gap: 0.75rem; grid-template-columns: 1fr 1.3fr; }
-    @media (max-width: 720px) { .c-grid { grid-template-columns: 1fr; } }
-    .c-stats { display: flex; gap: 1rem; flex-wrap: wrap; font-size: 0.8rem; color: var(--muted); margin-top: 0.35rem; }
+    .c-stats { display: flex; gap: 0.75rem; flex-wrap: wrap; font-size: 0.72rem; color: var(--muted); margin-top: 0.25rem; }
     .c-stats strong { color: var(--text); font-variant-numeric: tabular-nums; }
-    .backtest-row { display: flex; justify-content: space-between; padding: 0.25rem 0; border-bottom: 1px solid var(--line); font-size: 0.82rem; }
-    .backtest-row:last-child { border-bottom: none; }
     footer { max-width: 1040px; margin: 0 auto; padding: 0 1.25rem 1.25rem; font-size: 0.7rem; color: var(--muted); }
     .error { color: var(--down); font-weight: 600; }
   </style>
@@ -173,28 +175,33 @@
 <body>
   <header>
     <h1>Convergence Paper Monitor</h1>
+    <p class="tagline">This tracks changes in a company&rsquo;s underlying structural state — not price predictions. Positions change when something measurably shifts, not on a forecast.</p>
   </header>
   <main>
     <div class="hero">
       <div class="hero-card">
-        <h2>Three risk profiles</h2>
-        <p>Same framework throughout — only the target mix of <strong>stable</strong> vs. <strong>speculative</strong> holdings changes.</p>
-        <div class="profiles">
-          <span class="pill">Conservative · more stable</span>
-          <span class="pill">Balanced · even mix</span>
-          <span class="pill">Aggressive · more speculative</span>
+        <h2>Three versions of the same framework</h2>
+        <p>How settled the structural read is for the companies each version is willing to hold — not a claim about which performs better.</p>
+        <div class="profile-pills">
+          <span class="pill">Clearer Signal</span>
+          <span class="pill">Balanced Mix</span>
+          <span class="pill">Less Clear Signal</span>
         </div>
       </div>
       <div class="hero-card">
-        <h2>Portfolio A vs. B</h2>
-        <div class="ab-compare">
-          <div class="ab-box a">
-            <strong>Portfolio A</strong>
+        <h2>What each portfolio does</h2>
+        <div class="portfolio-explainer">
+          <div class="explainer-box a">
+            <strong>Portfolio A · Pure Convergence</strong>
             Framework picks automatically — random choice among equally eligible candidates.
           </div>
-          <div class="ab-box b">
-            <strong>Portfolio B</strong>
-            Same eligible pool — a human makes the final choice after comparing candidates.
+          <div class="explainer-box b">
+            <strong>Portfolio B · Convergence + Human</strong>
+            Same eligible pool — a human compares candidates and makes the final choice.
+          </div>
+          <div class="explainer-box c">
+            <strong>Portfolio C · Structural Filter</strong>
+            Removes companies with red flags from a broad list; holds the rest evenly.
           </div>
         </div>
       </div>
@@ -208,32 +215,23 @@
       </div>
       <div class="chart-box"><canvas id="chart-spy-benchmark" aria-label="SPY return since tracking start"></canvas></div>
     </section>
-    <div id="profiles"></div>
-    <section class="c-section" id="portfolio-c-section" hidden>
-      <h2>Portfolio C · structural filter</h2>
-      <div class="c-grid">
-        <div>
-          <div class="metrics">
-            <div class="metric"><span class="metric-label">Since start</span><span class="metric-value" id="c-since">—</span></div>
-            <div class="metric"><span class="metric-label">YTD</span><span class="metric-value" id="c-ytd">—</span></div>
-            <div class="metric"><span class="metric-label">Month</span><span class="metric-value" id="c-month">—</span></div>
-          </div>
-          <div class="c-stats" id="c-filter-stats"></div>
-        </div>
-        <div class="chart-box"><canvas id="chart-portfolio-c" aria-label="Portfolio C return"></canvas></div>
-      </div>
-      <div class="holdings"><div class="holdings-label">126 holdings</div><div class="holdings-tickers" id="c-holdings">—</div></div>
-    </section>
-    <section class="backtest">
-      <h2>Portfolio A backtest (HT-B)</h2>
-      <div id="backtest"></div>
-    </section>
+    <div id="portfolios"></div>
   </main>
   <footer id="footer"></footer>
 
   <script>
-    const PROFILE_KEYS = ["A", "B"];
-    const LABELS = { A: "Automatic picks", B: "Human picks" };
+    const PROFILE_ORDER = ["conservative", "balanced", "aggressive"];
+    const PROFILE_LABELS = {
+      conservative: "Clearer Signal",
+      balanced: "Balanced Mix",
+      aggressive: "Less Clear Signal",
+    };
+    const PORTFOLIO_KEYS = ["A", "B", "C"];
+    const PORTFOLIO_TITLES = {
+      A: "Portfolio A · Pure Convergence",
+      B: "Portfolio B · Convergence + Human",
+      C: "Portfolio C · Structural Filter",
+    };
     const CHART_COLORS = { A: "#0f766e", B: "#c2410c", C: "#6d28d9", SPY: "#78716c" };
     const charts = [];
 
@@ -249,11 +247,6 @@
       if (v > 0.00005) return "up";
       if (v < -0.00005) return "down";
       return "neutral";
-    }
-
-    function fmtCagr(v) {
-      if (v == null || Number.isNaN(v)) return "—";
-      return Number(v).toFixed(2) + "%";
     }
 
     function fmtTimestamp(iso) {
@@ -283,7 +276,7 @@
       return res.json();
     }
 
-    function computeReturnsFallback(p, series, trackingSince, pricesAsOf) {
+    function computeReturnsFallback(p, series) {
       const since = p.gain_loss_pct_since_inception;
       const month = p.return_since_review;
       const pts = series?.chart_points || (series?.points || []).map((pt) => ({
@@ -306,8 +299,6 @@
         if (picks.length) {
           return picks.map((h) => h.holding_now || h.ticker).filter(Boolean).join(", ");
         }
-        const tickers = p.holdings_display || p.tickers || [];
-        return tickers.length ? tickers.join(", ") : null;
       }
       const tickers = p.holdings_display || p.tickers || [];
       return tickers.length ? tickers.join(", ") : null;
@@ -327,40 +318,67 @@
       return '<span class="badge flat">Even</span>';
     }
 
-    function renderCard(key, cycle, trackingSince) {
-      const p = cycle.portfolios?.[key] || {};
-      const series = cycle.performance_vs_spy?.[key];
-      const ret = p.returns_pct || computeReturnsFallback(p, series, trackingSince, cycle.prices_as_of);
-      const holdings = getHoldings(key, cycle, p);
-      const chartId = "chart-" + cycle.profile + "-" + key;
-      const bExtra = key === "B" && bPicksLine(cycle)
+    function renderVariantCard(portfolioKey, profileKey, cycle, trackingSince) {
+      const p = cycle.portfolios?.[portfolioKey] || {};
+      const series = cycle.performance_vs_spy?.[portfolioKey];
+      const ret = p.returns_pct || computeReturnsFallback(p, series);
+      const holdings = getHoldings(portfolioKey, cycle, p);
+      const chartId = "chart-" + portfolioKey + "-" + profileKey;
+      const label = PROFILE_LABELS[profileKey] || profileKey;
+      const bExtra = portfolioKey === "B" && bPicksLine(cycle)
         ? '<div class="b-picks">' + bPicksLine(cycle) + "</div>" : "";
 
+      let cStats = "";
+      if (portfolioKey === "C") {
+        const f = cycle.portfolio_c_filter || {};
+        cStats = '<div class="c-stats"><span>Excluded <strong>' + (f.n_excluded ?? "—") +
+          "</strong></span><span>Forensic fail <strong>" + (f.n_forensic_reject ?? "—") + "</strong></span></div>";
+      }
+
+      const holdingsLabel = portfolioKey === "C"
+        ? (p.n_holdings || (p.holdings_display || []).length || 126) + " holdings"
+        : "Holdings";
+
+      const tickers = p.holdings_display || p.tickers || [];
+      const n = p.n_holdings || tickers.length;
+      const holdingsText = portfolioKey === "C" && tickers.length > 14
+        ? tickers.slice(0, 10).join(", ") + " … +" + (n - 10) + " more"
+        : (holdings || "None");
+
       return (
-        '<article class="card card-' + key.toLowerCase() + '">' +
-        '<div class="card-head">' +
-        '<h3 class="card-title"><span class="key">' + key + "</span>" + (LABELS[key] || "") + "</h3>" +
-        aheadBadge(ret) +
-        "</div>" +
+        '<article class="variant-card">' +
+        '<p class="variant-label">' + label + "</p>" +
+        '<div class="card-head">' + aheadBadge(ret) + "</div>" +
         '<div class="metrics">' +
         '<div class="metric"><span class="metric-label">Since start</span><span class="metric-value ' + retClass(ret.since_start_pct) + '">' + fmtRet(ret.since_start_pct) + "</span></div>" +
         '<div class="metric"><span class="metric-label">YTD</span><span class="metric-value ' + retClass(ret.ytd_pct) + '">' + fmtRet(ret.ytd_pct) + "</span></div>" +
         '<div class="metric"><span class="metric-label">Month</span><span class="metric-value ' + retClass(ret.month_pct) + '">' + fmtRet(ret.month_pct) + "</span></div>" +
         "</div>" +
         '<div class="chart-box"><canvas id="' + chartId + '"></canvas></div>' +
-        '<div class="holdings"><div class="holdings-label">Holdings</div>' +
-        '<div class="holdings-tickers' + (holdings ? "" : " empty") + '">' + (holdings || "None") + "</div>" +
-        bExtra + "</div></article>"
+        cStats +
+        '<div class="holdings"><div class="holdings-label">' + holdingsLabel + "</div>" +
+        '<div class="holdings-tickers' + (holdings ? "" : " empty") + '">' + holdingsText + "</div>" +
+        bExtra + "</article>"
       );
     }
 
-    function renderProfile(cycle, trackingSince) {
+    function renderPortfolioBlock(portfolioKey, cyclesByProfile, trackingSince) {
+      const blockClass = "portfolio-block block-" + portfolioKey.toLowerCase();
+      let sub = "";
+      if (portfolioKey === "C") {
+        sub = '<p class="block-sub">Same filter and holdings across all three versions.</p>';
+      }
+      const cards = PROFILE_ORDER.map((pk) => {
+        const cycle = cyclesByProfile[pk];
+        if (!cycle) return "";
+        return renderVariantCard(portfolioKey, pk, cycle, trackingSince);
+      }).join("");
+
       return (
-        '<section class="profile-section">' +
-        "<h2>" + cycle.profile + "</h2>" +
-        '<div class="cards">' +
-        PROFILE_KEYS.map((k) => renderCard(k, cycle, trackingSince)).join("") +
-        "</div></section>"
+        '<section class="' + blockClass + '">' +
+        "<h2>" + PORTFOLIO_TITLES[portfolioKey] + "</h2>" +
+        sub +
+        '<div class="variant-grid">' + cards + "</div></section>"
       );
     }
 
@@ -374,16 +392,16 @@
         const pt = meta.data[meta.data.length - 1];
         const val = ds.data[ds.data.length - 1];
         if (!pt || val == null) return;
-        const label = ds.label + " " + (val >= 0 ? "+" : "") + Number(val).toFixed(2) + "%";
+        const label = (val >= 0 ? "+" : "") + Number(val).toFixed(2) + "%";
         ctx.save();
-        ctx.font = '600 10px "IBM Plex Sans", system-ui, sans-serif';
+        ctx.font = '600 9px "IBM Plex Sans", system-ui, sans-serif';
         ctx.fillStyle = ds.borderColor;
         const tw = ctx.measureText(label).width;
-        let x = pt.x + 5;
-        if (x + tw > chartArea.right) x = pt.x - tw - 5;
+        let x = pt.x + 4;
+        if (x + tw > chartArea.right) x = pt.x - tw - 4;
         ctx.fillText(label, x, pt.y + 3);
         ctx.beginPath();
-        ctx.arc(pt.x, pt.y, 3, 0, Math.PI * 2);
+        ctx.arc(pt.x, pt.y, 2.5, 0, Math.PI * 2);
         ctx.fill();
         ctx.restore();
       },
@@ -402,14 +420,14 @@
       };
     }
 
-    function buildPortfolioChart(canvas, series, label) {
+    function buildPortfolioChart(canvas, series, portfolioKey) {
       const { labels, data } = portfolioSeriesData(series);
       if (!labels.length) return null;
-      const color = CHART_COLORS[label] || CHART_COLORS.A;
+      const color = CHART_COLORS[portfolioKey] || CHART_COLORS.A;
       const bounds = yAxisBounds(data);
-      const fillTop = color.replace("#", "").match(/.{2}/g);
-      const fillAlpha = fillTop
-        ? "rgba(" + parseInt(fillTop[0], 16) + "," + parseInt(fillTop[1], 16) + "," + parseInt(fillTop[2], 16) + ",0.12)"
+      const rgb = color.replace("#", "").match(/.{2}/g);
+      const fillAlpha = rgb
+        ? "rgba(" + parseInt(rgb[0], 16) + "," + parseInt(rgb[1], 16) + "," + parseInt(rgb[2], 16) + ",0.12)"
         : "rgba(15,118,110,0.12)";
 
       return new Chart(canvas, {
@@ -417,7 +435,7 @@
         data: {
           labels,
           datasets: [{
-            label,
+            label: portfolioKey,
             data,
             borderColor: color,
             backgroundColor: fillAlpha,
@@ -430,29 +448,29 @@
         options: {
           responsive: true,
           maintainAspectRatio: false,
-          layout: { padding: { top: 6, right: 72, bottom: 2, left: 2 } },
+          layout: { padding: { top: 4, right: 48, bottom: 2, left: 2 } },
           plugins: {
             legend: { display: false },
             tooltip: {
               callbacks: {
                 label(ctx) {
-                  return ctx.dataset.label + ": " + (ctx.parsed.y >= 0 ? "+" : "") + ctx.parsed.y.toFixed(2) + "%";
+                  return (ctx.parsed.y >= 0 ? "+" : "") + ctx.parsed.y.toFixed(2) + "%";
                 },
               },
             },
           },
           scales: {
             x: {
-              grid: { color: "rgba(120,113,108,0.15)" },
-              ticks: { color: "#78716c", font: { size: 10 }, maxTicksLimit: 4 },
+              grid: { color: "rgba(120,113,108,0.12)" },
+              ticks: { color: "#78716c", font: { size: 9 }, maxTicksLimit: 4 },
             },
             y: {
               min: bounds.min,
               max: bounds.max,
-              grid: { color: "rgba(120,113,108,0.15)" },
+              grid: { color: "rgba(120,113,108,0.12)" },
               ticks: {
                 color: "#78716c",
-                font: { size: 10 },
+                font: { size: 9 },
                 callback: (v) => (v >= 0 ? "+" : "") + Number(v).toFixed(1) + "%",
               },
             },
@@ -472,7 +490,6 @@
       const el = document.getElementById("spy-since");
       el.textContent = fmtRet(since);
       el.className = retClass(since);
-      el.parentElement.className = "spy-stat since";
 
       const seen = new Set();
       const rows = spy.points.filter((p) => {
@@ -487,57 +504,17 @@
       if (ch) charts.push(ch);
     }
 
-    function renderPortfolioC(cycle, trackingSince) {
-      const p = cycle.portfolios?.C || {};
-      const series = cycle.performance_vs_spy?.C;
-      const ret = p.returns_pct || computeReturnsFallback(p, series, trackingSince, cycle.prices_as_of);
-      const f = cycle.portfolio_c_filter || {};
-
-      document.getElementById("portfolio-c-section").hidden = false;
-      ["c-since", "c-ytd", "c-month"].forEach((id, i) => {
-        const key = ["since_start_pct", "ytd_pct", "month_pct"][i];
-        const el = document.getElementById(id);
-        el.textContent = fmtRet(ret[key]);
-        el.className = "metric-value " + retClass(ret[key]);
-      });
-
-      document.getElementById("c-filter-stats").innerHTML =
-        "<span>Excluded <strong>" + (f.n_excluded ?? "—") + "</strong></span>" +
-        "<span>Forensic fail <strong>" + (f.n_forensic_reject ?? "—") + "</strong></span>";
-
-      const tickers = p.holdings_display || p.tickers || [];
-      const n = p.n_holdings || tickers.length;
-      document.getElementById("c-holdings").textContent = tickers.length <= 14
-        ? tickers.join(", ")
-        : tickers.slice(0, 12).join(", ") + " … +" + (n - 12) + " more";
-    }
-
     function buildSpyFallback(cycle) {
       if (!cycle) return null;
       const s = cycle.performance_vs_spy?.A;
-      const pts = (s?.chart_points || []).map((p) => ({
-        date: p.date,
-        return_pct: p.spy_pct,
-      }));
+      const pts = (s?.chart_points || []).map((p) => ({ date: p.date, return_pct: p.spy_pct }));
       if (!pts.length) return null;
-      return {
-        since_start_pct: pts[pts.length - 1].return_pct / 100,
-        points: pts,
-      };
-    }
-
-    function renderBacktest(bt) {
-      return ["conservative", "balanced", "aggressive"]
-        .map((p) => {
-          const b = (bt.profiles || {})[p] || {};
-          return '<div class="backtest-row"><span>' + p.charAt(0).toUpperCase() + p.slice(1) +
-            '</span><span>' + fmtCagr(b.mean_cagr_pct) + " mean · " + (b.cagr_range?.label || "—") + "</span></div>";
-        }).join("");
+      return { since_start_pct: pts[pts.length - 1].return_pct / 100, points: pts };
     }
 
     async function init() {
       const pricesStrip = document.getElementById("prices-strip");
-      const profilesEl = document.getElementById("profiles");
+      const portfoliosEl = document.getElementById("portfolios");
 
       if (typeof Chart === "undefined") {
         pricesStrip.innerHTML = '<span class="error">Chart.js failed to load.</span>';
@@ -545,49 +522,45 @@
       }
 
       try {
-        const [live, backtest] = await Promise.all([
-          loadJson("live_cycles.json"),
-          loadJson("portfolio_a_backtest.json"),
-        ]);
-
+        const live = await loadJson("live_cycles.json");
         const vr = live.valuation_refresh || {};
         const marketThru = vr.market_data_through || vr.prices_as_of || "—";
         pricesStrip.innerHTML = "Prices through <strong>" + marketThru + "</strong>" +
           (vr.stale_vs_calendar ? ' · <span class="warn">Awaiting newer close</span>' : "");
 
-        const cycles = (live.cycles || []).slice().sort((a, b) => (a.profile || "").localeCompare(b.profile || ""));
-        const spyPayload = live.spy_benchmark || buildSpyFallback(cycles[0]);
+        const cyclesByProfile = {};
+        for (const c of live.cycles || []) {
+          if (c.profile) cyclesByProfile[c.profile] = c;
+        }
 
-        profilesEl.innerHTML = cycles.map((c) => renderProfile(c, live.tracking_since)).join("");
-        if (cycles.length) renderPortfolioC(cycles[0], live.tracking_since);
+        const firstCycle = cyclesByProfile[PROFILE_ORDER.find((p) => cyclesByProfile[p])];
+        const spyPayload = live.spy_benchmark || buildSpyFallback(firstCycle);
+
+        portfoliosEl.innerHTML = PORTFOLIO_KEYS.map((pk) =>
+          renderPortfolioBlock(pk, cyclesByProfile, live.tracking_since)
+        ).join("");
 
         requestAnimationFrame(() => {
           charts.forEach((c) => c.destroy());
           charts.length = 0;
           renderSpyBenchmark(spyPayload, live);
-          for (const cycle of cycles) {
-            for (const key of PROFILE_KEYS) {
-              const canvas = document.getElementById("chart-" + cycle.profile + "-" + key);
+          for (const pk of PORTFOLIO_KEYS) {
+            for (const profileKey of PROFILE_ORDER) {
+              const cycle = cyclesByProfile[profileKey];
+              if (!cycle) continue;
+              const canvas = document.getElementById("chart-" + pk + "-" + profileKey);
               if (!canvas) continue;
-              const ch = buildPortfolioChart(canvas, cycle.performance_vs_spy?.[key], key);
-              if (ch) charts.push(ch);
-            }
-          }
-          if (cycles.length) {
-            const cCanvas = document.getElementById("chart-portfolio-c");
-            if (cCanvas) {
-              const ch = buildPortfolioChart(cCanvas, cycles[0].performance_vs_spy?.C, "C");
+              const ch = buildPortfolioChart(canvas, cycle.performance_vs_spy?.[pk], pk);
               if (ch) charts.push(ch);
             }
           }
         });
 
-        document.getElementById("backtest").innerHTML = renderBacktest(backtest);
         document.getElementById("footer").textContent =
-          "Tracking since " + (live.tracking_since || "—") + " · schema " + (live.schema || "?");
+          "Tracking since " + (live.tracking_since || "—");
       } catch (err) {
         pricesStrip.innerHTML = '<span class="error">Failed to load: ' + err.message + "</span>";
-        profilesEl.innerHTML = "";
+        portfoliosEl.innerHTML = "";
       }
     }
 
