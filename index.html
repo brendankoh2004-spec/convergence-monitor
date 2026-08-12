@@ -176,8 +176,6 @@
     .holdings-label { font-weight: 600; color: var(--muted); font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.12rem; }
     .holdings-tickers { line-height: 1.4; word-break: break-word; color: var(--text); }
     .holdings-tickers.empty { color: var(--muted); font-style: italic; }
-    .human-picks { font-size: 0.7rem; color: var(--muted); margin-top: 0.15rem; }
-    .human-picks span { color: var(--text); font-weight: 500; }
     footer { max-width: 1040px; margin: 0 auto; padding: 0 1.25rem 1.25rem; font-size: 0.7rem; color: var(--muted); }
     .error { color: var(--down); font-weight: 600; }
   </style>
@@ -337,30 +335,27 @@
     }
 
     function getHoldings(dataKey, cycle, p) {
+      const tickers = p.holdings_display || p.tickers || [];
+      if (tickers.length) return tickers.join(", ");
       if (dataKey === "B") {
         const picks = cycle.b_holding_now || [];
-        if (picks.length) {
-          const all = [];
-          for (const h of picks) {
-            const ts = h.recorded_picks || [];
-            if (ts.length) all.push(...ts);
-            else if (h.holding_now || h.ticker) all.push(h.holding_now || h.ticker);
+        const all = [];
+        for (const h of picks) {
+          const ts = h.recorded_picks || [];
+          if (ts.length) all.push(...ts);
+          else if (h.holding_now || h.ticker) all.push(h.holding_now || h.ticker);
+        }
+        if (all.length) {
+          const flat = [];
+          for (const item of all) {
+            for (const t of String(item).split(/,\s*/)) {
+              if (t) flat.push(t.toUpperCase());
+            }
           }
-          if (all.length) return [...new Set(all)].join(", ");
+          return [...new Set(flat)].join(", ");
         }
       }
-      const tickers = p.holdings_display || p.tickers || [];
-      return tickers.length ? tickers.join(", ") : null;
-    }
-
-    function humanPicksLine(cycle) {
-      const picks = cycle.b_holding_now || [];
-      if (!picks.length) return "";
-      return picks.map((h) => {
-        const label = h.recorded_pick || h.holding_now ||
-          (h.recorded_picks || []).join(", ") || h.ticker || "—";
-        return h.bucket + ": <span>" + label + "</span>";
-      }).join(" · ");
+      return null;
     }
 
     function aheadBadge(returns) {
@@ -379,8 +374,6 @@
       const holdings = getHoldings(dataKey, cycle, p);
       const chartId = "chart-" + displayLetter + "-" + profileKey;
       const label = PROFILE_LABELS[profileKey] || profileKey;
-      const humanExtra = dataKey === "B" && humanPicksLine(cycle)
-        ? '<div class="human-picks">' + humanPicksLine(cycle) + "</div>" : "";
 
       let filterStats = "";
       if (dataKey === "C") {
@@ -412,7 +405,7 @@
         filterStats +
         '<div class="holdings"><div class="holdings-label">' + holdingsLabel + "</div>" +
         '<div class="holdings-tickers' + (holdings ? "" : " empty") + '">' + holdingsText + "</div>" +
-        humanExtra + "</article>"
+        "</article>"
       );
     }
 
