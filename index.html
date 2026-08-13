@@ -4,422 +4,309 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Convergence</title>
-  <meta name="description" content="Convergence classifies how a company's price and financial structure relate — and tracks how that relationship changes over time." />
+  <meta name="description" content="Convergence observes how a company's price and the books relate — records that state, and tracks how it changes over time." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:wght@600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:wght@400;600&display=swap" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <style>
     :root {
+      --price: #c2410c;
+      --structure: #0f766e;
       --bg: #f6f1e8;
       --surface: #fffcf7;
       --surface-2: #f0ebe2;
       --text: #1c1917;
       --muted: #78716c;
-      --line: #e4ddd2;
-      --teal: #0f766e;
-      --amber: #b45309;
-      --a: #6d28d9;
-      --b: #0f766e;
-      --c: #c2410c;
-      --spy: #57534e;
+      --line: rgba(120, 113, 108, 0.22);
       --up: #047857;
       --down: #b91c1c;
-      --shadow: 0 1px 3px rgba(28, 25, 23, 0.06), 0 4px 12px rgba(28, 25, 23, 0.04);
+      --content: 44rem;
+      --wide: 76rem;
+      --gap: 4.5rem;
     }
     *, *::before, *::after { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
-      margin: 0;
-      font-family: "IBM Plex Sans", system-ui, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-      font-size: 16px;
-      -webkit-font-smoothing: antialiased;
+      margin: 0; font-family: "IBM Plex Sans", system-ui, sans-serif;
+      background: var(--bg); color: var(--text); line-height: 1.65;
+      font-size: 1.05rem; -webkit-font-smoothing: antialiased;
+      transition: background 0.4s ease;
     }
+    body[data-active-tab="framework"] { --bg: #ede8df; --surface: #f7f3ec; --surface-2: #e3ddd2; }
+    body[data-active-tab="evidence"] { --bg: #f2efe8; --surface: #faf8f4; --surface-2: #ebe7df; }
+    body[data-active-tab="application"] { --bg: #e9e5dd; --surface: #f3f0ea; --surface-2: #dedad2; }
+
     .site-header {
-      padding: 1rem 1.25rem;
-      background: var(--surface);
-      border-bottom: 1px solid var(--line);
-      position: sticky;
-      top: 0;
-      z-index: 10;
+      position: sticky; top: 0; z-index: 30; padding: 0.55rem 1.25rem;
+      background: color-mix(in srgb, var(--bg) 86%, transparent);
     }
     .header-inner {
-      max-width: 900px;
-      margin: 0 auto;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 1rem 1.5rem;
+      max-width: calc(var(--wide) + 2rem); margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
     }
     .site-header h1 {
-      margin: 0;
-      font-family: "IBM Plex Serif", Georgia, serif;
-      font-size: 1.35rem;
-      font-weight: 600;
-      letter-spacing: -0.02em;
-      flex-shrink: 0;
+      margin: 0; font-family: "IBM Plex Serif", Georgia, serif;
+      font-size: 0.88rem; color: var(--muted); font-weight: 600;
     }
-    .tab-nav {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.35rem;
-    }
+    .tab-nav { display: flex; gap: 0.1rem; }
     .tab-btn {
-      font: inherit;
-      font-size: 0.82rem;
-      font-weight: 600;
-      padding: 0.4rem 0.75rem;
-      border: 1px solid transparent;
-      border-radius: 999px;
-      background: transparent;
-      color: var(--muted);
-      cursor: pointer;
-      transition: background 0.15s, color 0.15s, border-color 0.15s;
+      font: inherit; font-size: 0.64rem; font-weight: 500; letter-spacing: 0.05em;
+      text-transform: uppercase; padding: 0.28rem 0.42rem; border: none;
+      background: transparent; color: var(--muted); cursor: pointer; border-radius: 3px;
     }
-    .tab-btn:hover { color: var(--text); background: var(--surface-2); }
-    .tab-btn[aria-selected="true"] {
-      background: var(--surface-2);
-      color: var(--teal);
-      border-color: var(--line);
-    }
-    main { max-width: 720px; margin: 0 auto; padding: 0 1.25rem 2rem; }
-    .tab-panel { display: none; padding-top: 2.25rem; }
+    .tab-btn[aria-selected="true"] { color: var(--structure); background: rgba(15,118,110,0.08); }
+
+    main { max-width: var(--content); margin: 0 auto; padding: 0 1.25rem 3rem; }
+    .tab-panel { display: none; }
     .tab-panel[aria-hidden="false"] { display: block; }
-    .section-headline {
-      margin: 0 0 1.25rem;
+    #tab-application { max-width: none; padding: 0; }
+    .app-inner { max-width: var(--content); margin: 0 auto; padding: 0 1.25rem; }
+    .monitor-wide { max-width: var(--wide); margin: 0 auto; padding: 0 1.25rem; }
+
+    .type-xl {
       font-family: "IBM Plex Serif", Georgia, serif;
-      font-size: 1.65rem;
-      font-weight: 600;
-      letter-spacing: -0.02em;
-      line-height: 1.25;
+      font-size: clamp(2.5rem, 8.5vw, 4rem);
+      font-weight: 600; letter-spacing: -0.03em; line-height: 1.08; margin: 0;
     }
-    .section-subhead {
-      margin: 2rem 0 1rem;
+    .type-lg {
       font-family: "IBM Plex Serif", Georgia, serif;
-      font-size: 1.2rem;
-      font-weight: 600;
-      letter-spacing: -0.01em;
+      font-size: clamp(1.45rem, 3.8vw, 2rem);
+      font-weight: 600; letter-spacing: -0.02em; line-height: 1.2; margin: 0;
     }
-    .section-body p { margin: 0 0 1rem; }
-    .section-body p:last-child { margin-bottom: 0; }
-    .scope-note {
-      font-size: 0.88rem;
-      color: var(--muted);
-      font-style: italic;
-      margin-top: 1.25rem;
+    .narrative { font-size: 1.05rem; line-height: 1.6; color: var(--text); margin: 0 0 1rem; }
+    .disclaimer { font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
+    .stat-xl { font-size: clamp(3.25rem, 11vw, 5.5rem); font-weight: 700; letter-spacing: -0.04em; line-height: 1; font-variant-numeric: tabular-nums; color: var(--text); }
+    .stat-lg { font-size: clamp(2rem, 6vw, 3rem); font-weight: 700; letter-spacing: -0.03em; line-height: 1; font-variant-numeric: tabular-nums; }
+
+    .hero {
+      width: 100vw; margin-left: calc(50% - 50vw);
+      padding: clamp(1.75rem, 6vh, 3rem) 1.25rem 1.5rem;
+      text-align: center;
     }
-    .example-block {
-      margin: 1.5rem 0;
-      padding: 1rem 1.15rem;
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-left: 3px solid var(--teal);
-      border-radius: 8px;
-      box-shadow: var(--shadow);
+    .hero-sub { max-width: 30rem; margin: 0.75rem auto 0; font-size: 1.1rem; color: var(--text); }
+
+    .scroll-graphic-wrap {
+      margin: 1rem auto 0; max-width: 52rem; width: 100%;
+      display: flex; flex-direction: column; align-items: center; text-align: center;
     }
-    .example-block.secondary {
-      border-left-color: var(--muted);
-      background: var(--surface-2);
+    .scroll-graphic-wrap svg { width: 100%; height: auto; display: block; margin: 0 auto; }
+    .scroll-graphic-labels {
+      display: flex; justify-content: center; gap: 2.5rem; margin-top: 0.5rem;
+      font-size: 0.65rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted);
     }
-    .example-block p { margin: 0 0 0.65rem; font-size: 0.95rem; }
-    .example-block p:last-child { margin-bottom: 0; }
-    .example-label {
-      display: block;
-      font-size: 0.72rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: var(--muted);
-      margin-bottom: 0.5rem;
+    .scroll-graphic-labels span::before {
+      content: ""; display: inline-block; width: 1.1rem; height: 2px;
+      margin-right: 0.35rem; vertical-align: middle;
     }
-    ul.plain-list {
-      margin: 1rem 0;
-      padding-left: 1.25rem;
+    .scroll-graphic-labels .lbl-price::before { background: var(--price); }
+    .scroll-graphic-labels .lbl-books::before { background: var(--structure); }
+    .state-changed-tag {
+      margin-top: 0.65rem; font-size: 0.7rem; font-weight: 600; color: var(--muted);
+      letter-spacing: 0.05em; opacity: 0; transition: opacity 0.2s ease;
     }
-    ul.plain-list li { margin-bottom: 0.5rem; }
-    .method-note {
-      margin: 1.5rem 0 0;
-      padding: 0.85rem 1rem;
-      background: var(--surface-2);
-      border-radius: 8px;
-      font-size: 0.88rem;
-      color: var(--muted);
-      border-left: 3px solid var(--teal);
+    .state-changed-tag.is-visible { opacity: 1; }
+
+    .editorial-statement {
+      margin: 2rem 0 var(--gap);
+      padding: 2rem 0;
+      border-top: 1px solid var(--line);
     }
-    .steps { display: grid; gap: 1.25rem; margin-top: 1.5rem; }
-    .step-title {
-      margin: 0 0 0.35rem;
-      font-size: 0.78rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: var(--teal);
+    .editorial-statement .kicker {
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; margin-bottom: 1rem; color: var(--text);
     }
-    .step p { margin: 0; font-size: 0.95rem; }
-    .preview-line {
-      font-size: 0.95rem;
-      color: var(--muted);
-      margin-bottom: 1.25rem;
-      padding-bottom: 1rem;
-      border-bottom: 1px solid var(--line);
+    .editorial-statement .lines {
+      font-family: "IBM Plex Serif", Georgia, serif;
+      font-size: clamp(1.35rem, 3.5vw, 1.85rem);
+      font-weight: 600; line-height: 1.45; letter-spacing: -0.02em;
+    }
+    .editorial-statement .lines p { margin: 0 0 0.65rem; }
+
+    .timeline-editorial {
+      width: 100vw; margin-left: calc(50% - 50vw);
+      padding: 0 1.25rem 2rem;
+      display: flex; flex-direction: column; align-items: center;
+    }
+    .timeline-editorial svg {
+      width: min(100%, 84rem); min-width: 20rem; height: auto; display: block;
+    }
+    .timeline-editorial figcaption {
+      width: min(100%, 84rem); margin-top: 1rem;
+      font-size: 0.95rem; color: var(--text); line-height: 1.5;
     }
 
-    /* Evidence — result-first cards */
-    .evidence-intro { margin-bottom: 1.5rem; }
-    .evidence-tier { margin-bottom: 1.25rem; }
+    .fw-diagram-wrap {
+      width: 100%; max-width: var(--content); margin: 0 auto 1rem;
+      padding: 0.5rem 0 0; display: flex; justify-content: center;
+    }
+    .fw-diagram-wrap svg { width: min(100%, 44rem); height: auto; display: block; margin: 0 auto; }
+
+    .ev-tier { margin-bottom: 2.5rem; }
+    .ev-card {
+      background: var(--surface); padding: 1.5rem 1.25rem;
+      border: 1px solid var(--line);
+    }
+    .ev-card-strong { padding: 2rem 1.35rem; border-top: 3px solid var(--structure); }
+    .ev-card p { margin: 0.45rem 0 0; font-size: 0.92rem; line-height: 1.55; color: var(--text); }
+    .ev-card .ev-q { font-size: 0.95rem; font-weight: 600; margin: 0 0 0.5rem; }
+    .ev-card .ev-result { font-size: 1rem; margin: 0.35rem 0 0; }
+    .ev-card .stat-xl, .ev-card .stat-lg { margin-bottom: 0.25rem; }
+    .ev-item .ev-takeaway { margin-top: 0.65rem; font-size: 0.88rem; color: var(--text); font-style: normal; line-height: 1.5; }
+    .ev-intro { font-size: 0.95rem; line-height: 1.6; color: var(--text); margin: 0 0 1.25rem; max-width: 40rem; }
+    .ev-transition {
+      margin: 2.5rem 0; padding: 2rem 1.25rem;
+      border-top: 2px solid var(--line); border-bottom: 2px solid var(--line);
+      text-align: center;
+    }
+    .ev-transition p {
+      margin: 0; font-family: "IBM Plex Serif", Georgia, serif;
+      font-size: clamp(1.25rem, 3.2vw, 1.65rem); font-weight: 600;
+      line-height: 1.4; letter-spacing: -0.02em; color: var(--text);
+    }
+    .ev-closing {
+      margin: 2.5rem 0 1rem; padding: 1.75rem 1.25rem;
+      background: var(--surface); border-left: 3px solid var(--structure);
+      font-family: "IBM Plex Serif", Georgia, serif;
+      font-size: clamp(1.05rem, 2.5vw, 1.25rem); font-weight: 600;
+      line-height: 1.5; color: var(--text);
+    }
+
+    .mode-context { margin: 1rem 0 1.25rem; padding: 0.85rem 0; border-top: 1px solid var(--line); }
+    .mode-context-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text); margin-bottom: 0.35rem; }
+    .mode-context p { margin: 0; font-size: 0.9rem; line-height: 1.55; color: var(--text); }
+    .mode-single { width: 100%; border-top: 2px solid var(--line); padding-top: 0.75rem; }
+    .chart-box-tall { position: relative; height: clamp(200px, 28vw, 280px); width: 100%; }
+    .chart-box-tall canvas { width: 100% !important; height: 100% !important; }
+
+    .perf-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 1rem; }
+    @media (max-width: 560px) { .perf-metrics { grid-template-columns: 1fr; } }
+    .perf-metric { padding: 0.65rem 0.5rem; border-top: 2px solid var(--line); }
+    .perf-label { display: block; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.25rem; }
+    .perf-val { display: block; font-size: clamp(1.35rem, 3vw, 1.75rem); font-weight: 700; font-variant-numeric: tabular-nums; }
+
+    .spy-compare-section { margin: 2rem 0 1.5rem; padding-top: 1.5rem; border-top: 2px solid var(--line); }
+    .spy-compare-section h3 { margin: 0 0 0.75rem; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text); }
+    .spy-chart-box { position: relative; height: clamp(220px, 32vw, 320px); width: 100%; }
+    .spy-chart-box canvas { width: 100% !important; height: 100% !important; }
+    .spy-legend { display: flex; gap: 1.25rem; margin-top: 0.5rem; font-size: 0.65rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); }
+    .spy-legend span::before { content: ""; display: inline-block; width: 1rem; height: 2px; margin-right: 0.3rem; vertical-align: middle; }
+    .spy-legend .leg-port::before { background: var(--structure); }
+    .spy-legend .leg-spy::before { background: var(--muted); }
+
+    .scope-strip { margin-top: 2rem; padding-top: 0.75rem; border-top: 1px solid var(--line); }
+    .scope-strip-inner { font-size: 0.78rem; color: var(--muted); padding: 0.25rem 0; line-height: 1.55; }
+
+    .block { margin-bottom: var(--gap); }
+    .bridge { margin: var(--gap) 0; padding-top: 2rem; border-top: 1px solid var(--line); }
+    .link-btn {
+      display: inline-block; margin-top: 1rem; padding: 0.55rem 1.15rem;
+      font: inherit; font-size: 0.85rem; font-weight: 600;
+      color: var(--surface); background: var(--structure);
+      border: none; border-radius: 3px; text-decoration: none; cursor: pointer;
+    }
+
+    .fw-intro { text-align: center; padding: 2rem 0 1.25rem; }
+    .steps-row {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem;
+      margin: 1.75rem 0; border-top: 1px solid var(--line);
+    }
+    @media (max-width: 680px) { .steps-row { grid-template-columns: 1fr 1fr; } }
+    .step-cell { padding: 1rem 0.6rem 0.75rem; border-top: 2px solid var(--structure); }
+    .step-num { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.07em; color: var(--structure); }
+    .step-title { margin: 0.35rem 0 0.3rem; font-size: 0.86rem; font-weight: 600; color: var(--text); }
+    .step-body { margin: 0; font-size: 0.78rem; line-height: 1.45; color: var(--text); }
+
+    .grid-aside {
+      margin: var(--gap) 0 1rem; padding: 1.5rem 0 0;
+      border-top: 1px solid var(--line); border-bottom: none;
+    }
+
+    .callout {
+      margin: var(--gap) 0; padding: 1.1rem 1.2rem;
+      border-left: 3px solid var(--structure); background: var(--surface);
+      font-size: 0.9rem; color: var(--text);
+    }
+    .callout strong { display: block; margin-bottom: 0.4rem; }
+    .callout details { margin-top: 0.6rem; }
+    .callout summary { cursor: pointer; font-weight: 600; color: var(--structure); font-size: 0.82rem; }
+    .callout details p { font-size: 0.8rem; color: var(--muted); margin-top: 0.45rem; }
+
+    .evidence-head { margin-bottom: 2.25rem; }
+    .evidence-head .narrative { font-size: 1.02rem; max-width: 38rem; }
     .tier-label {
-      font-size: 0.72rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: var(--muted);
-      margin: 0 0 0.65rem;
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; margin: 0 0 1rem; color: var(--text);
     }
-    .result-grid {
+    .ev-strong { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2.5rem; }
+    @media (max-width: 600px) { .ev-strong { grid-template-columns: 1fr; } }
+    .ev-rest { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 0; }
+    @media (max-width: 600px) { .ev-rest { grid-template-columns: 1fr; } }
+    .ev-item { padding: 1.25rem 0; border-top: 1px solid var(--line); }
+    .ev-item-strong { padding: 1.75rem 0; border-top: 2px solid var(--line); }
+    .ev-item p { margin: 0.5rem 0 0; font-size: 0.9rem; line-height: 1.55; color: var(--text); }
+    .ev-item .stat-xl, .ev-item .stat-lg { margin-bottom: 0.35rem; }
+    .methodology-block { margin-top: 2rem; padding-top: 1.25rem; border-top: 1px solid var(--line); }
+    .methodology-block details summary { cursor: pointer; font-size: 0.8rem; font-weight: 600; color: var(--muted); }
+    .methodology-block .inner { font-size: 0.76rem; color: var(--muted); margin-top: 0.65rem; line-height: 1.5; }
+
+    .app-title { margin-bottom: 0.75rem; }
+    .mode-selector { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin: 1.25rem 0; }
+    @media (max-width: 560px) { .mode-selector { grid-template-columns: 1fr; } }
+    .mode-sel-btn {
+      text-align: left; padding: 0.8rem 0.7rem; font: inherit;
+      background: var(--surface); border: 1px solid var(--line); border-radius: 3px; cursor: pointer;
+    }
+    .mode-sel-btn[aria-selected="true"] { border-color: var(--structure); background: rgba(15,118,110,0.05); }
+    .mode-sel-btn .letter { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.06em; color: var(--structure); }
+    .mode-sel-btn .name { display: block; font-size: 0.8rem; font-weight: 600; margin-top: 0.15rem; color: var(--text); }
+    .mode-sel-btn .desc { display: block; font-size: 0.72rem; margin-top: 0.25rem; line-height: 1.35; color: var(--text); }
+
+    .mode-panel { margin-bottom: 1.5rem; }
+    .mix-grid {
       display: grid;
-      gap: 0.85rem;
-    }
-    .result-grid-strong { grid-template-columns: 1fr 1fr; }
-    .result-grid-standard { grid-template-columns: 1fr 1fr; }
-    @media (max-width: 560px) {
-      .result-grid-strong, .result-grid-standard { grid-template-columns: 1fr; }
-    }
-    .result-card {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      padding: 1rem 1.1rem;
-      box-shadow: var(--shadow);
-    }
-    .result-card-strong { padding: 1.25rem 1.2rem; }
-    .result-card-strong .result-pct { font-size: 2.75rem; }
-    .result-pct {
-      font-size: 2.1rem;
-      font-weight: 700;
-      font-variant-numeric: tabular-nums;
-      letter-spacing: -0.03em;
-      line-height: 1;
-      margin-bottom: 0.45rem;
-      color: var(--text);
-    }
-    .result-oneline {
-      margin: 0 0 0.65rem;
-      font-size: 0.92rem;
-      line-height: 1.45;
-      font-weight: 500;
-    }
-    .verdict-badge {
-      display: inline-block;
-      font-size: 0.68rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      padding: 0.15rem 0.45rem;
-      border-radius: 4px;
-      margin-bottom: 0.5rem;
-    }
-    .verdict-badge.confirmed {
-      background: rgba(15, 118, 110, 0.12);
-      color: var(--teal);
-    }
-    .verdict-badge.falsified {
-      background: rgba(180, 83, 9, 0.12);
-      color: var(--amber);
-    }
-    .result-card details {
-      margin-top: 0.5rem;
-      font-size: 0.85rem;
-      color: var(--muted);
-    }
-    .result-card details summary {
-      cursor: pointer;
-      font-weight: 600;
-      color: var(--teal);
-      font-size: 0.82rem;
-      list-style: none;
-    }
-    .result-card details summary::-webkit-details-marker { display: none; }
-    .result-card details summary::before { content: "▸ "; }
-    .result-card details[open] summary::before { content: "▾ "; }
-    .result-card details p { margin: 0.5rem 0 0; line-height: 1.5; }
-    .objection {
-      margin: 1.5rem 0 0;
-      padding: 1rem 1.15rem;
-      background: var(--surface-2);
-      border-radius: 8px;
-      font-size: 0.92rem;
-    }
-    .objection strong { display: block; margin-bottom: 0.35rem; font-size: 0.95rem; }
-
-    .mode-list { display: grid; gap: 1rem; margin: 1.25rem 0; }
-    .mode-item {
-      padding: 0.85rem 1rem;
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: 8px;
-    }
-    .mode-item strong { display: block; font-size: 0.92rem; margin-bottom: 0.25rem; }
-    .mode-item span { font-size: 0.88rem; color: var(--muted); }
-    .scope-list {
-      margin: 1.25rem 0 0;
-      padding-left: 1.15rem;
-      font-size: 0.88rem;
-      color: var(--muted);
-    }
-    .scope-list li { margin-bottom: 0.45rem; }
-    details.expand-block {
-      margin-top: 1.5rem;
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      background: var(--surface);
-      overflow: hidden;
-    }
-    details.expand-block summary {
-      padding: 0.85rem 1.15rem;
-      font-size: 0.88rem;
-      font-weight: 600;
-      cursor: pointer;
-      list-style: none;
-      color: var(--teal);
-      user-select: none;
-    }
-    details.expand-block summary::-webkit-details-marker { display: none; }
-    details.expand-block summary::before { content: "▸ "; display: inline-block; }
-    details.expand-block[open] summary::before { transform: rotate(90deg); }
-    .expand-inner {
-      padding: 0 1.15rem 1.15rem;
-      border-top: 1px solid var(--line);
-      font-size: 0.85rem;
-      color: var(--muted);
-    }
-    .data-table {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.25rem;
       width: 100%;
-      border-collapse: collapse;
-      font-size: 0.82rem;
-      margin: 0.75rem 0;
-    }
-    .data-table th, .data-table td {
-      text-align: left;
-      padding: 0.45rem 0.5rem;
-      border-bottom: 1px solid var(--line);
-    }
-    .data-table th { font-weight: 600; color: var(--text); }
-
-    .tab-footer {
-      margin-top: 2.5rem;
-      padding-top: 1.25rem;
-      border-top: 1px solid var(--line);
-      font-size: 0.88rem;
-      color: var(--muted);
-    }
-    .tab-footer a {
-      color: var(--teal);
-      font-weight: 600;
-      text-decoration: none;
-    }
-    .tab-footer a:hover { text-decoration: underline; }
-    .contact-block {
-      margin-top: 2rem;
-      padding: 1.25rem 1.15rem;
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: 10px;
-    }
-    .contact-block h3 {
-      margin: 0 0 0.75rem;
-      font-family: "IBM Plex Serif", Georgia, serif;
-      font-size: 1.15rem;
-      font-weight: 600;
-    }
-    .cta-btn {
-      display: inline-block;
-      margin-top: 1rem;
-      padding: 0.65rem 1.25rem;
-      font: inherit;
-      font-size: 0.92rem;
-      font-weight: 600;
-      color: var(--surface);
-      background: var(--teal);
-      border: none;
-      border-radius: 8px;
-      text-decoration: none;
-      cursor: pointer;
-    }
-    .cta-btn:hover { background: #0d6b64; }
-    .site-footer {
-      max-width: 720px;
+      max-width: 68rem;
       margin: 0 auto;
-      padding: 1.5rem 1.25rem 2rem;
-      font-size: 0.72rem;
-      color: var(--muted);
-      border-top: 1px solid var(--line);
+      justify-items: stretch;
     }
-    .error { color: var(--down); font-weight: 600; }
-
-    /* Live monitor */
-    .monitor-wrap { max-width: 100%; }
-    .monitor-wrap .prices-strip { font-size: 0.78rem; color: var(--muted); margin: 1rem 0; }
-    .monitor-wrap .warn { color: var(--amber); font-weight: 500; }
-    .monitor-wrap .descriptive-note {
-      font-size: 0.78rem;
-      color: var(--muted);
-      font-style: italic;
-      margin-bottom: 1rem;
+    @media (max-width: 960px) {
+      .mix-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        max-width: 46rem;
+      }
+      .mix-col:nth-child(3) {
+        grid-column: 1 / -1;
+        width: calc(50% - 0.625rem);
+        max-width: calc(50% - 0.625rem);
+        justify-self: center;
+      }
     }
-    .spy-section, .portfolio-block {
-      background: var(--surface-2);
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      padding: 0.9rem 1rem;
-      margin-bottom: 1rem;
-    }
-    .portfolio-block h2, .spy-section h2 { margin: 0 0 0.25rem; font-size: 0.95rem; font-weight: 700; }
-    .portfolio-block .block-sub { margin: 0 0 0.75rem; font-size: 0.78rem; color: var(--muted); }
-    .portfolio-block.block-a h2 { color: var(--a); }
-    .portfolio-block.block-b h2 { color: var(--b); }
-    .portfolio-block.block-c h2 { color: var(--c); }
-    .spy-section h2 { color: var(--spy); }
-    .variant-grid { display: grid; gap: 0.75rem; grid-template-columns: repeat(3, 1fr); }
-    @media (max-width: 900px) { .variant-grid { grid-template-columns: 1fr; } }
-    .variant-card {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: 9px;
-      padding: 0.75rem;
-    }
-    .variant-card .variant-label { margin: 0 0 0.45rem; font-size: 0.78rem; font-weight: 700; }
-    .card-head { display: flex; justify-content: space-between; margin-bottom: 0.45rem; }
-    .badge {
-      font-size: 0.58rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      padding: 0.15rem 0.35rem;
-      border-radius: 5px;
-    }
-    .badge.ahead { background: rgba(4, 120, 87, 0.12); color: var(--up); }
-    .badge.behind { background: rgba(185, 28, 28, 0.1); color: var(--down); }
-    .badge.flat { background: var(--surface-2); color: var(--muted); }
-    .metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.3rem; margin-bottom: 0.55rem; }
-    .metric { background: var(--surface-2); border-radius: 6px; padding: 0.3rem 0.25rem; text-align: center; }
-    .metric-label { display: block; font-size: 0.55rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); }
-    .metric-value { font-size: 0.88rem; font-weight: 700; font-variant-numeric: tabular-nums; }
-    .metric-value.up { color: var(--up); }
-    .metric-value.down { color: var(--down); }
-    .chart-box { position: relative; height: 120px; overflow: hidden; width: 100%; }
+    .mix-col { border-top: 2px solid var(--line); padding-top: 0.75rem; }
+    .mix-col-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--text); margin-bottom: 0.35rem; }
+    .mix-fig { font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 700; font-variant-numeric: tabular-nums; margin: 0.25rem 0 0.5rem; }
+    .chart-box { position: relative; height: clamp(150px, 20vw, 190px); }
     .chart-box canvas { max-width: 100% !important; }
-    .spy-metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.35rem; margin-bottom: 0.65rem; }
-    @media (max-width: 720px) { .spy-metrics { grid-template-columns: repeat(2, 1fr); } }
-    .filter-stats { display: flex; gap: 0.75rem; flex-wrap: wrap; font-size: 0.72rem; color: var(--muted); margin-top: 0.25rem; }
-    .holdings { margin-top: 0.45rem; padding-top: 0.4rem; border-top: 1px solid var(--line); font-size: 0.72rem; }
-    .holdings-label { font-weight: 600; color: var(--muted); font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.12rem; }
-    .holdings-tickers { line-height: 1.4; word-break: break-word; }
+    .holdings-line { font-size: 0.7rem; color: var(--muted); line-height: 1.45; margin-top: 0.5rem; }
+    .badge { font-size: 0.55rem; font-weight: 700; text-transform: uppercase; padding: 0.1rem 0.28rem; border-radius: 2px; }
+    .badge.ahead { background: rgba(4,120,87,0.1); color: var(--up); }
+    .badge.behind { background: rgba(185,28,28,0.08); color: var(--down); }
+    .badge.flat { color: var(--muted); background: rgba(120,113,108,0.1); }
+    .up { color: var(--up); } .down { color: var(--down); }
+    .meta-line { font-size: 0.68rem; color: var(--muted); margin-bottom: 1rem; font-variant-numeric: tabular-nums; }
+
+    .contact { margin-top: var(--gap); padding-top: 1.5rem; border-top: 1px solid var(--line); }
+    .contact h3 { margin: 0 0 0.45rem; font-family: "IBM Plex Serif", Georgia, serif; font-size: 1.1rem; }
+    .contact p { margin: 0; font-size: 0.88rem; color: var(--text); }
+    .cta { display: inline-block; margin-top: 0.75rem; padding: 0.48rem 0.95rem; font: inherit; font-size: 0.8rem; font-weight: 600; color: var(--surface); background: var(--structure); border-radius: 3px; text-decoration: none; }
+
+    .site-footer { max-width: var(--wide); margin: 0 auto; padding: 1.25rem; font-size: 0.62rem; color: var(--muted); text-align: center; }
+    .error { color: var(--down); font-weight: 600; }
   </style>
 </head>
-<body>
+<body data-active-tab="overview">
   <header class="site-header">
     <div class="header-inner">
       <h1>Convergence</h1>
@@ -433,265 +320,282 @@
   </header>
 
   <main>
-    <!-- Tab 1: Overview -->
+    <!-- OVERVIEW -->
     <section class="tab-panel" id="tab-overview" role="tabpanel" aria-labelledby="tab-btn-overview" aria-hidden="false">
-      <div class="section-body">
-        <p><strong>Is NVIDIA overvalued, undervalued, or fairly priced right now?</strong> Most people have an opinion. Almost nobody can say for certain how they&rsquo;d know.</p>
-        <p>That&rsquo;s because the question assumes there&rsquo;s a single right answer to find. Convergence starts somewhere different: instead of asking what a company is <em>worth</em>, it asks whether the story the market is pricing and the story the financial structure is telling <strong>currently agree</strong> — and tracks what happens when they don&rsquo;t.</p>
-
-        <div class="example-block">
-          <span class="example-label">Verified example · NVDA · as of 7 August 2026</span>
-          <p>Convergence reads <strong>Central Agreement</strong> — <code>PRICE_NORMAL__STRUCTURE_NORMAL</code>. Price behavior and financial-structure behavior both sit in the normal band relative to NVIDIA&rsquo;s own multi-year history. There isn&rsquo;t a clean split to resolve on this date; the two stories are reading as aligned. That&rsquo;s still informative: agreement is an observable state, not only disagreement.</p>
-          <p class="scope-note" style="margin-top:0.75rem">This is observation, not a forecast. Convergence does not tell you what will happen next — or what NVIDIA is &ldquo;really&rdquo; worth.</p>
+      <div class="hero">
+        <h1 class="type-xl">Two stories.<br />One company.</h1>
+        <p class="hero-sub">Price tells one story. The books tell another. Who is right?</p>
+        <div class="scroll-graphic-wrap" id="scroll-graphic" aria-hidden="true">
+          <svg viewBox="0 0 400 110" xmlns="http://www.w3.org/2000/svg">
+            <rect id="scrub-zone" x="0" y="25" width="400" height="60" fill="url(#zoneGrad)" opacity="0"/>
+            <defs>
+              <linearGradient id="zoneGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#0f766e" stop-opacity="0.12"/>
+                <stop offset="50%" stop-color="#78716c" stop-opacity="0.2"/>
+                <stop offset="100%" stop-color="#c2410c" stop-opacity="0.12"/>
+              </linearGradient>
+            </defs>
+            <path id="scrub-structure" fill="none" stroke="#0f766e" stroke-width="3" stroke-linecap="round"/>
+            <path id="scrub-price" fill="none" stroke="#c2410c" stroke-width="3" stroke-linecap="round"/>
+            <circle id="scrub-dot-s" r="5" fill="#0f766e"/>
+            <circle id="scrub-dot-p" r="5" fill="#c2410c"/>
+          </svg>
+          <div class="scroll-graphic-labels">
+            <span class="lbl-price">Price</span>
+            <span class="lbl-books">The books</span>
+          </div>
+          <p class="state-changed-tag" id="state-changed-tag">The state changed</p>
         </div>
-
-        <div class="example-block secondary">
-          <span class="example-label">Abstract framing (no company named)</span>
-          <p>Sometimes a company&rsquo;s price and its underlying financial structure genuinely disagree — and there&rsquo;s no reliable way to know in advance which one is &ldquo;right.&rdquo; Convergence doesn&rsquo;t try to force an answer. It observes the disagreement and tracks what happens to it.</p>
-          <p>Other times, they agree — and that&rsquo;s worth naming too. Either way, the framework classifies the relationship as it stands today and re-checks it every month.</p>
-        </div>
-
-        <h2 class="section-subhead">Classification, not prediction</h2>
-        <p>Convergence is a research framework that <strong>classifies</strong> how a company&rsquo;s price behavior and financial-structure behavior relate at a specific point in time — then re-observes that classification every month as new data arrives.</p>
-        <p>A <strong>relationship state</strong> describes the relationship between two signals, not whether a stock is &ldquo;good&rdquo; or &ldquo;bad.&rdquo; It is descriptive — not a buy signal, sell signal, or price target.</p>
-        <p>Each month, on the 7th, the framework pulls point-in-time data — only information that would actually have been available on that date — and asks: has the relationship changed?</p>
-        <p><strong>What Convergence gives you:</strong> a named description of what is observed now, and a record of how that observation has shifted over time.</p>
-        <p><strong>What it does not give you:</strong> a prediction of what happens next, a valuation, or an investment recommendation.</p>
-
-        <h2 class="section-subhead">Most frameworks rush to a verdict. Convergence names the relationship first.</h2>
-        <p>When people talk about companies, the conversation usually collapses quickly: cheap or expensive, buy or sell, bullish or bearish. Convergence takes a different starting point. Before asking &ldquo;what should someone do,&rdquo; it asks: <strong>what is the state of agreement between price and structure right now — and how has that state changed?</strong></p>
-        <ul class="plain-list">
-          <li>A company can look &ldquo;expensive&rdquo; on price while its structure reads stable — or the reverse.</li>
-          <li>Two companies in the same industry can share a headline narrative while their price–structure relationships diverge completely.</li>
-          <li>A relationship that looked settled last month may look different this month, without either story having &ldquo;won.&rdquo;</li>
-        </ul>
       </div>
-      <footer class="tab-footer">
-        Want to explore this further?
-        <a href="#" data-goto-tab="framework">See how the framework works →</a>
-        or
-        <a href="#" data-goto-tab="application" data-goto-contact="1">Get in touch / Discuss the work</a>
-      </footer>
+
+      <div class="editorial-statement">
+        <p class="kicker">What if we didn&rsquo;t have to guess?</p>
+        <div class="lines">
+          <p>Convergence doesn&rsquo;t decide what NVIDIA will be worth next.</p>
+          <p>It doesn&rsquo;t predict what happens tomorrow.</p>
+          <p>It records what the relationship between price and the books looks like today — and watches how that relationship changes.</p>
+        </div>
+      </div>
+
+      <figure class="timeline-editorial">
+        <svg viewBox="0 0 900 240" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <line x1="50" y1="120" x2="850" y2="120" stroke="#d6d0c4" stroke-width="2"/>
+          <!-- unnumbered observation points at arbitrary times -->
+          <circle cx="120" cy="120" r="6" fill="#78716c" opacity="0.5"/>
+          <circle cx="280" cy="120" r="8" fill="#78716c"/>
+          <circle cx="480" cy="120" r="6" fill="#78716c" opacity="0.5"/>
+          <circle cx="680" cy="120" r="8" fill="#78716c"/>
+          <circle cx="820" cy="120" r="6" fill="#78716c" opacity="0.5"/>
+          <!-- segment 1: aligned -->
+          <path d="M120,120 C180,118 220,122 280,120" fill="none" stroke="#0f766e" stroke-width="3" stroke-linecap="round"/>
+          <path d="M120,120 C180,122 220,118 280,120" fill="none" stroke="#c2410c" stroke-width="3" stroke-linecap="round"/>
+          <text x="200" y="95" text-anchor="middle" font-size="11" fill="#57534e" font-family="IBM Plex Sans,sans-serif">aligned</text>
+          <!-- segment 2: diverging -->
+          <path d="M280,120 C340,120 380,75 480,68" fill="none" stroke="#c2410c" stroke-width="3" stroke-linecap="round"/>
+          <path d="M280,120 C360,122 420,118 480,120" fill="none" stroke="#0f766e" stroke-width="3" stroke-linecap="round"/>
+          <rect x="355" y="42" width="130" height="22" rx="3" fill="rgba(120,113,108,0.08)" stroke="#78716c" stroke-width="1"/>
+          <text x="420" y="57" text-anchor="middle" font-size="10" font-weight="600" fill="#57534e" font-family="IBM Plex Sans,sans-serif">state changed</text>
+          <!-- segment 3: realigning -->
+          <path d="M480,68 C560,55 620,95 680,115" fill="none" stroke="#c2410c" stroke-width="3" stroke-linecap="round"/>
+          <path d="M480,120 C560,118 620,122 680,120" fill="none" stroke="#0f766e" stroke-width="3" stroke-linecap="round"/>
+          <text x="580" y="95" text-anchor="middle" font-size="11" fill="#57534e" font-family="IBM Plex Sans,sans-serif">realigning</text>
+          <!-- segment 4: aligned again -->
+          <path d="M680,120 C740,118 780,122 820,120" fill="none" stroke="#0f766e" stroke-width="3" stroke-linecap="round"/>
+          <path d="M680,120 C740,122 780,118 820,120" fill="none" stroke="#c2410c" stroke-width="3" stroke-linecap="round"/>
+          <text x="120" y="155" text-anchor="middle" font-size="9" fill="#78716c" font-family="IBM Plex Sans,sans-serif">any point</text>
+          <text x="480" y="155" text-anchor="middle" font-size="9" fill="#78716c" font-family="IBM Plex Sans,sans-serif">any point</text>
+          <text x="820" y="155" text-anchor="middle" font-size="9" fill="#78716c" font-family="IBM Plex Sans,sans-serif">any point</text>
+        </svg>
+        <figcaption>Convergence observes the state whenever it looks — then records when that state changes.</figcaption>
+      </figure>
+
+      <div class="contact" id="contact-overview">
+        <h3>Interested in the work?</h3>
+        <p>Convergence is an ongoing research program — not a product or a fund.</p>
+        <a class="cta" href="mailto:brendankoh2004@gmail.com">Discuss collaboration</a>
+      </div>
     </section>
 
-    <!-- Tab 2: Framework -->
+    <!-- FRAMEWORK -->
     <section class="tab-panel" id="tab-framework" role="tabpanel" aria-labelledby="tab-btn-framework" aria-hidden="true">
-      <h2 class="section-headline">Observe. Classify. Track. Test.</h2>
-      <div class="section-body">
-        <p class="preview-line">Convergence operates in four repeating stages: observe point-in-time data, classify the price–structure relationship, track how that classification changes, and test hypotheses against historical outcomes.</p>
-        <div class="steps">
-          <div class="step">
-            <p class="step-title">Step 1 — Point-in-time data</p>
-            <p>Each month, Convergence pulls financial and price data as it would have existed on the observation date — not with hindsight. This keeps the classification honest: it reflects what was knowable then, not what we learned later.</p>
-          </div>
-          <div class="step">
-            <p class="step-title">Step 2 — Classify the relationship</p>
-            <p>The framework compares a company&rsquo;s recent price <em>behavior</em> against its recent financial-structure behavior — each measured relative to that company&rsquo;s own multi-year normalized history, not a generic industry average or a simple 1-year price chart. The output is a <strong>relationship state</strong>: a plain description of how the two signals relate right now.</p>
-          </div>
-          <div class="step">
-            <p class="step-title">Step 3 — Track transitions over time</p>
-            <p>When a relationship state changes, Convergence records the transition. Change is the point. A single snapshot is less informative than the sequence.</p>
-          </div>
-          <div class="step">
-            <p class="step-title">Step 4 — Test hypotheses, publish the result</p>
-            <p>Separately from live classification, Convergence tests specific claims about what certain relationship patterns have historically tended to precede. Each test uses a fixed rule agreed in advance — a <strong>hypothesis</strong> — scored across thousands of independent historical comparison units. Each unit gets a yes or no: did the pattern behave as the hypothesis predicted over the following ~12 months?</p>
-            <p style="margin-top:0.5rem">The result is published whether it holds or not.</p>
-          </div>
-        </div>
-
-        <div class="method-note">
-          <strong>How to read &ldquo;unusual&rdquo; in Convergence.</strong>
-          When Convergence says a company&rsquo;s price is reading &ldquo;unusually&rdquo; low or high, it means recent price momentum — how the stock has been moving year over year — looks weak or strong compared to that same company&rsquo;s own history over many years. That is <em>not</em> the same as where the stock sits on a 1-year chart. A company can trade near recent highs on a standard chart while still reading as unusually weak on price behavior, if its recent momentum is negative relative to its own longer history — and vice versa.
-        </div>
-
-        <p class="scope-note">None of this is a return forecast. The tests measure whether a structural pattern showed up in a follow-up window — not whether anyone made money.</p>
+      <div class="fw-intro"><h2 class="type-lg">Observe. Record. Track. Repeat.</h2></div>
+      <div class="steps-row">
+        <article class="step-cell">
+          <div class="step-num">01 · Observe</div>
+          <p class="step-title">At each review</p>
+          <p class="step-body">Convergence observes a company&rsquo;s price and the books using only information available at that point in time.</p>
+        </article>
+        <article class="step-cell">
+          <div class="step-num">02 · Record</div>
+          <p class="step-title">The state</p>
+          <p class="step-body">Those observations form the company&rsquo;s current state — a description of how price and the books relate at that moment.</p>
+        </article>
+        <article class="step-cell">
+          <div class="step-num">03 · Track</div>
+          <p class="step-title">The change</p>
+          <p class="step-body">At the next review, the state may remain the same or change. Convergence records that change rather than treating every observation as an isolated snapshot.</p>
+        </article>
+        <article class="step-cell">
+          <div class="step-num">04 · Repeat</div>
+          <p class="step-title">Over time</p>
+          <p class="step-body">The process continues over time, creating a record of how states change.</p>
+        </article>
       </div>
-      <footer class="tab-footer">
-        Want to explore this further?
-        <a href="#" data-goto-tab="evidence">See what the historical tests found →</a>
-        or
-        <a href="#" data-goto-tab="application" data-goto-contact="1">Get in touch / Discuss the work</a>
-      </footer>
+
+      <div class="grid-aside">
+        <div>
+          <h3 class="type-lg" style="font-size:1.2rem;margin-bottom:0.65rem">Why track change?</h3>
+          <p class="narrative" style="font-size:0.95rem">A current state tells us where a company is. A change tells us that something happened. We track when the observed state changes — not because change is good or bad, but because change is information worth recording.</p>
+          <p class="narrative" style="font-size:0.95rem;margin-bottom:0">Some changes may historically lead toward states worth understanding better. Others may not. Convergence does not assume which is which — it records the change first, then tests what historically followed.</p>
+        </div>
+      </div>
+      <div class="fw-diagram-wrap">
+        <svg viewBox="0 0 720 160" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect x="10" y="20" width="88" height="36" rx="4" fill="none" stroke="#c2410c" stroke-width="2"/>
+          <text x="54" y="43" text-anchor="middle" font-size="11" font-weight="600" fill="#c2410c" font-family="IBM Plex Sans,sans-serif">PRICE</text>
+          <rect x="10" y="90" width="88" height="36" rx="4" fill="none" stroke="#0f766e" stroke-width="2"/>
+          <text x="54" y="113" text-anchor="middle" font-size="11" font-weight="600" fill="#0f766e" font-family="IBM Plex Sans,sans-serif">BOOKS</text>
+          <path d="M98,38 C140,38 140,55 200,55" fill="none" stroke="#c2410c" stroke-width="1.5" marker-end="url(#arr)"/>
+          <path d="M98,108 C140,108 140,75 200,75" fill="none" stroke="#0f766e" stroke-width="1.5" marker-end="url(#arr)"/>
+          <rect x="200" y="48" width="130" height="44" rx="4" fill="rgba(120,113,108,0.06)" stroke="#57534e" stroke-width="2"/>
+          <text x="265" y="68" text-anchor="middle" font-size="10" font-weight="600" fill="#1c1917" font-family="IBM Plex Sans,sans-serif">OBSERVED</text>
+          <text x="265" y="84" text-anchor="middle" font-size="10" font-weight="600" fill="#1c1917" font-family="IBM Plex Sans,sans-serif">STATE</text>
+          <path d="M330,70 L390,70" fill="none" stroke="#57534e" stroke-width="1.5" marker-end="url(#arr)"/>
+          <text x="360" y="58" text-anchor="middle" font-size="10" fill="#57534e" font-family="IBM Plex Sans,sans-serif">changes</text>
+          <rect x="400" y="48" width="110" height="44" rx="4" fill="rgba(15,118,110,0.06)" stroke="#0f766e" stroke-width="2"/>
+          <text x="455" y="68" text-anchor="middle" font-size="10" font-weight="600" fill="#0f766e" font-family="IBM Plex Sans,sans-serif">new</text>
+          <text x="455" y="84" text-anchor="middle" font-size="10" font-weight="600" fill="#0f766e" font-family="IBM Plex Sans,sans-serif">STATE</text>
+          <defs>
+            <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L6,3 L0,6 Z" fill="#78716c"/>
+            </marker>
+          </defs>
+        </svg>
+      </div>
+
+      <div class="callout" id="unusual-callout">
+        <strong>What does &ldquo;unusual&rdquo; mean?</strong>
+        &ldquo;Unusual&rdquo; does not mean close to a 52-week high or low. It refers to how current price behavior compares with the company&rsquo;s own longer-term history.
+        <details>
+          <summary>Technical detail</summary>
+          <p>Readings reflect averaged year-over-year momentum compared to a rolling multi-year window, normalized against the company&rsquo;s own history — not a generic industry average or a 1-year chart position.</p>
+        </details>
+      </div>
+
+      <div class="contact" id="contact-framework">
+        <h3>Interested in the work?</h3>
+        <p>Convergence is an ongoing research program — not a product or a fund.</p>
+        <a class="cta" href="mailto:brendankoh2004@gmail.com">Discuss collaboration</a>
+      </div>
     </section>
 
-    <!-- Tab 3: Evidence -->
+    <!-- EVIDENCE -->
     <section class="tab-panel" id="tab-evidence" role="tabpanel" aria-labelledby="tab-btn-evidence" aria-hidden="true">
-      <h2 class="section-headline">Six hypotheses. Tested on real historical data. Including the ones that failed.</h2>
-      <div class="section-body">
-        <p class="evidence-intro">Investigation D scored six pre-registered principles across independent comparison units in historical data. Confirmed and falsified results are treated the same way — lead with the number, then the plain-language result.</p>
+      <div class="evidence-head">
+        <h2 class="type-lg">Can we actually map change?</h2>
+        <p class="narrative">Convergence records a company&rsquo;s current state and how that state changes over time. We tested whether those observations contained meaningful information in historical data.</p>
+      </div>
 
-        <div class="evidence-tier">
-          <p class="tier-label">Strongest results</p>
-          <div class="result-grid result-grid-strong">
-            <article class="result-card result-card-strong">
-              <div class="result-pct">68%</div>
-              <p class="result-oneline">When a relationship type was still unresolved, follow-up confidence was historically capped — roughly 7 in 10 cases.</p>
-              <span class="verdict-badge confirmed">Confirmed · Principle E</span>
-              <details>
-                <summary>Full hypothesis &amp; details</summary>
-                <p><strong>Hypothesis:</strong> When a company&rsquo;s relationship type is still unresolved, confidence in reading its subsequent path is capped.</p>
-                <p><strong>n:</strong> 205 independent comparisons · <strong>Yes-rate:</strong> 67.80%</p>
-              </details>
-            </article>
-            <article class="result-card result-card-strong">
-              <div class="result-pct">61%</div>
-              <p class="result-oneline">An active structural fracture signal marked path instability — roughly 6 in 10 cases.</p>
-              <span class="verdict-badge confirmed">Confirmed · Principle F</span>
-              <details>
-                <summary>Full hypothesis &amp; details</summary>
-                <p><strong>Hypothesis:</strong> An active structural fracture signal marks instability.</p>
-                <p><strong>n:</strong> 4,145 independent pairs · <strong>Yes-rate:</strong> 61.35%</p>
-              </details>
-            </article>
-          </div>
+      <div class="ev-tier">
+        <p class="tier-label">What the historical tests found</p>
+        <p class="ev-intro">Convergence tested whether the states and changes it records contain meaningful information in historical data.</p>
+        <div class="ev-strong">
+          <article class="ev-card ev-card-strong">
+            <div class="stat-xl">68%</div>
+            <p class="ev-q">When price and books were out of alignment, did they tend to return to alignment?</p>
+            <p class="ev-result">68% — In roughly 7 out of 10 cases, they did. (205 comparisons)</p>
+          </article>
+          <article class="ev-card ev-card-strong">
+            <div class="stat-xl">61%</div>
+            <p class="ev-q">Can Convergence identify when structural instability is underway?</p>
+            <p class="ev-result">61% — In roughly 6 out of 10 cases, an active instability signal was followed by a less stable structural path. (4,145 comparisons)</p>
+          </article>
         </div>
+      </div>
 
-        <div class="evidence-tier">
-          <p class="tier-label">Confirmed, barely above chance</p>
-          <div class="result-grid result-grid-standard">
-            <article class="result-card">
-              <div class="result-pct">51%</div>
-              <p class="result-oneline">Current static quality did not determine the direction of subsequent structural transition.</p>
-              <span class="verdict-badge confirmed">Confirmed · Principle C</span>
-              <details>
-                <summary>Full hypothesis &amp; details</summary>
-                <p><strong>Hypothesis:</strong> A company&rsquo;s current static quality read does not determine the direction of its subsequent structural transition.</p>
-                <p><strong>n:</strong> 330 · <strong>Yes-rate:</strong> 50.61%</p>
-              </details>
-            </article>
-            <article class="result-card">
-              <div class="result-pct">51%</div>
-              <p class="result-oneline">A change-underway structural profile had a slightly more informative subsequent transition than a static peer.</p>
-              <span class="verdict-badge confirmed">Confirmed · Principle D</span>
-              <details>
-                <summary>Full hypothesis &amp; details</summary>
-                <p><strong>Hypothesis:</strong> A company showing a change-underway structural profile would have a more informative subsequent transition than a peer with a static profile.</p>
-                <p><strong>n:</strong> 3,251 · <strong>Yes-rate:</strong> 50.75% (includes Abbott vs. AMD, July 2022 — scored Yes per source file)</p>
-              </details>
-            </article>
-          </div>
+      <div class="ev-transition">
+        <p>You cannot reliably predict a stock.<br />You can, however, observe when its state changes.</p>
+      </div>
+
+      <div class="ev-tier">
+        <div class="ev-rest">
+          <article class="ev-card">
+            <div class="stat-lg">51%</div>
+            <p class="ev-q">Does a company&rsquo;s current state tell us what happens next?</p>
+            <p class="ev-result">51% — Barely above chance. (330 comparisons)</p>
+            <p class="ev-takeaway">A current state describes where a company is. It does not reliably tell us where it will go next.</p>
+          </article>
+          <article class="ev-card">
+            <div class="stat-lg">51%</div>
+            <p class="ev-q">Does a changing state contain more information than a static one?</p>
+            <p class="ev-result">51% — Barely above chance. (3,251 comparisons)</p>
+            <p class="ev-takeaway">The test did not establish a strong advantage. It reinforces the distinction between observing a state and observing how that state changes.</p>
+          </article>
+          <article class="ev-card">
+            <div class="stat-lg">44%</div>
+            <p class="ev-q">Does stronger financial integrity tend to lead to a better outcome?</p>
+            <p class="ev-result">44% — The pattern did not hold. (285 comparisons)</p>
+            <p class="ev-takeaway">Not every structural distinction proved useful.</p>
+          </article>
+          <article class="ev-card">
+            <div class="stat-lg">42%</div>
+            <p class="ev-q">Does greater internal consistency make the subsequent path more informative?</p>
+            <p class="ev-result">42% — The pattern did not hold. (8,234 comparisons)</p>
+          </article>
         </div>
+      </div>
 
-        <div class="evidence-tier">
-          <p class="tier-label">Falsified</p>
-          <div class="result-grid result-grid-standard">
-            <article class="result-card">
-              <div class="result-pct">42%</div>
-              <p class="result-oneline">Fuller internal consistency among similar peers did not predict better subsequent structural states.</p>
-              <span class="verdict-badge falsified">Falsified · Principle A</span>
-              <details>
-                <summary>Full hypothesis &amp; details</summary>
-                <p><strong>Hypothesis:</strong> When two similar companies shared the same relationship type on the same date, the one with fuller internal consistency would reach a better subsequent structural state within ~12 months.</p>
-                <p><strong>n:</strong> 8,234 · <strong>Yes-rate:</strong> 42.06% — below the 50% coin-flip baseline</p>
-              </details>
-            </article>
-            <article class="result-card">
-              <div class="result-pct">44%</div>
-              <p class="result-oneline">Passing forensic integrity among flagged companies did not predict more favorable transitions than weaker peers.</p>
-              <span class="verdict-badge falsified">Falsified · Principle B</span>
-              <details>
-                <summary>Full hypothesis &amp; details</summary>
-                <p><strong>Hypothesis:</strong> Among flagged companies, those with passing forensic integrity would transition more favorably within ~12 months than flagged peers with weaker structural reads.</p>
-                <p><strong>n:</strong> 285 · <strong>Yes-rate:</strong> 43.86%</p>
-              </details>
-            </article>
-          </div>
-        </div>
+      <p class="ev-closing">The evidence does not show that Convergence can predict what comes next. It shows that changes in the relationship between price and books can be observed, classified and tested historically — with some patterns holding and others not.</p>
 
-        <p class="scope-note">These are tests of structural patterns in historical data — not return forecasts, not proof that any portfolio beat a benchmark, and not a reason to trade. Convergence publishes the failures alongside the confirmations because a framework that only reports what worked isn&rsquo;t one you can trust.</p>
-
-        <div class="objection">
-          <strong>Why publish falsified results?</strong>
-          Because a framework that only reports what worked isn&rsquo;t one you can trust. Publishing failures shows where the signal ends and noise begins.
-        </div>
-
-        <details class="expand-block">
-          <summary>View detailed figures (Investigation D)</summary>
-          <div class="expand-inner">
-            <table class="data-table">
-              <thead>
-                <tr><th>ID</th><th>Hypothesis (short)</th><th>n</th><th>Yes-rate</th><th>Verdict</th></tr>
-              </thead>
-              <tbody>
-                <tr><td>A</td><td>Fuller-consistency peer transitions better</td><td>8,234</td><td>42.06%</td><td>Falsified</td></tr>
-                <tr><td>B</td><td>Flagged+PASS hybrid beats Flagged+WEAK</td><td>285</td><td>43.86%</td><td>Falsified</td></tr>
-                <tr><td>C</td><td>Current quality ≠ transition direction</td><td>330</td><td>50.61%</td><td>Confirmed</td></tr>
-                <tr><td>D</td><td>Change-profile beats static profile</td><td>3,251</td><td>50.75%</td><td>Confirmed</td></tr>
-                <tr><td>E</td><td>Unresolved type-level edge caps confidence</td><td>205</td><td>67.80%</td><td>Confirmed</td></tr>
-                <tr><td>F</td><td>Active fracture marks path instability</td><td>4,145</td><td>61.35%</td><td>Confirmed</td></tr>
-              </tbody>
-            </table>
-            <p><strong>Source:</strong> INVESTIGATION_D_D3_REPORT.md (D3 complete, 2026-07-31).</p>
-            <p><strong>Yes-rate definition:</strong> Share of independent comparison units where the stated pattern was detected in the ~12-month follow-up window — not a return or performance measure.</p>
-            <p><strong>Confirmed / Falsified:</strong> Above or at/below 50% coin-flip baseline, with trust-bar strata met (n ≥ 20, ≥ 4 observation years, calm and stress periods represented).</p>
+      <div class="methodology-block">
+        <details>
+          <summary>View methodology →</summary>
+          <div class="inner">
+            <p>Each test was pre-registered and scored across independent comparison units over a ~12-month follow-up window. Yes-rates: 67.80% (205), 61.35% (4,145), 50.61% (330), 50.75% (3,251), 43.86% (285), 42.06% (8,234). Supported = above 50% baseline with trust-bar strata met. Not a return or performance measure.</p>
           </div>
         </details>
       </div>
-      <footer class="tab-footer">
-        Want to explore this further?
-        <a href="#" data-goto-tab="application">See how the framework is applied today →</a>
-        or
-        <a href="#" data-goto-tab="application" data-goto-contact="1">Get in touch / Discuss the work</a>
-      </footer>
+
+      <div class="contact" id="contact-evidence">
+        <h3>Interested in the work?</h3>
+        <p>Convergence is an ongoing research program — not a product or a fund.</p>
+        <a class="cta" href="mailto:brendankoh2004@gmail.com">Discuss collaboration</a>
+      </div>
     </section>
 
-    <!-- Tab 4: Application -->
+    <!-- APPLICATION -->
     <section class="tab-panel" id="tab-application" role="tabpanel" aria-labelledby="tab-btn-application" aria-hidden="true">
-      <h2 class="section-headline">The framework running today — in live trading (paper).</h2>
-      <div class="section-body">
-        <p>Convergence maintains a live trading (paper) application layer — three parallel modes, each tested across three Mix variants (Mix 1, Mix 2, and Mix 3 are different combinations of company types the framework can hold, run side by side for comparison — <strong>not</strong> a ladder from safer to riskier).</p>
+      <div class="app-inner">
+        <h2 class="type-lg app-title">The framework, running today.</h2>
+        <p class="narrative">Three application modes show different ways Convergence can be used. Select a mode to see what it is doing and how it is being observed.</p>
 
-        <div class="mode-list">
-          <div class="mode-item">
-            <strong>Portfolio A — Structural Filter</strong>
-            <span>Starts from a broad list of companies, removes those with active structural red flags, and holds the rest evenly.</span>
-          </div>
-          <div class="mode-item">
-            <strong>Portfolio B — Pure Convergence</strong>
-            <span>The framework alone decides among equally eligible candidates — no human input, no AI override.</span>
-          </div>
-          <div class="mode-item">
-            <strong>Portfolio C — Convergence + Human</strong>
-            <span>The framework generates the eligible pool and advisory context; a human operator makes the final selection each month — intentional, not a gap in automation.</span>
+        <div class="mode-selector" role="tablist" aria-label="Application mode">
+          <button type="button" class="mode-sel-btn" role="tab" data-mode="A" aria-selected="true">
+            <span class="letter">A</span>
+            <span class="name">Structural Filter</span>
+            <span class="desc">Removes structural red flags, holds the remainder evenly.</span>
+          </button>
+          <button type="button" class="mode-sel-btn" role="tab" data-mode="B" aria-selected="false">
+            <span class="letter">B</span>
+            <span class="name">Pure Convergence</span>
+            <span class="desc">The framework selects among eligible candidates; no human or AI override.</span>
+          </button>
+          <button type="button" class="mode-sel-btn" role="tab" data-mode="C" aria-selected="false">
+            <span class="letter">C</span>
+            <span class="name">Convergence + AI</span>
+            <span class="desc">The framework and AI produce advisory output; a human makes the final selection each month.</span>
+          </button>
+        </div>
+
+        <div class="mode-context" id="mode-context">
+          <div class="mode-context-label">What you&rsquo;re looking at</div>
+          <p id="mode-context-text">A broad universe is filtered using Convergence&rsquo;s structural signals. Companies with active structural flags are removed; the remaining companies are held evenly.</p>
+        </div>
+        <p class="meta-line" id="app-meta">Last review: — · Price data: —</p>
+      </div>
+
+      <div class="monitor-wide">
+        <div class="mode-panel" id="mode-panel"></div>
+        <section class="spy-compare-section" id="spy-compare-section" hidden>
+          <h3>Portfolio vs SPY</h3>
+          <div class="spy-chart-box"><canvas id="chart-spy-compare" aria-label="Portfolio return compared with SPY since tracking start"></canvas></div>
+          <div class="spy-legend"><span class="leg-port">Portfolio</span><span class="leg-spy">SPY</span></div>
+        </section>
+      </div>
+
+      <div class="app-inner">
+        <div class="scope-strip">
+          <div class="scope-strip-inner">
+            <p>Paper trading only. Internal ledgers and simulated execution; not a fund or investment advice. Figures are descriptive mark-to-market observations since the last review, not investment-performance results. Holdings update monthly (7th); prices refresh on weekdays. Price data from yfinance; execution simulated.</p>
           </div>
         </div>
 
-        <p><strong>Scope, stated plainly:</strong></p>
-        <ul class="scope-list">
-          <li>This is live trading (paper) only — internal ledgers, simulated execution, not a fund, not investment advice.</li>
-          <li>Holdings update on a monthly cadence (7th of each month); prices refresh on weekdays via the publish pipeline.</li>
-          <li>Portfolio C requires human input for final picks; that step cannot run unattended without defeating its purpose.</li>
-          <li>Price data comes from yfinance (adjusted closes); execution is simulated, not broker-submitted by default.</li>
-        </ul>
-
-        <div class="monitor-wrap" id="monitor-root">
-          <p class="descriptive-note">Descriptive only — not a performance claim. Figures show mark-to-market values since last review, not investment results.</p>
-          <p id="monitor-meta">Loading observation dates…</p>
-          <p style="font-size:0.88rem;color:var(--muted)">Mix 1, Mix 2, and Mix 3 correspond to conservative, balanced, and aggressive profile configurations — different framework mixes compared in parallel, none labeled safer or better.</p>
-
-          <p class="prices-strip" id="prices-strip">Loading…</p>
-          <div id="portfolio-a"></div>
-          <div id="portfolios"></div>
-          <section class="spy-section" id="spy-section" hidden>
-            <h2>SPY benchmark</h2>
-            <div class="spy-metrics" id="spy-metrics"></div>
-            <div class="spy-head"><span class="spy-stat" id="spy-refreshed">Last refreshed: —</span></div>
-            <div class="chart-box"><canvas id="chart-spy-benchmark" aria-label="SPY return since tracking start"></canvas></div>
-          </section>
-        </div>
-
-        <div class="contact-block" id="contact-block">
+        <div class="contact" id="contact-block">
           <h3>Interested in the work?</h3>
-          <p>Convergence is an ongoing research program — classification, historical testing, and a live trading (paper) track — not a product or a fund. If you&rsquo;re curious about the methodology, want to discuss collaboration, or have questions about what the framework does and doesn&rsquo;t claim, get in touch.</p>
-          <a class="cta-btn" href="mailto:brendankoh2004@gmail.com">Discuss collaboration</a>
+          <p>Convergence is an ongoing research program — not a product or a fund.</p>
+          <a class="cta" href="mailto:brendankoh2004@gmail.com">Discuss collaboration</a>
         </div>
       </div>
-      <footer class="tab-footer">
-        Want to explore this further?
-        <a href="#" data-goto-tab="overview">Return to the overview →</a>
-        or
-        <a href="mailto:brendankoh2004@gmail.com">Get in touch / Discuss the work</a>
-      </footer>
     </section>
   </main>
 
@@ -700,49 +604,46 @@
   <script>
     const PROFILE_ORDER = ["conservative", "balanced", "aggressive"];
     const PROFILE_LABELS = { conservative: "Mix 1", balanced: "Mix 2", aggressive: "Mix 3" };
-    const PORTFOLIO_META = {
-      A: { dataKey: "C", title: "Portfolio A · Structural Filter", sub: "Structural filter applied once — identical holdings and rules across Mix 1, Mix 2, and Mix 3." },
-      B: { dataKey: "A", title: "Portfolio B · Pure Convergence" },
-      C: { dataKey: "B", title: "Portfolio C · Convergence + Human" },
+    const MODE_CONTEXT = {
+      A: "A broad universe is filtered using Convergence\u2019s structural signals. Companies with active structural flags are removed; the remaining companies are held evenly.",
+      B: "Convergence alone determines the eligible candidates and makes the selection. There is no human or AI override.",
+      C: "Convergence generates the eligible pool and structural context. An AI layer then assists with candidate selection, and a human makes the final choice.",
     };
-    const MULTI_VARIANT_DISPLAY = ["B", "C"];
-    const CHART_COLORS = { A: "#6d28d9", B: "#0f766e", C: "#c2410c", SPY: "#78716c" };
+    const PORTFOLIO_META = {
+      A: { dataKey: "C", color: "A" },
+      B: { dataKey: "A", color: "B" },
+      C: { dataKey: "B", color: "C" },
+    };
+    const CHART_COLORS = { A: "#6d28d9", B: "#0f766e", C: "#c2410c" };
     const TAB_ORDER = ["overview", "framework", "evidence", "application"];
     const charts = [];
-    let liveData = null;
-    let chartsBuilt = false;
+    let liveData = null, cyclesByProfile = {}, selectedMode = "A";
 
-    function dataKeyFor(displayLetter) { return PORTFOLIO_META[displayLetter].dataKey; }
-
-    function fmtPrice(v) {
-      if (v == null || Number.isNaN(v)) return "—";
-      return "$" + Number(v).toFixed(2);
-    }
+    function dataKeyFor(mode) { return PORTFOLIO_META[mode].dataKey; }
+    function clamp(v, lo, hi) { return Math.min(hi, Math.max(lo, v)); }
     function fmtRet(v) {
       if (v == null || Number.isNaN(v)) return "—";
       const pct = Math.round(v * 10000) / 100;
       return (pct > 0 ? "+" : "") + pct.toFixed(2) + "%";
     }
     function retClass(v) {
-      if (v == null || Number.isNaN(v)) return "neutral";
+      if (v == null || Number.isNaN(v)) return "";
       if (v > 0.00005) return "up";
       if (v < -0.00005) return "down";
-      return "neutral";
+      return "";
     }
-    function fmtTimestamp(iso) {
+    function fmtShortDate(iso) {
       if (!iso) return "—";
       try {
-        const d = new Date(iso);
-        if (Number.isNaN(d.getTime())) return iso;
-        return d.toLocaleString("en-SG", { dateStyle: "medium", timeStyle: "short", timeZone: "Asia/Singapore" }) + " SGT";
+        const d = new Date(iso.includes("T") ? iso : iso + "T12:00:00");
+        return Number.isNaN(d.getTime()) ? iso : d.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
       } catch (_) { return iso; }
     }
     function yAxisBounds(data) {
       const vals = data.filter((v) => v != null && !Number.isNaN(v));
       const minVal = vals.length ? Math.min(...vals, 0) : -0.5;
       const maxVal = vals.length ? Math.max(...vals, 0) : 0.5;
-      const span = maxVal - minVal || 1;
-      const pad = Math.max(0.25, span * 0.12);
+      const pad = Math.max(0.25, (maxVal - minVal || 1) * 0.12);
       let min = minVal - pad, max = maxVal + pad;
       if (min > 0) min = -0.25;
       if (max < 0) max = 0.25;
@@ -754,8 +655,56 @@
       return res.json();
     }
 
+    /* Scroll-linked graphic only — page flows normally */
+    (function initScrollGraphic() {
+      const el = document.getElementById("scroll-graphic");
+      if (!el) return;
+      const structPath = document.getElementById("scrub-structure");
+      const pricePath = document.getElementById("scrub-price");
+      const dotS = document.getElementById("scrub-dot-s");
+      const dotP = document.getElementById("scrub-dot-p");
+      const zone = document.getElementById("scrub-zone");
+      const tag = document.getElementById("state-changed-tag");
+      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const xs = [15, 75, 135, 200, 265, 325, 385];
+      const midY = 55;
+      const pathFromYs = (ys) => xs.map((x, i) => (i ? "L" : "M") + x + "," + ys[i].toFixed(1)).join(" ");
+
+      function update() {
+        let p = 0.5;
+        if (!reduced) {
+          const rect = el.getBoundingClientRect();
+          const vh = window.innerHeight;
+          p = clamp((vh * 0.72 - rect.top) / (vh * 0.38), 0, 1);
+        }
+        const diverge = Math.sin(p * Math.PI);
+        const structYs = xs.map((_, i) => {
+          const t = i / (xs.length - 1);
+          const booksWave = Math.cos(t * Math.PI * 2 + 0.6) * 9 + Math.sin(t * Math.PI * 3.2) * 5;
+          const alignPull = diverge * 18 * Math.sin(t * Math.PI);
+          return midY + booksWave - alignPull;
+        });
+        const priceYs = xs.map((_, i) => {
+          const t = i / (xs.length - 1);
+          const priceWave = Math.sin(t * Math.PI * 2 + 0.2) * 10 + Math.cos(t * Math.PI * 2.8) * 6;
+          const alignPull = diverge * 18 * Math.sin(t * Math.PI);
+          return midY + priceWave + alignPull;
+        });
+        structPath.setAttribute("d", pathFromYs(structYs));
+        pricePath.setAttribute("d", pathFromYs(priceYs));
+        dotS.setAttribute("cx", xs[3]); dotS.setAttribute("cy", structYs[3]);
+        dotP.setAttribute("cx", xs[3]); dotP.setAttribute("cy", priceYs[3]);
+        zone.setAttribute("opacity", String(0.1 + diverge * 0.45));
+        tag.classList.toggle("is-visible", p > 0.28 && p < 0.78);
+      }
+      window.addEventListener("scroll", update, { passive: true });
+      window.addEventListener("resize", update, { passive: true });
+      update();
+    })();
+
     function switchTab(tabId, opts) {
-      const optsSafe = opts || {};
+      const o = opts || {};
+      document.body.setAttribute("data-active-tab", tabId);
       TAB_ORDER.forEach((id) => {
         const panel = document.getElementById("tab-" + id);
         const btn = document.querySelector('.tab-btn[data-tab="' + id + '"]');
@@ -763,42 +712,28 @@
         if (panel) panel.setAttribute("aria-hidden", active ? "false" : "true");
         if (btn) btn.setAttribute("aria-selected", active ? "true" : "false");
       });
-      if (tabId === "application") {
-        if (liveData && !chartsBuilt) requestAnimationFrame(() => buildCharts(liveData));
-        if (optsSafe.scrollContact) {
-          const block = document.getElementById("contact-block");
-          if (block) block.scrollIntoView({ behavior: "smooth", block: "start" });
-        }
+      if (tabId === "application" && liveData) renderSelectedMode({ animate: o.animate !== false });
+      if (o.scrollContact) {
+        const cid = tabId === "application" ? "contact-block" : "contact-" + tabId;
+        document.getElementById(cid)?.scrollIntoView({ behavior: "smooth" });
       }
       history.replaceState(null, "", "#" + tabId);
     }
-
-    document.querySelectorAll(".tab-btn").forEach((btn) => {
-      btn.addEventListener("click", () => switchTab(btn.dataset.tab));
-    });
     document.querySelectorAll("[data-goto-tab]").forEach((link) => {
       link.addEventListener("click", (e) => {
         e.preventDefault();
         switchTab(link.dataset.gotoTab, { scrollContact: link.dataset.gotoContact === "1" });
       });
     });
-
-    function tabFromHash() {
-      return (location.hash || "").replace(/^#/, "");
-    }
-    function syncTabFromHash() {
-      const tabId = tabFromHash();
-      if (TAB_ORDER.includes(tabId)) switchTab(tabId);
-    }
-    window.addEventListener("hashchange", syncTabFromHash);
-    syncTabFromHash();
+    document.querySelectorAll(".tab-btn").forEach((btn) => btn.addEventListener("click", () => switchTab(btn.dataset.tab)));
+    function tabFromHash() { return (location.hash || "").replace(/^#/, ""); }
+    window.addEventListener("hashchange", () => { const t = tabFromHash(); if (TAB_ORDER.includes(t)) switchTab(t); });
+    if (TAB_ORDER.includes(tabFromHash())) switchTab(tabFromHash(), { animate: false });
 
     function computeReturnsFallback(p, series) {
       const since = p.gain_loss_pct_since_inception;
       const month = p.return_since_review;
-      const pts = series?.chart_points || (series?.points || []).map((pt) => ({
-        portfolio_pct: pt.nav_index - 100, spy_pct: pt.spy_index - 100,
-      }));
+      const pts = series?.chart_points || (series?.points || []).map((pt) => ({ portfolio_pct: pt.nav_index - 100, spy_pct: pt.spy_index - 100 }));
       const last = pts[pts.length - 1];
       const spySince = last ? last.spy_pct / 100 : 0;
       return { since_start_pct: since, month_pct: month, ytd_pct: since, vs_spy_since_start_pct: since != null ? since - spySince : null };
@@ -807,18 +742,15 @@
       const tickers = p.holdings_display || p.tickers || [];
       if (tickers.length) return tickers.join(", ");
       if (dataKey === "B") {
-        const picks = cycle.b_holding_now || [];
         const all = [];
-        for (const h of picks) {
+        for (const h of cycle.b_holding_now || []) {
           const ts = h.recorded_picks || [];
           if (ts.length) all.push(...ts);
           else if (h.holding_now || h.ticker) all.push(h.holding_now || h.ticker);
         }
         if (all.length) {
           const flat = [];
-          for (const item of all) {
-            for (const t of String(item).split(/,\s*/)) { if (t) flat.push(t.toUpperCase()); }
-          }
+          for (const item of all) for (const t of String(item).split(/,\s*/)) if (t) flat.push(t.toUpperCase());
           return [...new Set(flat)].join(", ");
         }
       }
@@ -831,200 +763,240 @@
       if (vs < -0.00005) return '<span class="badge behind">' + fmtRet(vs) + " vs SPY</span>";
       return '<span class="badge flat">Even</span>';
     }
-    function renderVariantCard(displayLetter, profileKey, cycle) {
-      const dataKey = dataKeyFor(displayLetter);
-      const p = cycle.portfolios?.[dataKey] || {};
-      const series = cycle.performance_vs_spy?.[dataKey];
-      const ret = p.returns_pct || computeReturnsFallback(p, series);
-      const holdings = getHoldings(dataKey, cycle, p);
-      const chartId = "chart-" + displayLetter + "-" + profileKey;
-      const label = PROFILE_LABELS[profileKey] || profileKey;
-      let filterStats = "";
-      if (dataKey === "C") {
-        const f = cycle.portfolio_c_filter || {};
-        filterStats = '<div class="filter-stats"><span>Excluded <strong>' + (f.n_excluded ?? "—") + "</strong></span><span>Forensic fail <strong>" + (f.n_forensic_reject ?? "—") + "</strong></span></div>";
-      }
-      const tickers = p.holdings_display || p.tickers || [];
-      const n = p.n_holdings || tickers.length;
-      const holdingsText = dataKey === "C" && tickers.length > 14
-        ? tickers.slice(0, 10).join(", ") + " … +" + (n - 10) + " more"
-        : (holdings || "None");
+    function renderPerfMetrics(ret) {
+      const vs = ret?.vs_spy_since_start_pct;
+      const vsText = vs != null && !Number.isNaN(vs) ? fmtRet(vs) : "—";
       return (
-        '<article class="variant-card"><p class="variant-label">' + label + '</p><div class="card-head">' + aheadBadge(ret) + '</div><div class="metrics">' +
-        '<div class="metric"><span class="metric-label">Since start</span><span class="metric-value ' + retClass(ret.since_start_pct) + '">' + fmtRet(ret.since_start_pct) + '</span></div>' +
-        '<div class="metric"><span class="metric-label">YTD</span><span class="metric-value ' + retClass(ret.ytd_pct) + '">' + fmtRet(ret.ytd_pct) + '</span></div>' +
-        '<div class="metric"><span class="metric-label">Month</span><span class="metric-value ' + retClass(ret.month_pct) + '">' + fmtRet(ret.month_pct) + '</span></div></div>' +
-        '<div class="chart-box"><canvas id="' + chartId + '"></canvas></div>' + filterStats +
-        '<div class="holdings"><div class="holdings-label">Holdings</div><div class="holdings-tickers">' + holdingsText + '</div></article>'
+        '<div class="perf-metrics">' +
+        '<div class="perf-metric"><span class="perf-label">Since start</span><span class="perf-val ' + retClass(ret.since_start_pct) + '">' + fmtRet(ret.since_start_pct) + '</span></div>' +
+        '<div class="perf-metric"><span class="perf-label">This month</span><span class="perf-val ' + retClass(ret.month_pct) + '">' + fmtRet(ret.month_pct) + '</span></div>' +
+        '<div class="perf-metric"><span class="perf-label">vs SPY</span><span class="perf-val ' + retClass(vs) + '">' + vsText + '</span></div>' +
+        "</div>"
       );
     }
-    function renderPortfolioASection(cycle) {
-      if (!cycle) return "";
-      const meta = PORTFOLIO_META.A;
-      const p = cycle.portfolios?.[meta.dataKey] || {};
-      const series = cycle.performance_vs_spy?.[meta.dataKey];
-      const ret = p.returns_pct || computeReturnsFallback(p, series);
-      const f = cycle.portfolio_c_filter || {};
-      const tickers = p.holdings_display || p.tickers || [];
-      const n = p.n_holdings || tickers.length;
-      const holdingsText = tickers.length > 14 ? tickers.slice(0, 10).join(", ") + " … +" + (n - 10) + " more" : (tickers.length ? tickers.join(", ") : "None");
-      return (
-        '<section class="portfolio-block block-a"><h2>' + meta.title + '</h2><p class="block-sub">' + meta.sub + '</p><article class="variant-card">' +
-        '<div class="card-head">' + aheadBadge(ret) + '</div><div class="metrics">' +
-        '<div class="metric"><span class="metric-label">Since start</span><span class="metric-value ' + retClass(ret.since_start_pct) + '">' + fmtRet(ret.since_start_pct) + '</span></div>' +
-        '<div class="metric"><span class="metric-label">YTD</span><span class="metric-value ' + retClass(ret.ytd_pct) + '">' + fmtRet(ret.ytd_pct) + '</span></div>' +
-        '<div class="metric"><span class="metric-label">Month</span><span class="metric-value ' + retClass(ret.month_pct) + '">' + fmtRet(ret.month_pct) + '</span></div></div>' +
-        '<div class="chart-box"><canvas id="chart-A-single"></canvas></div>' +
-        '<div class="filter-stats"><span>Excluded <strong>' + (f.n_excluded ?? "—") + '</strong></span><span>Forensic fail <strong>' + (f.n_forensic_reject ?? "—") + '</strong></span></div>' +
-        '<div class="holdings"><div class="holdings-label">' + n + ' holdings (same across all versions)</div><div class="holdings-tickers">' + holdingsText + '</div></article></section>'
-      );
-    }
-    function renderPortfolioBlock(displayLetter, cyclesByProfile) {
-      const meta = PORTFOLIO_META[displayLetter];
-      const cards = PROFILE_ORDER.map((pk) => cyclesByProfile[pk] ? renderVariantCard(displayLetter, pk, cyclesByProfile[pk]) : "").join("");
-      return '<section class="portfolio-block block-' + displayLetter.toLowerCase() + '"><h2>' + meta.title + '</h2><div class="variant-grid">' + cards + '</div></section>';
-    }
+
     const zeroLinePlugin = {
       id: "zeroLine",
       afterDatasetsDraw(chart) {
-        const yScale = chart.scales.y;
-        if (!yScale) return;
+        const yScale = chart.scales.y; if (!yScale) return;
         const y0 = yScale.getPixelForValue(0);
         const { top, bottom, left, right } = chart.chartArea;
         if (y0 < top || y0 > bottom) return;
-        const ctx = chart.ctx;
-        ctx.save();
-        ctx.strokeStyle = "rgba(87, 83, 78, 0.55)";
-        ctx.lineWidth = 1.25;
-        ctx.beginPath();
-        ctx.moveTo(left, y0);
-        ctx.lineTo(right, y0);
-        ctx.stroke();
-        ctx.restore();
+        const ctx = chart.ctx; ctx.save();
+        ctx.strokeStyle = "rgba(87, 83, 78, 0.4)"; ctx.lineWidth = 1.25;
+        ctx.beginPath(); ctx.moveTo(left, y0); ctx.lineTo(right, y0); ctx.stroke(); ctx.restore();
       },
     };
     const endLabelPlugin = {
       id: "endLabels",
       afterDatasetsDraw(chart) {
-        const { ctx } = chart;
-        const ds = chart.data.datasets[0];
-        if (!ds) return;
+        const ds = chart.data.datasets[0]; if (!ds) return;
         const meta = chart.getDatasetMeta(0);
         const pt = meta.data[meta.data.length - 1];
         const val = ds.data[ds.data.length - 1];
         if (!pt || val == null) return;
-        const label = (val >= 0 ? "+" : "") + Number(val).toFixed(2) + "%";
-        ctx.save();
+        const ctx = chart.ctx; ctx.save();
         ctx.font = '600 9px "IBM Plex Sans", system-ui, sans-serif';
         ctx.fillStyle = ds.borderColor;
-        ctx.fillText(label, pt.x + 4, pt.y + 3);
+        ctx.fillText((val >= 0 ? "+" : "") + Number(val).toFixed(2) + "%", pt.x + 4, pt.y + 3);
         ctx.restore();
       },
     };
     function portfolioSeriesData(series) {
       const pts = series?.chart_points || [];
-      if (!pts.length && series?.points) {
-        series.points.forEach((p) => { if (p.nav_index != null) pts.push({ date: p.date, portfolio_pct: p.nav_index - 100 }); });
-      }
-      return { labels: pts.map((p) => p.date.slice(5)), data: pts.map((p) => Math.round((p.portfolio_pct ?? 0) * 100) / 100) };
+      if (!pts.length && series?.points) series.points.forEach((p) => { if (p.nav_index != null) pts.push({ date: p.date, portfolio_pct: p.nav_index - 100, spy_pct: p.spy_index != null ? p.spy_index - 100 : 0 }); });
+      return {
+        labels: pts.map((p) => p.date.slice(5)),
+        data: pts.map((p) => Math.round((p.portfolio_pct ?? 0) * 100) / 100),
+        spyData: pts.map((p) => Math.round((p.spy_pct ?? 0) * 100) / 100),
+      };
     }
-    function buildPortfolioChart(canvas, series, displayLetter) {
+    function destroyCharts() { charts.forEach((c) => c.destroy()); charts.length = 0; }
+    function buildPortfolioChart(canvas, series, mode, opts) {
+      const o = opts || {};
       const { labels, data } = portfolioSeriesData(series);
-      if (!labels.length) return null;
-      const color = CHART_COLORS[displayLetter] || CHART_COLORS.A;
+      if (!labels.length || !canvas) return null;
+      const color = CHART_COLORS[PORTFOLIO_META[mode].color] || CHART_COLORS.A;
       const bounds = yAxisBounds(data);
       const rgb = color.replace("#", "").match(/.{2}/g);
-      const fillAlpha = rgb ? "rgba(" + parseInt(rgb[0], 16) + "," + parseInt(rgb[1], 16) + "," + parseInt(rgb[2], 16) + ",0.12)" : "rgba(15,118,110,0.12)";
-      return new Chart(canvas, {
+      const fillAlpha = rgb ? "rgba(" + parseInt(rgb[0], 16) + "," + parseInt(rgb[1], 16) + "," + parseInt(rgb[2], 16) + ",0.09)" : "rgba(15,118,110,0.09)";
+      const startData = o.animateFromZero ? data.map(() => 0) : data;
+      const chart = new Chart(canvas, {
         type: "line",
-        data: { labels, datasets: [{ label: displayLetter, data, borderColor: color, backgroundColor: fillAlpha, borderWidth: 2, pointRadius: 0, tension: 0.15, fill: true }] },
+        data: { labels, datasets: [{ data: startData, borderColor: color, backgroundColor: fillAlpha, borderWidth: 2, pointRadius: 0, tension: 0.15, fill: true }] },
         options: {
           responsive: true, maintainAspectRatio: false,
-          layout: { padding: { top: 6, right: 52, bottom: 2, left: 4 } },
-          plugins: { legend: { display: false }, tooltip: { callbacks: { label(ctx) { return (ctx.parsed.y >= 0 ? "+" : "") + ctx.parsed.y.toFixed(2) + "%"; } } } },
+          animation: { duration: o.animateFromZero ? 1100 : 300, easing: "easeOutQuart" },
+          layout: { padding: { top: 6, right: 42, bottom: 2, left: 4 } },
+          plugins: { legend: { display: false }, tooltip: { callbacks: { label(c) { return (c.parsed.y >= 0 ? "+" : "") + c.parsed.y.toFixed(2) + "%"; } } } },
           scales: {
-            x: { grid: { color: "rgba(120,113,108,0.12)" }, ticks: { color: "#78716c", font: { size: 9 }, maxTicksLimit: 4 } },
-            y: { min: bounds.min, max: bounds.max, grid: { color: "rgba(120,113,108,0.12)" }, ticks: { color: "#78716c", font: { size: 9 }, callback: (v) => (v >= 0 ? "+" : "") + Number(v).toFixed(1) + "%" } },
+            x: { grid: { color: "rgba(120,113,108,0.07)" }, ticks: { color: "#78716c", font: { size: 9 }, maxTicksLimit: 4 } },
+            y: { min: bounds.min, max: bounds.max, grid: { color: "rgba(120,113,108,0.07)" }, ticks: { color: "#78716c", font: { size: 9 }, callback: (v) => (v >= 0 ? "+" : "") + Number(v).toFixed(1) + "%" } },
           },
         },
         plugins: [zeroLinePlugin, endLabelPlugin],
       });
+      if (o.animateFromZero) { chart.data.datasets[0].data = data; chart.update(); }
+      return chart;
     }
-    function renderSpyBenchmark(spy, live) {
-      if (!spy?.points?.length) return;
-      document.getElementById("spy-section").hidden = false;
-      const vr = live?.valuation_refresh || {};
-      document.getElementById("spy-refreshed").textContent = "Last refreshed: " + fmtTimestamp(vr.refreshed_at);
-      const since = spy.since_start_pct, month = spy.month_pct ?? since, last30 = spy.last_30_days_pct, price = spy.current_price;
-      document.getElementById("spy-metrics").innerHTML =
-        '<div class="metric"><span class="metric-label">Since start</span><span class="metric-value ' + retClass(since) + '">' + fmtRet(since) + '</span></div>' +
-        '<div class="metric"><span class="metric-label">Last 30 days</span><span class="metric-value ' + retClass(last30) + '">' + fmtRet(last30) + '</span></div>' +
-        '<div class="metric"><span class="metric-label">This month</span><span class="metric-value ' + retClass(month) + '">' + fmtRet(month) + '</span></div>' +
-        '<div class="metric"><span class="metric-label">Current price</span><span class="metric-value neutral">' + fmtPrice(price) + '</span></div>';
-      const canvas = document.getElementById("chart-spy-benchmark");
-      const pts = { chart_points: spy.points.filter((p, i, arr) => arr.findIndex((x) => x.date === p.date) === i).map((p) => ({ date: p.date, portfolio_pct: p.return_pct })) };
-      const ch = buildPortfolioChart(canvas, pts, "SPY");
+
+    function buildVsSpyChart(canvas, series, mode, opts) {
+      const o = opts || {};
+      const { labels, data, spyData } = portfolioSeriesData(series);
+      if (!labels.length || !canvas) return null;
+      const color = CHART_COLORS[PORTFOLIO_META[mode].color] || CHART_COLORS.A;
+      const bounds = yAxisBounds([...data, ...spyData]);
+      const startPort = o.animateFromZero ? data.map(() => 0) : data;
+      const startSpy = o.animateFromZero ? spyData.map(() => 0) : spyData;
+      const chart = new Chart(canvas, {
+        type: "line",
+        data: {
+          labels,
+          datasets: [
+            { label: "Portfolio", data: startPort, borderColor: color, backgroundColor: "transparent", borderWidth: 2.5, pointRadius: 0, tension: 0.15, fill: false },
+            { label: "SPY", data: startSpy, borderColor: "#78716c", backgroundColor: "transparent", borderWidth: 2, pointRadius: 0, tension: 0.15, fill: false, borderDash: [5, 4] },
+          ],
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          animation: { duration: o.animateFromZero ? 1100 : 300, easing: "easeOutQuart" },
+          layout: { padding: { top: 8, right: 48, bottom: 4, left: 4 } },
+          plugins: {
+            legend: { display: false },
+            tooltip: { callbacks: { label(c) { return c.dataset.label + ": " + (c.parsed.y >= 0 ? "+" : "") + c.parsed.y.toFixed(2) + "%"; } } },
+          },
+          scales: {
+            x: { grid: { color: "rgba(120,113,108,0.07)" }, ticks: { color: "#78716c", font: { size: 10 }, maxTicksLimit: 6 } },
+            y: { min: bounds.min, max: bounds.max, grid: { color: "rgba(120,113,108,0.07)" }, ticks: { color: "#78716c", font: { size: 10 }, callback: (v) => (v >= 0 ? "+" : "") + Number(v).toFixed(1) + "%" } },
+          },
+        },
+        plugins: [zeroLinePlugin],
+      });
+      if (o.animateFromZero) {
+        chart.data.datasets[0].data = data;
+        chart.data.datasets[1].data = spyData;
+        chart.update();
+      }
+      return chart;
+    }
+
+    function updateModeContext() {
+      const el = document.getElementById("mode-context-text");
+      if (el) el.textContent = MODE_CONTEXT[selectedMode] || "";
+    }
+
+    function renderMixColumn(mode, profileKey) {
+      const cycle = cyclesByProfile[profileKey];
+      if (!cycle) return "";
+      const dk = dataKeyFor(mode);
+      const p = cycle.portfolios?.[dk] || {};
+      const series = cycle.performance_vs_spy?.[dk];
+      const ret = p.returns_pct || computeReturnsFallback(p, series);
+      const tickers = p.holdings_display || p.tickers || [];
+      const n = p.n_holdings || tickers.length;
+      const holdings = getHoldings(dk, cycle, p);
+      const holdingsText = tickers.length > 12 ? tickers.slice(0, 8).join(", ") + " … +" + (n - 8) + " more" : (holdings || tickers.join(", ") || "None");
+      const chartId = "chart-" + mode + "-" + profileKey;
+      return (
+        '<article class="mix-col"><div class="mix-col-label">' + PROFILE_LABELS[profileKey] + '</div>' +
+        renderPerfMetrics(ret) +
+        '<div class="chart-box"><canvas id="' + chartId + '"></canvas></div>' +
+        '<p class="holdings-line">' + n + ' holdings · ' + fmtShortDate(cycle.holdings_as_of || cycle.as_of) + '<br />' + holdingsText + '</p></article>'
+      );
+    }
+
+    function renderSingleMode(mode) {
+      const cycle = cyclesByProfile.balanced || cyclesByProfile.conservative || Object.values(cyclesByProfile)[0];
+      if (!cycle) return "<p class='error'>No data for this mode.</p>";
+      const dk = dataKeyFor(mode);
+      const p = cycle.portfolios?.[dk] || {};
+      const series = cycle.performance_vs_spy?.[dk];
+      const ret = p.returns_pct || computeReturnsFallback(p, series);
+      const tickers = p.holdings_display || p.tickers || [];
+      const n = p.n_holdings || tickers.length;
+      const holdings = getHoldings(dk, cycle, p);
+      const holdingsText = tickers.length > 16 ? tickers.slice(0, 10).join(", ") + " … +" + (n - 10) + " more" : (holdings || tickers.join(", ") || "None");
+      const chartId = "chart-" + mode + "-single";
+      return (
+        '<article class="mode-single">' +
+        renderPerfMetrics(ret) +
+        '<div class="chart-box-tall"><canvas id="' + chartId + '"></canvas></div>' +
+        '<p class="holdings-line">' + n + ' holdings · Last reviewed ' + fmtShortDate(cycle.holdings_as_of || cycle.as_of) + '<br />' + holdingsText + '</p></article>'
+      );
+    }
+
+    function renderSpyCompare(opts) {
+      const section = document.getElementById("spy-compare-section");
+      const canvas = document.getElementById("chart-spy-compare");
+      if (!section || !canvas) return;
+      const cycle = cyclesByProfile.balanced || cyclesByProfile.conservative || Object.values(cyclesByProfile)[0];
+      const series = cycle?.performance_vs_spy?.[dataKeyFor(selectedMode)];
+      const pts = series?.chart_points || [];
+      if (!pts.length) { section.hidden = true; return; }
+      section.hidden = false;
+      const ch = buildVsSpyChart(canvas, series, selectedMode, { animateFromZero: opts.animate !== false });
       if (ch) charts.push(ch);
     }
-    function buildSpyFallback(cycle) {
-      if (!cycle) return null;
-      const s = cycle.performance_vs_spy?.A;
-      const pts = (s?.chart_points || []).map((p) => ({ date: p.date, return_pct: p.spy_pct }));
-      if (!pts.length) return null;
-      return { since_start_pct: pts[pts.length - 1].return_pct / 100, month_pct: pts[pts.length - 1].return_pct / 100, points: pts };
+
+    function renderSelectedMode(opts) {
+      destroyCharts();
+      updateModeContext();
+      const panel = document.getElementById("mode-panel");
+      if (selectedMode === "A") {
+        panel.innerHTML = renderSingleMode("A");
+        requestAnimationFrame(() => {
+          const cycle = cyclesByProfile.balanced || cyclesByProfile.conservative;
+          const canvas = document.getElementById("chart-A-single");
+          if (canvas && cycle) {
+            const ch = buildPortfolioChart(canvas, cycle.performance_vs_spy?.[dataKeyFor("A")], "A", { animateFromZero: opts.animate !== false });
+            if (ch) charts.push(ch);
+          }
+          renderSpyCompare(opts);
+        });
+        return;
+      }
+      panel.innerHTML = '<div class="mix-grid">' + PROFILE_ORDER.map((pk) => renderMixColumn(selectedMode, pk)).join("") + "</div>";
+      requestAnimationFrame(() => {
+        for (const pk of PROFILE_ORDER) {
+          const cycle = cyclesByProfile[pk];
+          if (!cycle) continue;
+          const canvas = document.getElementById("chart-" + selectedMode + "-" + pk);
+          if (!canvas) continue;
+          const ch = buildPortfolioChart(canvas, cycle.performance_vs_spy?.[dataKeyFor(selectedMode)], selectedMode, { animateFromZero: opts.animate !== false });
+          if (ch) charts.push(ch);
+        }
+        renderSpyCompare(opts);
+      });
     }
+
+    document.querySelectorAll(".mode-sel-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        selectedMode = btn.dataset.mode;
+        document.querySelectorAll(".mode-sel-btn").forEach((b) => b.setAttribute("aria-selected", b === btn ? "true" : "false"));
+        renderSelectedMode({ animate: true });
+      });
+    });
+
     function renderMonitorShell(live) {
       const vr = live.valuation_refresh || {};
       const cycle = (live.cycles || [])[0] || {};
-      document.getElementById("monitor-meta").textContent =
-        "Holdings as of last monthly review (" + (cycle.holdings_as_of || cycle.as_of || "—") + "). Prices refreshed at most recent market close available (" + (vr.market_data_through || vr.prices_as_of || "—") + ").";
-      const marketThru = vr.market_data_through || vr.prices_as_of || "—";
-      document.getElementById("prices-strip").innerHTML =
-        'Prices through <strong>' + marketThru + '</strong> · last refreshed <strong>' + fmtTimestamp(vr.refreshed_at) + '</strong>' +
-        (vr.stale_vs_calendar ? ' · <span class="warn">Awaiting newer close</span>' : "");
-      const cyclesByProfile = {};
-      for (const c of live.cycles || []) { if (c.profile) cyclesByProfile[c.profile] = c; }
-      const referenceCycle = cyclesByProfile.balanced || cyclesByProfile.conservative || cyclesByProfile.aggressive;
-      document.getElementById("portfolio-a").innerHTML = renderPortfolioASection(referenceCycle);
-      document.getElementById("portfolios").innerHTML = MULTI_VARIANT_DISPLAY.map((letter) => renderPortfolioBlock(letter, cyclesByProfile)).join("");
-      document.getElementById("footer").textContent = "Live trading (paper) only · not a fund · Tracking since " + (live.tracking_since || "—");
+      const hd = cycle.holdings_as_of || cycle.as_of || "—";
+      const pd = vr.market_data_through || vr.prices_as_of || "—";
+      document.getElementById("app-meta").textContent = "Last review: " + fmtShortDate(hd) + " · Price data: " + fmtShortDate(pd);
+      cyclesByProfile = {};
+      for (const c of live.cycles || []) if (c.profile) cyclesByProfile[c.profile] = c;
+      document.getElementById("footer").textContent = "Paper application only · not a fund · Tracking since " + (live.tracking_since || "—");
     }
-    function buildCharts(live) {
-      if (chartsBuilt || typeof Chart === "undefined") return;
-      charts.forEach((c) => c.destroy());
-      charts.length = 0;
-      const cyclesByProfile = {};
-      for (const c of live.cycles || []) { if (c.profile) cyclesByProfile[c.profile] = c; }
-      const referenceCycle = cyclesByProfile.balanced || cyclesByProfile.conservative || cyclesByProfile.aggressive;
-      const firstCycle = cyclesByProfile[PROFILE_ORDER.find((p) => cyclesByProfile[p])];
-      renderSpyBenchmark(live.spy_benchmark || buildSpyFallback(firstCycle), live);
-      if (referenceCycle) {
-        const aCanvas = document.getElementById("chart-A-single");
-        if (aCanvas) { const ch = buildPortfolioChart(aCanvas, referenceCycle.performance_vs_spy?.[dataKeyFor("A")], "A"); if (ch) charts.push(ch); }
-      }
-      for (const displayLetter of MULTI_VARIANT_DISPLAY) {
-        const dataKey = dataKeyFor(displayLetter);
-        for (const profileKey of PROFILE_ORDER) {
-          const cycle = cyclesByProfile[profileKey];
-          if (!cycle) continue;
-          const canvas = document.getElementById("chart-" + displayLetter + "-" + profileKey);
-          if (!canvas) continue;
-          const ch = buildPortfolioChart(canvas, cycle.performance_vs_spy?.[dataKey], displayLetter);
-          if (ch) charts.push(ch);
-        }
-      }
-      chartsBuilt = true;
-    }
+
     async function init() {
       try {
         liveData = await loadJson("live_cycles.json");
         renderMonitorShell(liveData);
         if (document.getElementById("tab-application").getAttribute("aria-hidden") === "false") {
-          requestAnimationFrame(() => buildCharts(liveData));
+          renderSelectedMode({ animate: true });
         }
       } catch (err) {
-        document.getElementById("prices-strip").innerHTML = '<span class="error">Failed to load live data: ' + err.message + '</span>';
-        document.getElementById("footer").textContent = "Convergence · research framework";
+        document.getElementById("app-meta").innerHTML = '<span class="error">Failed to load: ' + err.message + "</span>";
       }
     }
     init();
