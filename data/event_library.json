@@ -1,6 +1,6 @@
 {
   "schema": "event_library_export/1.1",
-  "generated_at": "2026-08-13T00:18:34Z",
+  "generated_at": "2026-08-13T04:48:14Z",
   "intro": "Change is constant. Convergence observes and classifies how the relationship between a company's price behavior and its financial-structure behavior shifts over time \u2014 not prediction.",
   "state_label_note": "Labels such as Central Agreement, High Agreement, Unresolved, and similar describe the framework's relationship-identity classification at a point in time \u2014 not buy/sell or valuation judgments.",
   "metric_definitions": {
