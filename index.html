@@ -178,52 +178,139 @@
     .holdings-tickers.empty { color: var(--muted); font-style: italic; }
     footer { max-width: 1040px; margin: 0 auto; padding: 0 1.25rem 1.25rem; font-size: 0.7rem; color: var(--muted); }
     .error { color: var(--down); font-weight: 600; }
-  </style>
+    .site-nav { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.85rem; }
+    .tab-btn {
+      font: inherit;
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 0.35rem 0.75rem;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: var(--surface-2);
+      color: var(--muted);
+      cursor: pointer;
+    }
+    .tab-btn.active { background: var(--text); color: var(--surface); border-color: var(--text); }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+    .intro-hero { font-size: 1rem; line-height: 1.55; margin: 0 0 0.75rem; max-width: 40rem; }
+    .intro-note { font-size: 0.82rem; color: var(--muted); margin: 0 0 1rem; max-width: 42rem; }
+    .class-grid {
+      display: grid;
+      gap: 0.35rem;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    }
+    .class-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 0.45rem 0.55rem;
+      font-size: 0.78rem;
+    }
+    .class-card .ticker { font-weight: 700; font-variant-numeric: tabular-nums; }
+    .class-card .state { color: var(--text); margin-top: 0.1rem; }
+    .class-card .date { color: var(--muted); font-size: 0.68rem; margin-top: 0.15rem; }
+    .app-framing { font-size: 0.88rem; color: var(--muted); margin-bottom: 1rem; max-width: 42rem; }
+    .event-section { margin-bottom: 1.25rem; }
+    .event-section h3 {
+      margin: 0 0 0.5rem;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+    }
+    .event-list { display: grid; gap: 0.45rem; }
+    .event-item {
+      background: var(--surface-2);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 0.55rem 0.65rem;
+      font-size: 0.82rem;
+      line-height: 1.4;
+    }
+    .event-item .verdict {
+      display: inline-block;
+      font-size: 0.62rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 0.1rem 0.35rem;
+      border-radius: 4px;
+      margin-right: 0.35rem;
+    }
+    .verdict.confirmed { background: rgba(4,120,87,0.12); color: var(--up); }
+    .verdict.falsified { background: rgba(185,28,28,0.1); color: var(--down); }
+    .finding-def { font-size: 0.78rem; color: var(--muted); margin-top: 0.25rem; }
+    .metric-def { font-size: 0.72rem; color: var(--muted); font-style: italic; margin-top: 0.15rem; }
+    .illus-note { font-size: 0.82rem; color: var(--muted); margin-bottom: 0.75rem; max-width: 42rem; }
 </head>
 <body>
   <header>
-    <h1>Convergence Paper Monitor</h1>
-    <p class="tagline">This tracks changes in a company&rsquo;s underlying structural state — not price predictions. Positions change when something measurably shifts, not on a forecast.</p>
+    <h1>Convergence</h1>
+    <p class="tagline">Observes and classifies how the relationship between price behavior and financial-structure behavior changes over time.</p>
+    <nav class="site-nav" aria-label="Site sections">
+      <button type="button" class="tab-btn active" data-tab="evidence">Why this exists</button>
+      <button type="button" class="tab-btn" data-tab="application">Application</button>
+      <button type="button" class="tab-btn" data-tab="activity">Recent activity</button>
+    </nav>
   </header>
   <main>
-    <div class="hero">
-      <div class="hero-card">
-        <h2>Three versions of the same framework</h2>
-        <p>Mix 1, Mix 2, and Mix 3 are three different combinations of company types the framework can hold, tested side by side. They&rsquo;re not a spectrum from safer to riskier — just different mixes we wanted to compare.</p>
-        <div class="profile-pills">
-          <span class="pill">Mix 1</span>
-          <span class="pill">Mix 2</span>
-          <span class="pill">Mix 3</span>
-        </div>
-      </div>
-      <div class="hero-card">
-        <h2>What each portfolio does</h2>
-        <div class="portfolio-explainer">
-          <div class="explainer-box a">
-            <strong>Portfolio A · Structural Filter</strong>
-            Removes companies with red flags from a broad list; holds the rest evenly.
-          </div>
-          <div class="explainer-box b">
-            <strong>Portfolio B · Pure Convergence</strong>
-            The framework alone — no AI or human input, random tie-break among equally eligible candidates.
-          </div>
-          <div class="explainer-box c">
-            <strong>Portfolio C · Convergence + Human</strong>
-            Same eligible pool as Portfolio B, but a human makes the final selection.
+    <section id="tab-evidence" class="tab-panel active">
+      <div id="evidence-page">Loading evidence…</div>
+    </section>
+
+    <section id="tab-application" class="tab-panel">
+      <p class="app-framing">What happens when these observations are used as an investment input.</p>
+      <div class="hero">
+        <div class="hero-card">
+          <h2>Three versions of the same framework</h2>
+          <p>Mix 1, Mix 2, and Mix 3 are three different combinations of company types the framework can hold, tested side by side. They&rsquo;re not a spectrum from safer to riskier — just different mixes we wanted to compare.</p>
+          <div class="profile-pills">
+            <span class="pill">Mix 1</span>
+            <span class="pill">Mix 2</span>
+            <span class="pill">Mix 3</span>
           </div>
         </div>
+        <div class="hero-card">
+          <h2>What each portfolio does</h2>
+          <div class="portfolio-explainer">
+            <div class="explainer-box a">
+              <strong>Portfolio A · Structural Filter</strong>
+              Removes companies with red flags from a broad list; holds the rest evenly.
+            </div>
+            <div class="explainer-box b">
+              <strong>Portfolio B · Pure Convergence</strong>
+              The framework alone — no AI or human input, random tie-break among equally eligible candidates.
+            </div>
+            <div class="explainer-box c">
+              <strong>Portfolio C · Convergence + Human</strong>
+              Same eligible pool as Portfolio B, but a human makes the final selection.
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-    <p class="prices-strip" id="prices-strip">Loading…</p>
-    <div id="portfolio-a"></div>
-    <div id="portfolios"></div>
-    <section class="spy-section" id="spy-section" hidden>
-      <h2>SPY benchmark</h2>
-      <div class="spy-metrics" id="spy-metrics"></div>
-      <div class="spy-head">
-        <div class="spy-stat" id="spy-refreshed">Last refreshed: —</div>
+      <p class="prices-strip" id="prices-strip">Loading…</p>
+      <div id="portfolio-a"></div>
+      <div id="portfolios"></div>
+      <section class="spy-section" id="spy-section" hidden>
+        <h2>SPY benchmark</h2>
+        <div class="spy-metrics" id="spy-metrics"></div>
+        <div class="spy-head">
+          <div class="spy-stat" id="spy-refreshed">Last refreshed: —</div>
+        </div>
+        <div class="chart-box"><canvas id="chart-spy-benchmark" aria-label="SPY return since tracking start"></canvas></div>
+      </section>
+    </section>
+
+    <section id="tab-activity" class="tab-panel">
+      <p class="intro-hero">Current structural classifications and operational decisions across all portfolios.</p>
+      <p class="intro-note" id="class-count"></p>
+      <div class="event-section">
+        <h3>Current classifications</h3>
+        <div class="class-grid" id="classifications-grid">Loading classifications…</div>
       </div>
-      <div class="chart-box"><canvas id="chart-spy-benchmark" aria-label="SPY return since tracking start"></canvas></div>
+      <div id="activity-page">Loading activity log…</div>
     </section>
   </main>
   <footer id="footer"></footer>
@@ -625,18 +712,165 @@
       return { since_start_pct: since, month_pct: since, points: pts };
     }
 
+    function verdictClass(v) {
+      const s = (v || "").toLowerCase();
+      if (s === "confirmed") return "confirmed";
+      if (s === "falsified") return "falsified";
+      return "unresolved";
+    }
+
+    function renderClassifications(data) {
+      const grid = document.getElementById("classifications-grid");
+      const countEl = document.getElementById("class-count");
+      const rows = data?.classifications || [];
+      if (!rows.length) {
+        grid.textContent = "No classification data yet.";
+        return;
+      }
+      countEl.textContent = rows.length + " companies classified as of " + (data.as_of || "—") + ".";
+      grid.innerHTML = rows.map((r) =>
+        '<div class="class-card"><div class="ticker">' + r.ticker + '</div>' +
+        '<div class="state">' + (r.state || "—") + "</div>" +
+        '<div class="date">Updated ' + (r.as_of || "—") + "</div></div>"
+      ).join("");
+    }
+
+    function renderFindingItem(item) {
+      const label = item.verdict || item.status || "";
+      const rate = item.yes_rate != null
+        ? '<div class="metric-def">' + (item.yes_rate_definition || "Yes-rate: share of comparison units where the pattern was detected.") +
+          " · " + (item.n_definition || "n: number of independent comparison units.") +
+          " · Measured: " + (item.yes_rate * 100).toFixed(1) + "% (n=" + item.n + ")</div>"
+        : "";
+      const def = item.definition ? '<div class="finding-def">' + item.definition + "</div>" : "";
+      const verdictDef = item.verdict_definition ? '<div class="metric-def">' + item.verdict_definition + "</div>" : "";
+      return '<div class="event-item">' +
+        (label ? '<span class="verdict ' + verdictClass(label) + '">' + label + "</span>" : "") +
+        "<strong>" + (item.id || "") + "</strong> " + (item.principle || item.text || "") +
+        def + rate + verdictDef +
+        (item.note ? '<div class="finding-def">' + item.note + "</div>" : "") +
+        "</div>";
+    }
+
+    function renderEvidencePage(lib) {
+      const root = document.getElementById("evidence-page");
+      if (!lib) {
+        root.textContent = "No evidence data yet.";
+        return;
+      }
+      const intro = '<p class="intro-hero">' + (lib.intro || "") + "</p>" +
+        '<p class="intro-note">' + (lib.state_label_note || "") + "</p>";
+      const sections = [
+        ["Investigation D — all six principles", lib.findings || []],
+        ["Library 2 — confirmed", lib.library2_confirmed || []],
+        ["Library 2 — falsified", lib.library2_falsified || []],
+        ["Unresolved", lib.unresolved || []],
+      ];
+      const body = sections.map(([title, items]) => {
+        if (!items.length) return "";
+        return '<div class="event-section"><h3>' + title + '</h3><div class="event-list">' +
+          items.map(renderFindingItem).join("") + "</div></div>";
+      }).join("");
+      const live = (lib.live_transition_patterns || []).length
+        ? '<div class="event-section"><h3>Live transition patterns</h3><div class="event-list">' +
+          lib.live_transition_patterns.map((item) =>
+            '<div class="event-item">' + item.transition + " — detected " + item.count +
+            " time(s)" + (item.example_ticker ? " (e.g. " + item.example_ticker + ", " + (item.example_date || "") + ")" : "") +
+            "</div>"
+          ).join("") + "</div></div>"
+        : "";
+      root.innerHTML = intro + body + live;
+    }
+
+    function renderActivityPage(activity) {
+      const root = document.getElementById("activity-page");
+      if (!activity) {
+        root.textContent = "";
+        return;
+      }
+      const events = activity.recent_events || [];
+      const eventHtml = events.length
+        ? events.map((e) => {
+            const who = [e.portfolio, e.profile ? PROFILE_LABELS[e.profile] || e.profile : ""].filter(Boolean).join(" · ");
+            const detail = e.ticker || (e.tickers || []).join(", ") || "";
+            return '<div class="event-item">' +
+              "<strong>" + (e.event_type || "event") + "</strong>" +
+              (who ? " · " + who : "") +
+              (detail ? " · " + detail : "") +
+              (e.reason ? " — " + e.reason : "") +
+              '<div class="finding-def">' + fmtTimestamp(e.recorded_at) + (e.as_of ? " · as of " + e.as_of : "") + "</div>" +
+              "</div>";
+          }).join("")
+        : '<div class="event-item">No operational events recorded yet.</div>';
+
+      const illus = activity.historical_illustrations || [];
+      const illusHtml = illus.length
+        ? '<div class="event-section"><h3>Historical illustrations</h3>' +
+          '<p class="illus-note">' + (activity.historical_illustrations_note || "") + "</p>" +
+          '<div class="event-list">' +
+          illus.map((item) =>
+            '<div class="event-item"><span class="verdict unresolved">' + (item.kind || "Illustration") + "</span>" +
+            (item.text || "") +
+            (item.source ? '<div class="finding-def">Source: ' + item.source + "</div>" : "") +
+            "</div>"
+          ).join("") +
+          "</div></div>"
+        : "";
+
+      const liveTrans = activity.live_transitions || [];
+      const transHtml = liveTrans.length
+        ? '<div class="event-section"><h3>Live transition log</h3><div class="event-list">' +
+          liveTrans.map((item) =>
+            '<div class="event-item">' + item.transition + " — " + item.count + " time(s)" +
+            (item.example_ticker ? " (e.g. " + item.example_ticker + ")" : "") + "</div>"
+          ).join("") + "</div></div>"
+        : "";
+
+      root.innerHTML =
+        '<div class="event-section"><h3>Operational event log</h3><div class="event-list">' +
+        eventHtml + "</div></div>" + illusHtml + transHtml;
+    }
+
+    function setupTabs() {
+      const buttons = document.querySelectorAll(".tab-btn");
+      buttons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          buttons.forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+          document.querySelectorAll(".tab-panel").forEach((p) => p.classList.remove("active"));
+          document.getElementById("tab-" + btn.dataset.tab).classList.add("active");
+        });
+      });
+    }
+
     async function init() {
+      setupTabs();
       const pricesStrip = document.getElementById("prices-strip");
       const portfolioAEl = document.getElementById("portfolio-a");
       const portfoliosEl = document.getElementById("portfolios");
 
-      if (typeof Chart === "undefined") {
-        pricesStrip.innerHTML = '<span class="error">Chart.js failed to load.</span>';
-        return;
-      }
-
       try {
-        const live = await loadJson("live_cycles.json");
+        const [live, activity, eventLibrary] = await Promise.all([
+          loadJson("live_cycles.json"),
+          loadJson("activity.json").catch(() =>
+            loadJson("classifications.json").then((c) => ({
+              classifications: c.classifications,
+              as_of: c.as_of,
+              recent_events: [],
+              historical_illustrations: [],
+            }))
+          ),
+          loadJson("event_library.json").catch(() => ({})),
+        ]);
+        renderEvidencePage(eventLibrary);
+        renderClassifications({ classifications: activity.classifications || [], as_of: activity.as_of });
+        renderActivityPage(activity);
+
+        if (typeof Chart === "undefined") {
+          pricesStrip.innerHTML = '<span class="error">Chart.js failed to load.</span>';
+          return;
+        }
+
         const vr = live.valuation_refresh || {};
         const marketThru = vr.market_data_through || vr.prices_as_of || "—";
         pricesStrip.innerHTML =

@@ -1,0 +1,172 @@
+{
+  "schema": "event_library_export/1.1",
+  "generated_at": "2026-08-13T00:18:34Z",
+  "intro": "Change is constant. Convergence observes and classifies how the relationship between a company's price behavior and its financial-structure behavior shifts over time \u2014 not prediction.",
+  "state_label_note": "Labels such as Central Agreement, High Agreement, Unresolved, and similar describe the framework's relationship-identity classification at a point in time \u2014 not buy/sell or valuation judgments.",
+  "metric_definitions": {
+    "yes_rate": "Yes-rate: the share of independent comparison units in which the stated structural pattern was detected in the ~12-month follow-up window \u2014 not a return or performance measure.",
+    "n": "n: the number of independent comparison units scored in that validation run \u2014 each unit pairs two companies on the same date under fixed pre-scoring rules.",
+    "verdict_confirmed": "Confirmed: the pattern occurred above the 50% coin-flip baseline with trust-bar strata met.",
+    "verdict_falsified": "Falsified: the pattern did not occur above the 50% coin-flip baseline with trust-bar strata met.",
+    "spell_age": "Spell age (Library 2-R): how long a company has remained in its current observed structural state relative to the point-in-time median time that state typically took to resolve historically."
+  },
+  "findings": [
+    {
+      "kind": "Finding",
+      "id": "D-A",
+      "principle": "Fuller-consistency peer transitions better",
+      "verdict": "Falsified",
+      "yes_rate": 0.4206,
+      "n": 8234,
+      "source": "INVESTIGATION_D_D3_REPORT.md",
+      "definition": "When two peers share the same relationship-identity type, the one with fuller internal consistency was hypothesized to show a better subsequent structural path.",
+      "yes_rate_definition": "Yes-rate: the share of independent comparison units in which the stated structural pattern was detected in the ~12-month follow-up window \u2014 not a return or performance measure.",
+      "n_definition": "n: the number of independent comparison units scored in that validation run \u2014 each unit pairs two companies on the same date under fixed pre-scoring rules.",
+      "verdict_definition": "Falsified: the pattern did not occur above the 50% coin-flip baseline with trust-bar strata met."
+    },
+    {
+      "kind": "Finding",
+      "id": "D-B",
+      "principle": "Flagged+PASS hybrid transitions better than Flagged+WEAK",
+      "verdict": "Falsified",
+      "yes_rate": 0.4386,
+      "n": 285,
+      "source": "INVESTIGATION_D_D3_REPORT.md",
+      "definition": "Among flagged companies, those with passing forensic integrity were hypothesized to transition more favorably than flagged companies with weak structural reads.",
+      "yes_rate_definition": "Yes-rate: the share of independent comparison units in which the stated structural pattern was detected in the ~12-month follow-up window \u2014 not a return or performance measure.",
+      "n_definition": "n: the number of independent comparison units scored in that validation run \u2014 each unit pairs two companies on the same date under fixed pre-scoring rules.",
+      "verdict_definition": "Falsified: the pattern did not occur above the 50% coin-flip baseline with trust-bar strata met."
+    },
+    {
+      "kind": "Finding",
+      "id": "D-C",
+      "principle": "Current quality \u2260 transition direction",
+      "verdict": "Confirmed",
+      "yes_rate": 0.5061,
+      "n": 330,
+      "source": "INVESTIGATION_D_D3_REPORT.md",
+      "definition": "A company's current static quality read was hypothesized not to determine the direction of its subsequent structural transition.",
+      "yes_rate_definition": "Yes-rate: the share of independent comparison units in which the stated structural pattern was detected in the ~12-month follow-up window \u2014 not a return or performance measure.",
+      "n_definition": "n: the number of independent comparison units scored in that validation run \u2014 each unit pairs two companies on the same date under fixed pre-scoring rules.",
+      "verdict_definition": "Confirmed: the pattern occurred above the 50% coin-flip baseline with trust-bar strata met."
+    },
+    {
+      "kind": "Finding",
+      "id": "D-D",
+      "principle": "Change-profile beats static profile",
+      "verdict": "Confirmed",
+      "yes_rate": 0.5075,
+      "n": 3251,
+      "source": "INVESTIGATION_D_D3_REPORT.md",
+      "definition": "A company showing a change-underway structural profile was hypothesized to have a more informative subsequent path than a peer with a static profile on the same date.",
+      "yes_rate_definition": "Yes-rate: the share of independent comparison units in which the stated structural pattern was detected in the ~12-month follow-up window \u2014 not a return or performance measure.",
+      "n_definition": "n: the number of independent comparison units scored in that validation run \u2014 each unit pairs two companies on the same date under fixed pre-scoring rules.",
+      "verdict_definition": "Confirmed: the pattern occurred above the 50% coin-flip baseline with trust-bar strata met."
+    },
+    {
+      "kind": "Finding",
+      "id": "D-E",
+      "principle": "Unresolved type-level edge caps confidence",
+      "verdict": "Confirmed",
+      "yes_rate": 0.678,
+      "n": 205,
+      "source": "INVESTIGATION_D_D3_REPORT.md",
+      "definition": "When a company's relationship-identity type is still unresolved, confidence in reading its subsequent path was hypothesized to be capped.",
+      "yes_rate_definition": "Yes-rate: the share of independent comparison units in which the stated structural pattern was detected in the ~12-month follow-up window \u2014 not a return or performance measure.",
+      "n_definition": "n: the number of independent comparison units scored in that validation run \u2014 each unit pairs two companies on the same date under fixed pre-scoring rules.",
+      "verdict_definition": "Confirmed: the pattern occurred above the 50% coin-flip baseline with trust-bar strata met."
+    },
+    {
+      "kind": "Finding",
+      "id": "D-F",
+      "principle": "Active fracture marks path instability",
+      "verdict": "Confirmed",
+      "yes_rate": 0.6135,
+      "n": 4145,
+      "source": "INVESTIGATION_D_D3_REPORT.md",
+      "definition": "An active Level-4 fracture signal was hypothesized to mark instability in the company's subsequent structural path.",
+      "yes_rate_definition": "Yes-rate: the share of independent comparison units in which the stated structural pattern was detected in the ~12-month follow-up window \u2014 not a return or performance measure.",
+      "n_definition": "n: the number of independent comparison units scored in that validation run \u2014 each unit pairs two companies on the same date under fixed pre-scoring rules.",
+      "verdict_definition": "Confirmed: the pattern occurred above the 50% coin-flip baseline with trust-bar strata met."
+    }
+  ],
+  "library2_falsified": [
+    {
+      "kind": "Finding",
+      "id": "L2-P",
+      "principle": "Longer tenure \u2192 better path",
+      "verdict": "Falsified",
+      "yes_rate": 0.391,
+      "n": 87,
+      "source": "CONVERGENCE_REASONING_POLICY_STATUS.md",
+      "definition": "Companies that had remained in their current structural state longer were hypothesized to show a better subsequent path.",
+      "yes_rate_definition": "Yes-rate: the share of independent comparison units in which the stated structural pattern was detected in the ~12-month follow-up window \u2014 not a return or performance measure.",
+      "n_definition": "n: the number of independent comparison units scored in that validation run \u2014 each unit pairs two companies on the same date under fixed pre-scoring rules.",
+      "verdict_definition": "Falsified: the pattern did not occur above the 50% coin-flip baseline with trust-bar strata met."
+    },
+    {
+      "kind": "Finding",
+      "id": "L2-V",
+      "principle": "Higher recent velocity \u2192 worse path",
+      "verdict": "Falsified",
+      "yes_rate": 0.267,
+      "n": 86,
+      "source": "CONVERGENCE_REASONING_POLICY_STATUS.md",
+      "definition": "Higher recent movement in structural z-scores was hypothesized to associate with a worse subsequent path.",
+      "yes_rate_definition": "Yes-rate: the share of independent comparison units in which the stated structural pattern was detected in the ~12-month follow-up window \u2014 not a return or performance measure.",
+      "n_definition": "n: the number of independent comparison units scored in that validation run \u2014 each unit pairs two companies on the same date under fixed pre-scoring rules.",
+      "verdict_definition": "Falsified: the pattern did not occur above the 50% coin-flip baseline with trust-bar strata met."
+    },
+    {
+      "kind": "Finding",
+      "id": "L2-S",
+      "principle": "Higher long-lookback instability \u2192 worse path",
+      "verdict": "Falsified",
+      "yes_rate": 0.38,
+      "n": 79,
+      "source": "CONVERGENCE_REASONING_POLICY_STATUS.md",
+      "definition": "Higher long-lookback instability in structural readings was hypothesized to associate with a worse subsequent path.",
+      "yes_rate_definition": "Yes-rate: the share of independent comparison units in which the stated structural pattern was detected in the ~12-month follow-up window \u2014 not a return or performance measure.",
+      "n_definition": "n: the number of independent comparison units scored in that validation run \u2014 each unit pairs two companies on the same date under fixed pre-scoring rules.",
+      "verdict_definition": "Falsified: the pattern did not occur above the 50% coin-flip baseline with trust-bar strata met."
+    }
+  ],
+  "library2_confirmed": [
+    {
+      "kind": "Finding",
+      "id": "L2-R",
+      "principle": "Spell age past PIT median \u2192 worse path",
+      "verdict": "Confirmed",
+      "yes_rate": 0.512,
+      "n": 82,
+      "source": "CONVERGENCE_REASONING_POLICY_STATUS.md",
+      "definition": "Spell age (Library 2-R): how long a company has remained in its current observed structural state relative to the point-in-time median time that state typically took to resolve historically.",
+      "yes_rate_definition": "Yes-rate: the share of independent comparison units in which the stated structural pattern was detected in the ~12-month follow-up window \u2014 not a return or performance measure.",
+      "n_definition": "n: the number of independent comparison units scored in that validation run \u2014 each unit pairs two companies on the same date under fixed pre-scoring rules.",
+      "verdict_definition": "Confirmed: the pattern occurred above the 50% coin-flip baseline with trust-bar strata met."
+    }
+  ],
+  "unresolved": [
+    {
+      "kind": "Unresolved",
+      "id": "L2-E",
+      "principle": "Falling confidence trend \u2192 worse path",
+      "status": "Inconclusive",
+      "yes_rate": 0.409,
+      "n": 22,
+      "definition": "A declining trend in classification confidence was hypothesized to associate with a worse subsequent path.",
+      "note": "Trust bar not met (no calm stratum). Not part of active policy.",
+      "source": "CONVERGENCE_REASONING_POLICY_STATUS.md"
+    },
+    {
+      "kind": "Unresolved",
+      "id": "L2-C",
+      "principle": "Competition history",
+      "status": "Deferred",
+      "definition": "Whether a company's history in slot competition affects its subsequent structural path \u2014 not yet tested due to sparse competition freezes.",
+      "note": "Not tested. Not part of active policy.",
+      "source": "CONVERGENCE_REASONING_POLICY_STATUS.md"
+    }
+  ],
+  "live_transition_patterns": []
+}

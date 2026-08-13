@@ -1,0 +1,174 @@
+{
+  "schema": "classifications_export/1.1",
+  "as_of": "2026-08-07",
+  "classifications": [
+    {
+      "ticker": "AMD",
+      "state": "P-Low Lag",
+      "relationship_state": "PRICE_UNUSUALLY_LOW__STRUCTURE_NORMAL",
+      "as_of": "2026-08-07"
+    },
+    {
+      "ticker": "ANET",
+      "state": "S-High Lag",
+      "relationship_state": "PRICE_NORMAL__STRUCTURE_UNUSUALLY_HIGH",
+      "as_of": "2026-08-07"
+    },
+    {
+      "ticker": "AVGO",
+      "state": "P-High Lag",
+      "relationship_state": "PRICE_UNUSUALLY_HIGH__STRUCTURE_NORMAL",
+      "as_of": "2026-08-07"
+    },
+    {
+      "ticker": "CAT",
+      "state": "P-High Lag",
+      "relationship_state": "PRICE_UNUSUALLY_HIGH__STRUCTURE_NORMAL",
+      "as_of": "2026-08-07"
+    },
+    {
+      "ticker": "COP",
+      "state": "Central Agreement",
+      "relationship_state": "PRICE_NORMAL__STRUCTURE_NORMAL",
+      "as_of": "2026-08-07"
+    },
+    {
+      "ticker": "CRM",
+      "state": "P-Low Lag",
+      "relationship_state": "PRICE_UNUSUALLY_LOW__STRUCTURE_NORMAL",
+      "as_of": "2026-08-07"
+    },
+    {
+      "ticker": "DXCM",
+      "state": "S-High Split",
+      "relationship_state": "PRICE_UNUSUALLY_LOW__STRUCTURE_UNUSUALLY_HIGH",
+      "as_of": "2026-08-07"
+    },
+    {
+      "ticker": "ETN",
+      "state": "S-High Split",
+      "relationship_state": "PRICE_UNUSUALLY_LOW__STRUCTURE_UNUSUALLY_HIGH",
+      "as_of": "2026-08-07"
+    },
+    {
+      "ticker": "GLW",
+      "state": "P-High Lag",
+      "relationship_state": "PRICE_UNUSUALLY_HIGH__STRUCTURE_NORMAL",
+      "as_of": "2026-08-07"
+    },
+    {
+      "ticker": "GRMN",
+      "state": "High Agreement",
+      "relationship_state": "PRICE_UNUSUALLY_HIGH__STRUCTURE_UNUSUALLY_HIGH",
+      "as_of": "2026-08-07"
+    },
+    {
+      "ticker": "HUBS",
+      "state": "S-High Split",
+      "relationship_state": "PRICE_UNUSUALLY_LOW__STRUCTURE_UNUSUALLY_HIGH",
+      "as_of": "2026-08-07"
+    },
+    {
+      "ticker": "KEYS",
+      "state": "Central Agreement",
+      "relationship_state": "PRICE_NORMAL__STRUCTURE_NORMAL",
+      "as_of": "2026-08-07"
+    },
+    {
+      "ticker": "LRCX",
+      "state": "S-Low Lag",
+      "relationship_state": "PRICE_NORMAL__STRUCTURE_UNUSUALLY_LOW",
+      "as_of": "2026-08-07"
+    },
+    {
+      "ticker": "MNST",
+      "state": "S-High Lag",
+      "relationship_state": "PRICE_NORMAL__STRUCTURE_UNUSUALLY_HIGH",
+      "as_of": "2026-08-07"
+    },
+    {
+      "ticker": "MPWR",
+      "state": "P-High Split",
+      "relationship_state": "PRICE_UNUSUALLY_HIGH__STRUCTURE_UNUSUALLY_LOW",
+      "as_of": "2026-08-07"
+    },
+    {
+      "ticker": "MU",
+      "state": "P-High Lag",
+      "relationship_state": "PRICE_UNUSUALLY_HIGH__STRUCTURE_NORMAL",
+      "as_of": "2026-08-07"
+    },
+    {
+      "ticker": "NSC",
+      "state": "S-High Lag",
+      "relationship_state": "PRICE_NORMAL__STRUCTURE_UNUSUALLY_HIGH",
+      "as_of": "2026-08-07"
+    },
+    {
+      "ticker": "NVDA",
+      "state": "Central Agreement",
+      "relationship_state": "PRICE_NORMAL__STRUCTURE_NORMAL",
+      "as_of": "2026-08-07"
+    },
+    {
+      "ticker": "ORCL",
+      "state": "Central Agreement",
+      "relationship_state": "PRICE_NORMAL__STRUCTURE_NORMAL",
+      "as_of": "2026-08-07"
+    },
+    {
+      "ticker": "PEG",
+      "state": "P-High Lag",
+      "relationship_state": "PRICE_UNUSUALLY_HIGH__STRUCTURE_NORMAL",
+      "as_of": "2026-08-07"
+    },
+    {
+      "ticker": "PLTR",
+      "state": "High Agreement",
+      "relationship_state": "PRICE_UNUSUALLY_HIGH__STRUCTURE_UNUSUALLY_HIGH",
+      "as_of": "2026-08-07"
+    },
+    {
+      "ticker": "PPL",
+      "state": "High Agreement",
+      "relationship_state": "PRICE_UNUSUALLY_HIGH__STRUCTURE_UNUSUALLY_HIGH",
+      "as_of": "2026-08-07"
+    },
+    {
+      "ticker": "RSG",
+      "state": "S-High Lag",
+      "relationship_state": "PRICE_NORMAL__STRUCTURE_UNUSUALLY_HIGH",
+      "as_of": "2026-08-07"
+    },
+    {
+      "ticker": "SNA",
+      "state": "P-High Lag",
+      "relationship_state": "PRICE_UNUSUALLY_HIGH__STRUCTURE_NORMAL",
+      "as_of": "2026-08-07"
+    },
+    {
+      "ticker": "SWKS",
+      "state": "S-High Lag",
+      "relationship_state": "PRICE_NORMAL__STRUCTURE_UNUSUALLY_HIGH",
+      "as_of": "2026-08-07"
+    },
+    {
+      "ticker": "SYY",
+      "state": "S-High Lag",
+      "relationship_state": "PRICE_NORMAL__STRUCTURE_UNUSUALLY_HIGH",
+      "as_of": "2026-08-07"
+    },
+    {
+      "ticker": "TXN",
+      "state": "P-High Lag",
+      "relationship_state": "PRICE_UNUSUALLY_HIGH__STRUCTURE_NORMAL",
+      "as_of": "2026-08-07"
+    },
+    {
+      "ticker": "WDC",
+      "state": "High Agreement",
+      "relationship_state": "PRICE_UNUSUALLY_HIGH__STRUCTURE_UNUSUALLY_HIGH",
+      "as_of": "2026-08-07"
+    }
+  ]
+}

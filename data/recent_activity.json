@@ -1,0 +1,429 @@
+{
+  "schema": "recent_activity_export/1.1",
+  "events": [
+    {
+      "recorded_at": "2026-08-12T23:42:42Z",
+      "portfolio": "B",
+      "profile": "conservative",
+      "event_type": "human_pick",
+      "as_of": "2026-08-07",
+      "reason": "Imported from portfolio_b_human_decisions.jsonl",
+      "tickers": []
+    },
+    {
+      "recorded_at": "2026-08-12T23:42:42Z",
+      "portfolio": "B",
+      "profile": "conservative",
+      "event_type": "human_pick",
+      "as_of": "2026-08-07",
+      "reason": "Imported from portfolio_b_human_decisions.jsonl",
+      "tickers": []
+    },
+    {
+      "recorded_at": "2026-08-12T23:42:42Z",
+      "portfolio": "B",
+      "profile": "conservative",
+      "event_type": "human_pick",
+      "as_of": "2026-08-07",
+      "reason": "Imported from portfolio_b_human_decisions.jsonl",
+      "tickers": []
+    },
+    {
+      "recorded_at": "2026-08-12T23:42:42Z",
+      "portfolio": "B",
+      "profile": "balanced",
+      "event_type": "human_pick",
+      "as_of": "2026-08-07",
+      "reason": "Imported from portfolio_b_human_decisions.jsonl",
+      "tickers": []
+    },
+    {
+      "recorded_at": "2026-08-12T23:42:42Z",
+      "portfolio": "B",
+      "profile": "balanced",
+      "event_type": "human_pick",
+      "as_of": "2026-08-07",
+      "reason": "Imported from portfolio_b_human_decisions.jsonl",
+      "tickers": []
+    },
+    {
+      "recorded_at": "2026-08-12T23:42:42Z",
+      "portfolio": "B",
+      "profile": "balanced",
+      "event_type": "human_pick",
+      "as_of": "2026-08-07",
+      "reason": "Imported from portfolio_b_human_decisions.jsonl",
+      "tickers": []
+    },
+    {
+      "recorded_at": "2026-08-12T23:42:42Z",
+      "portfolio": "B",
+      "profile": "aggressive",
+      "event_type": "human_pick",
+      "as_of": "2026-08-07",
+      "reason": "Imported from portfolio_b_human_decisions.jsonl",
+      "tickers": []
+    },
+    {
+      "recorded_at": "2026-08-12T23:42:42Z",
+      "portfolio": "B",
+      "profile": "aggressive",
+      "event_type": "human_pick",
+      "as_of": "2026-08-07",
+      "reason": "Imported from portfolio_b_human_decisions.jsonl",
+      "tickers": []
+    },
+    {
+      "recorded_at": "2026-08-12T23:42:42Z",
+      "portfolio": "B",
+      "profile": "aggressive",
+      "event_type": "human_pick",
+      "as_of": "2026-08-07",
+      "reason": "Imported from portfolio_b_human_decisions.jsonl",
+      "tickers": []
+    },
+    {
+      "recorded_at": "2026-08-12T23:42:42Z",
+      "portfolio": "B",
+      "profile": "conservative",
+      "event_type": "human_pick",
+      "as_of": "2026-08-07",
+      "reason": "Corrected accidental blank defer \u2014 confirmed SPY fallback",
+      "tickers": [
+        "SPY"
+      ]
+    },
+    {
+      "recorded_at": "2026-08-12T23:42:42Z",
+      "portfolio": "B",
+      "profile": "conservative",
+      "event_type": "human_pick",
+      "as_of": "2026-08-07",
+      "reason": "Corrected accidental blank defer \u2014 confirmed SPY fallback",
+      "tickers": [
+        "SPY"
+      ]
+    },
+    {
+      "recorded_at": "2026-08-12T23:42:42Z",
+      "portfolio": "B",
+      "profile": "balanced",
+      "event_type": "human_pick",
+      "as_of": "2026-08-07",
+      "reason": "Imported from portfolio_b_human_decisions.jsonl",
+      "tickers": [
+        "SPY"
+      ]
+    },
+    {
+      "recorded_at": "2026-08-12T23:42:42Z",
+      "portfolio": "B",
+      "profile": "balanced",
+      "event_type": "human_pick",
+      "as_of": "2026-08-07",
+      "reason": "Imported from portfolio_b_human_decisions.jsonl",
+      "tickers": [
+        "SPY"
+      ]
+    },
+    {
+      "recorded_at": "2026-08-12T23:42:42Z",
+      "portfolio": "B",
+      "profile": "balanced",
+      "event_type": "human_pick",
+      "as_of": "2026-08-07",
+      "reason": "Imported from portfolio_b_human_decisions.jsonl",
+      "tickers": [
+        "SPY"
+      ]
+    },
+    {
+      "recorded_at": "2026-08-12T23:42:42Z",
+      "portfolio": "B",
+      "profile": "conservative",
+      "event_type": "human_pick",
+      "as_of": "2026-08-07",
+      "reason": "Live pick \u2014 IBKR order already submitted 2026-08-10",
+      "tickers": [
+        "ANET"
+      ]
+    },
+    {
+      "recorded_at": "2026-08-12T23:42:42Z",
+      "portfolio": "B",
+      "profile": "conservative",
+      "event_type": "human_pick",
+      "as_of": "2026-08-07",
+      "reason": "Imported from portfolio_b_human_decisions.jsonl",
+      "tickers": [
+        "ANET"
+      ]
+    },
+    {
+      "recorded_at": "2026-08-12T23:42:42Z",
+      "portfolio": "B",
+      "profile": "conservative",
+      "event_type": "human_pick",
+      "as_of": "2026-08-07",
+      "reason": "Imported from portfolio_b_human_decisions.jsonl",
+      "tickers": [
+        "AVGO"
+      ]
+    },
+    {
+      "recorded_at": "2026-08-12T23:42:42Z",
+      "portfolio": "B",
+      "profile": "conservative",
+      "event_type": "human_pick",
+      "as_of": "2026-08-07",
+      "reason": "Imported from portfolio_b_human_decisions.jsonl",
+      "tickers": [
+        "ETN"
+      ]
+    },
+    {
+      "recorded_at": "2026-08-12T23:42:42Z",
+      "portfolio": "B",
+      "profile": "balanced",
+      "event_type": "human_pick",
+      "as_of": "2026-08-07",
+      "reason": "Imported from portfolio_b_human_decisions.jsonl",
+      "tickers": [
+        "ANET"
+      ]
+    },
+    {
+      "recorded_at": "2026-08-12T23:42:42Z",
+      "portfolio": "B",
+      "profile": "balanced",
+      "event_type": "human_pick",
+      "as_of": "2026-08-07",
+      "reason": "Imported from portfolio_b_human_decisions.jsonl",
+      "tickers": [
+        "AVGO"
+      ]
+    },
+    {
+      "recorded_at": "2026-08-12T23:42:42Z",
+      "portfolio": "B",
+      "profile": "balanced",
+      "event_type": "human_pick",
+      "as_of": "2026-08-07",
+      "reason": "Imported from portfolio_b_human_decisions.jsonl",
+      "tickers": [
+        "ETN"
+      ]
+    },
+    {
+      "recorded_at": "2026-08-12T23:42:42Z",
+      "portfolio": "B",
+      "profile": "aggressive",
+      "event_type": "human_pick",
+      "as_of": "2026-08-07",
+      "reason": "Imported from portfolio_b_human_decisions.jsonl",
+      "tickers": [
+        "ANET"
+      ]
+    },
+    {
+      "recorded_at": "2026-08-12T23:42:42Z",
+      "portfolio": "B",
+      "profile": "aggressive",
+      "event_type": "human_pick",
+      "as_of": "2026-08-07",
+      "reason": "Imported from portfolio_b_human_decisions.jsonl",
+      "tickers": [
+        "AVGO"
+      ]
+    },
+    {
+      "recorded_at": "2026-08-12T23:42:42Z",
+      "portfolio": "B",
+      "profile": "aggressive",
+      "event_type": "human_pick",
+      "as_of": "2026-08-07",
+      "reason": "Imported from portfolio_b_human_decisions.jsonl",
+      "tickers": [
+        "ETN"
+      ]
+    },
+    {
+      "recorded_at": "2026-08-12T23:42:42Z",
+      "portfolio": "B",
+      "profile": "conservative",
+      "event_type": "human_pick",
+      "as_of": "2026-08-07",
+      "reason": "Imported from portfolio_b_human_decisions.jsonl",
+      "tickers": [
+        "ANET"
+      ]
+    },
+    {
+      "recorded_at": "2026-08-12T23:42:42Z",
+      "portfolio": "B",
+      "profile": "conservative",
+      "event_type": "human_pick",
+      "as_of": "2026-08-07",
+      "reason": "Imported from portfolio_b_human_decisions.jsonl",
+      "tickers": [
+        "AVGO"
+      ]
+    },
+    {
+      "recorded_at": "2026-08-12T23:42:42Z",
+      "portfolio": "B",
+      "profile": "conservative",
+      "event_type": "human_pick",
+      "as_of": "2026-08-07",
+      "reason": "Imported from portfolio_b_human_decisions.jsonl",
+      "tickers": [
+        "ETN"
+      ]
+    },
+    {
+      "recorded_at": "2026-08-12T23:42:42Z",
+      "portfolio": "B",
+      "profile": "balanced",
+      "event_type": "human_pick",
+      "as_of": "2026-08-07",
+      "reason": "Imported from portfolio_b_human_decisions.jsonl",
+      "tickers": [
+        "ANET"
+      ]
+    },
+    {
+      "recorded_at": "2026-08-12T23:42:42Z",
+      "portfolio": "B",
+      "profile": "balanced",
+      "event_type": "human_pick",
+      "as_of": "2026-08-07",
+      "reason": "Imported from portfolio_b_human_decisions.jsonl",
+      "tickers": [
+        "AVGO"
+      ]
+    },
+    {
+      "recorded_at": "2026-08-12T23:42:42Z",
+      "portfolio": "B",
+      "profile": "balanced",
+      "event_type": "human_pick",
+      "as_of": "2026-08-07",
+      "reason": "Imported from portfolio_b_human_decisions.jsonl",
+      "tickers": [
+        "ENT"
+      ]
+    },
+    {
+      "recorded_at": "2026-08-12T23:42:42Z",
+      "portfolio": "B",
+      "profile": "aggressive",
+      "event_type": "human_pick",
+      "as_of": "2026-08-07",
+      "reason": "Imported from portfolio_b_human_decisions.jsonl",
+      "tickers": [
+        "ANET"
+      ]
+    },
+    {
+      "recorded_at": "2026-08-12T23:42:42Z",
+      "portfolio": "B",
+      "profile": "aggressive",
+      "event_type": "human_pick",
+      "as_of": "2026-08-07",
+      "reason": "Imported from portfolio_b_human_decisions.jsonl",
+      "tickers": [
+        "AVGO"
+      ]
+    },
+    {
+      "recorded_at": "2026-08-12T23:42:42Z",
+      "portfolio": "B",
+      "profile": "aggressive",
+      "event_type": "human_pick",
+      "as_of": "2026-08-07",
+      "reason": "Imported from portfolio_b_human_decisions.jsonl",
+      "tickers": [
+        "ENT"
+      ]
+    },
+    {
+      "recorded_at": "2026-08-12T23:42:42Z",
+      "portfolio": "B",
+      "profile": "balanced",
+      "event_type": "human_pick",
+      "as_of": "2026-08-07",
+      "reason": "Correction: ENT was a recording typo; intended pick is ETN (Eaton)",
+      "tickers": [
+        "ETN"
+      ]
+    },
+    {
+      "recorded_at": "2026-08-12T23:42:42Z",
+      "portfolio": "B",
+      "profile": "aggressive",
+      "event_type": "human_pick",
+      "as_of": "2026-08-07",
+      "reason": "Correction: ENT was a recording typo; intended pick is ETN (Eaton)",
+      "tickers": [
+        "ETN"
+      ]
+    },
+    {
+      "recorded_at": "2026-08-12T23:42:42Z",
+      "portfolio": "B",
+      "profile": "aggressive",
+      "event_type": "human_pick",
+      "as_of": "2026-08-07",
+      "reason": "E2E multi-pick test",
+      "tickers": [
+        "ANET",
+        "PLTR"
+      ]
+    },
+    {
+      "recorded_at": "2026-08-12T23:42:42Z",
+      "portfolio": "B",
+      "profile": "conservative",
+      "event_type": "human_pick",
+      "as_of": "2026-08-07",
+      "reason": "Imported from portfolio_b_human_decisions.jsonl",
+      "tickers": [
+        "ANET"
+      ]
+    },
+    {
+      "recorded_at": "2026-08-12T23:42:42Z",
+      "portfolio": "B",
+      "profile": "conservative",
+      "event_type": "human_pick",
+      "as_of": "2026-08-07",
+      "reason": "Imported from portfolio_b_human_decisions.jsonl",
+      "tickers": [
+        "AVGO"
+      ]
+    },
+    {
+      "recorded_at": "2026-08-12T23:42:42Z",
+      "portfolio": "B",
+      "profile": "conservative",
+      "event_type": "human_pick",
+      "as_of": "2026-08-07",
+      "reason": "Imported from portfolio_b_human_decisions.jsonl",
+      "tickers": [
+        "ETN"
+      ]
+    },
+    {
+      "recorded_at": "2026-08-12T23:42:42Z",
+      "portfolio": "B",
+      "profile": "conservative",
+      "event_type": "human_pick",
+      "as_of": "2026-08-07",
+      "reason": "Imported from portfolio_b_human_decisions.jsonl",
+      "tickers": [
+        "ANET",
+        "LRCX"
+      ]
+    }
+  ]
+}
