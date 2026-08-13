@@ -39,9 +39,20 @@
       -webkit-font-smoothing: antialiased;
     }
     .site-header {
-      padding: 1.5rem 1.25rem 1rem;
+      padding: 1rem 1.25rem;
       background: var(--surface);
       border-bottom: 1px solid var(--line);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .header-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 1rem 1.5rem;
     }
     .site-header h1 {
       margin: 0;
@@ -49,14 +60,34 @@
       font-size: 1.35rem;
       font-weight: 600;
       letter-spacing: -0.02em;
+      flex-shrink: 0;
     }
-    main { max-width: 680px; margin: 0 auto; padding: 0 1.25rem 3rem; }
-    .page-section {
-      padding: 3.5rem 0 0;
-      border-top: 1px solid transparent;
+    .tab-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
     }
-    .page-section:first-child { padding-top: 2.5rem; }
-    .page-section + .page-section { border-top-color: var(--line); margin-top: 0.5rem; }
+    .tab-btn {
+      font: inherit;
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 0.4rem 0.75rem;
+      border: 1px solid transparent;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+    }
+    .tab-btn:hover { color: var(--text); background: var(--surface-2); }
+    .tab-btn[aria-selected="true"] {
+      background: var(--surface-2);
+      color: var(--teal);
+      border-color: var(--line);
+    }
+    main { max-width: 720px; margin: 0 auto; padding: 0 1.25rem 2rem; }
+    .tab-panel { display: none; padding-top: 2.25rem; }
+    .tab-panel[aria-hidden="false"] { display: block; }
     .section-headline {
       margin: 0 0 1.25rem;
       font-family: "IBM Plex Serif", Georgia, serif;
@@ -64,6 +95,13 @@
       font-weight: 600;
       letter-spacing: -0.02em;
       line-height: 1.25;
+    }
+    .section-subhead {
+      margin: 2rem 0 1rem;
+      font-family: "IBM Plex Serif", Georgia, serif;
+      font-size: 1.2rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
     }
     .section-body p { margin: 0 0 1rem; }
     .section-body p:last-child { margin-bottom: 0; }
@@ -82,16 +120,36 @@
       border-radius: 8px;
       box-shadow: var(--shadow);
     }
-    .example-block p { margin: 0; font-size: 0.95rem; }
+    .example-block.secondary {
+      border-left-color: var(--muted);
+      background: var(--surface-2);
+    }
+    .example-block p { margin: 0 0 0.65rem; font-size: 0.95rem; }
+    .example-block p:last-child { margin-bottom: 0; }
+    .example-label {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+    }
     ul.plain-list {
       margin: 1rem 0;
       padding-left: 1.25rem;
     }
     ul.plain-list li { margin-bottom: 0.5rem; }
-    .steps { display: grid; gap: 1.25rem; margin-top: 1.5rem; }
-    .step {
-      padding: 0 0 0 0.15rem;
+    .method-note {
+      margin: 1.5rem 0 0;
+      padding: 0.85rem 1rem;
+      background: var(--surface-2);
+      border-radius: 8px;
+      font-size: 0.88rem;
+      color: var(--muted);
+      border-left: 3px solid var(--teal);
     }
+    .steps { display: grid; gap: 1.25rem; margin-top: 1.5rem; }
     .step-title {
       margin: 0 0 0.35rem;
       font-size: 0.78rem;
@@ -100,7 +158,7 @@
       letter-spacing: 0.06em;
       color: var(--teal);
     }
-    .step p { margin: 0; font-size: 0.95rem; color: var(--text); }
+    .step p { margin: 0; font-size: 0.95rem; }
     .preview-line {
       font-size: 0.95rem;
       color: var(--muted);
@@ -108,19 +166,52 @@
       padding-bottom: 1rem;
       border-bottom: 1px solid var(--line);
     }
-    .proof-grid {
-      display: grid;
-      gap: 1rem;
-      margin: 1.5rem 0;
+
+    /* Evidence — result-first cards */
+    .evidence-intro { margin-bottom: 1.5rem; }
+    .evidence-tier { margin-bottom: 1.25rem; }
+    .tier-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      margin: 0 0 0.65rem;
     }
-    .proof-card {
+    .result-grid {
+      display: grid;
+      gap: 0.85rem;
+    }
+    .result-grid-strong { grid-template-columns: 1fr 1fr; }
+    .result-grid-standard { grid-template-columns: 1fr 1fr; }
+    @media (max-width: 560px) {
+      .result-grid-strong, .result-grid-standard { grid-template-columns: 1fr; }
+    }
+    .result-card {
       background: var(--surface);
       border: 1px solid var(--line);
       border-radius: 10px;
-      padding: 1rem 1.15rem;
+      padding: 1rem 1.1rem;
       box-shadow: var(--shadow);
     }
-    .proof-card .verdict-badge {
+    .result-card-strong { padding: 1.25rem 1.2rem; }
+    .result-card-strong .result-pct { font-size: 2.75rem; }
+    .result-pct {
+      font-size: 2.1rem;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      margin-bottom: 0.45rem;
+      color: var(--text);
+    }
+    .result-oneline {
+      margin: 0 0 0.65rem;
+      font-size: 0.92rem;
+      line-height: 1.45;
+      font-weight: 500;
+    }
+    .verdict-badge {
       display: inline-block;
       font-size: 0.68rem;
       font-weight: 700;
@@ -130,25 +221,30 @@
       border-radius: 4px;
       margin-bottom: 0.5rem;
     }
-    .proof-card .verdict-badge.confirmed {
+    .verdict-badge.confirmed {
       background: rgba(15, 118, 110, 0.12);
       color: var(--teal);
     }
-    .proof-card .verdict-badge.falsified {
+    .verdict-badge.falsified {
       background: rgba(180, 83, 9, 0.12);
       color: var(--amber);
     }
-    .proof-card h3 {
-      margin: 0 0 0.5rem;
-      font-size: 1rem;
+    .result-card details {
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+    .result-card details summary {
+      cursor: pointer;
       font-weight: 600;
-      line-height: 1.35;
+      color: var(--teal);
+      font-size: 0.82rem;
+      list-style: none;
     }
-    .proof-card p {
-      margin: 0;
-      font-size: 0.92rem;
-      line-height: 1.5;
-    }
+    .result-card details summary::-webkit-details-marker { display: none; }
+    .result-card details summary::before { content: "▸ "; }
+    .result-card details[open] summary::before { content: "▾ "; }
+    .result-card details p { margin: 0.5rem 0 0; line-height: 1.5; }
     .objection {
       margin: 1.5rem 0 0;
       padding: 1rem 1.15rem;
@@ -157,6 +253,7 @@
       font-size: 0.92rem;
     }
     .objection strong { display: block; margin-bottom: 0.35rem; font-size: 0.95rem; }
+
     .mode-list { display: grid; gap: 1rem; margin: 1.25rem 0; }
     .mode-item {
       padding: 0.85rem 1rem;
@@ -190,11 +287,7 @@
       user-select: none;
     }
     details.expand-block summary::-webkit-details-marker { display: none; }
-    details.expand-block summary::before {
-      content: "▸ ";
-      display: inline-block;
-      transition: transform 0.15s;
-    }
+    details.expand-block summary::before { content: "▸ "; display: inline-block; }
     details.expand-block[open] summary::before { transform: rotate(90deg); }
     .expand-inner {
       padding: 0 1.15rem 1.15rem;
@@ -214,10 +307,36 @@
       border-bottom: 1px solid var(--line);
     }
     .data-table th { font-weight: 600; color: var(--text); }
-    .cta-section { text-align: left; }
+
+    .tab-footer {
+      margin-top: 2.5rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--line);
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+    .tab-footer a {
+      color: var(--teal);
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .tab-footer a:hover { text-decoration: underline; }
+    .contact-block {
+      margin-top: 2rem;
+      padding: 1.25rem 1.15rem;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+    }
+    .contact-block h3 {
+      margin: 0 0 0.75rem;
+      font-family: "IBM Plex Serif", Georgia, serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+    }
     .cta-btn {
       display: inline-block;
-      margin-top: 1.25rem;
+      margin-top: 1rem;
       padding: 0.65rem 1.25rem;
       font: inherit;
       font-size: 0.92rem;
@@ -231,7 +350,7 @@
     }
     .cta-btn:hover { background: #0d6b64; }
     .site-footer {
-      max-width: 680px;
+      max-width: 720px;
       margin: 0 auto;
       padding: 1.5rem 1.25rem 2rem;
       font-size: 0.72rem;
@@ -240,7 +359,7 @@
     }
     .error { color: var(--down); font-weight: 600; }
 
-    /* —— Live monitor (Section 6 expand) — reused styles —— */
+    /* Live monitor */
     .monitor-wrap { max-width: 100%; }
     .monitor-wrap .prices-strip { font-size: 0.78rem; color: var(--muted); margin: 1rem 0; }
     .monitor-wrap .warn { color: var(--amber); font-weight: 500; }
@@ -250,46 +369,6 @@
       font-style: italic;
       margin-bottom: 1rem;
     }
-    .hero { display: grid; gap: 0.75rem; margin-bottom: 1rem; }
-    .hero-card {
-      background: var(--surface-2);
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      padding: 0.85rem 1rem;
-    }
-    .hero-card h2 {
-      margin: 0 0 0.35rem;
-      font-size: 0.72rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: var(--muted);
-    }
-    .hero-card p { margin: 0; font-size: 0.85rem; }
-    .profile-pills { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-top: 0.5rem; }
-    .pill {
-      font-size: 0.76rem;
-      font-weight: 600;
-      padding: 0.22rem 0.5rem;
-      border-radius: 999px;
-      background: var(--surface);
-      color: var(--text);
-    }
-    .portfolio-explainer { display: grid; gap: 0.55rem; }
-    @media (min-width: 720px) { .portfolio-explainer { grid-template-columns: 1fr 1fr 1fr; } }
-    .explainer-box {
-      border-radius: 8px;
-      padding: 0.55rem 0.65rem;
-      font-size: 0.82rem;
-      line-height: 1.4;
-    }
-    .explainer-box strong { display: block; font-size: 0.76rem; margin-bottom: 0.12rem; }
-    .explainer-box.a { background: rgba(109, 40, 217, 0.08); border-left: 3px solid var(--a); }
-    .explainer-box.a strong { color: var(--a); }
-    .explainer-box.b { background: rgba(15, 118, 110, 0.08); border-left: 3px solid var(--b); }
-    .explainer-box.b strong { color: var(--b); }
-    .explainer-box.c { background: rgba(194, 65, 12, 0.08); border-left: 3px solid var(--c); }
-    .explainer-box.c strong { color: var(--c); }
     .spy-section, .portfolio-block {
       background: var(--surface-2);
       border: 1px solid var(--line);
@@ -338,109 +417,65 @@
     .holdings { margin-top: 0.45rem; padding-top: 0.4rem; border-top: 1px solid var(--line); font-size: 0.72rem; }
     .holdings-label { font-weight: 600; color: var(--muted); font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.12rem; }
     .holdings-tickers { line-height: 1.4; word-break: break-word; }
-    .event-section { margin: 1.25rem 0; }
-    .event-section h3 {
-      margin: 0 0 0.5rem;
-      font-size: 0.72rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: var(--muted);
-    }
-    .event-list { display: grid; gap: 0.45rem; }
-    .event-item {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 0.55rem 0.65rem;
-      font-size: 0.82rem;
-      line-height: 1.4;
-    }
-    .class-grid {
-      display: grid;
-      gap: 0.35rem;
-      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    }
-    .class-card {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 0.45rem 0.55rem;
-      font-size: 0.78rem;
-    }
-    .class-card .ticker { font-weight: 700; }
-    .class-card .state { margin-top: 0.1rem; }
-    .class-card .date { color: var(--muted); font-size: 0.68rem; margin-top: 0.15rem; }
-    .finding-def { font-size: 0.72rem; color: var(--muted); margin-top: 0.15rem; }
-    .illus-note { font-size: 0.82rem; color: var(--muted); margin-bottom: 0.75rem; }
-    .verdict.unresolved {
-      display: inline-block;
-      font-size: 0.62rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      padding: 0.1rem 0.35rem;
-      border-radius: 4px;
-      background: var(--surface-2);
-      color: var(--muted);
-      margin-right: 0.35rem;
-    }
   </style>
 </head>
 <body>
   <header class="site-header">
-    <h1>Convergence</h1>
+    <div class="header-inner">
+      <h1>Convergence</h1>
+      <nav class="tab-nav" role="tablist" aria-label="Site sections">
+        <button type="button" class="tab-btn" role="tab" id="tab-btn-overview" aria-selected="true" aria-controls="tab-overview" data-tab="overview">Overview</button>
+        <button type="button" class="tab-btn" role="tab" id="tab-btn-framework" aria-selected="false" aria-controls="tab-framework" data-tab="framework">Framework</button>
+        <button type="button" class="tab-btn" role="tab" id="tab-btn-evidence" aria-selected="false" aria-controls="tab-evidence" data-tab="evidence">Evidence</button>
+        <button type="button" class="tab-btn" role="tab" id="tab-btn-application" aria-selected="false" aria-controls="tab-application" data-tab="application">Application</button>
+      </nav>
+    </div>
   </header>
 
   <main>
-    <!-- Section 1 -->
-    <section class="page-section" id="hook">
-      <h2 class="section-headline">Every company has two stories.</h2>
+    <!-- Tab 1: Overview -->
+    <section class="tab-panel" id="tab-overview" role="tabpanel" aria-labelledby="tab-btn-overview" aria-hidden="false">
       <div class="section-body">
-        <p>What the market is pricing. What the financial structure shows. They don&rsquo;t always agree. Convergence is built to notice that, name it, and track how it changes.</p>
-        <div class="example-block">
-          <p><strong>Right now, on Dexcom (DXCM):</strong> as of the most recent monthly observation (7&nbsp;August&nbsp;2026), the stock price is reading unusually low compared to its own recent history — while the company&rsquo;s financial structure is reading unusually strong on the same date. One signal says &ldquo;discounted.&rdquo; The other says &ldquo;structurally elevated.&rdquo; Convergence doesn&rsquo;t pick a winner between them. It names the disagreement and keeps watching.</p>
-        </div>
-        <p>You don&rsquo;t need to know how to read a balance sheet to find that interesting. You only need to recognize that a company can have two public faces — and that those faces can drift apart.</p>
-        <p class="scope-note">This is observation, not a forecast. Convergence does not tell you what will happen next.</p>
-      </div>
-    </section>
+        <p><strong>Is NVIDIA overvalued, undervalued, or fairly priced right now?</strong> Most people have an opinion. Almost nobody can say for certain how they&rsquo;d know.</p>
+        <p>That&rsquo;s because the question assumes there&rsquo;s a single right answer to find. Convergence starts somewhere different: instead of asking what a company is <em>worth</em>, it asks whether the story the market is pricing and the story the financial structure is telling <strong>currently agree</strong> — and tracks what happens when they don&rsquo;t.</p>
 
-    <!-- Section 2 -->
-    <section class="page-section" id="what">
-      <h2 class="section-headline">Classification, not prediction.</h2>
-      <div class="section-body">
-        <p>Convergence is a research framework that <strong>classifies</strong> how a company&rsquo;s price behavior and financial-structure behavior relate to each other at a specific point in time — then re-observes that classification every month as new data arrives.</p>
-        <p>A <strong>relationship state</strong> is Convergence&rsquo;s name for that classification. It describes the relationship between two signals, not whether a stock is &ldquo;good&rdquo; or &ldquo;bad.&rdquo;</p>
-        <p>Continuing the Dexcom example:</p>
-        <ul class="plain-list">
-          <li>Convergence currently reads DXCM as being in a state where price is unusually low while structure is unusually high — a split between the two stories.</li>
-          <li>That label is descriptive. It is not a buy signal, a sell signal, or a price target.</li>
-        </ul>
-        <p>Each month, on the 7th, the framework pulls point-in-time data — only information that would actually have been available on that date — and asks: has the relationship changed? If price and structure move back into alignment, the classification updates. If the gap widens, that gets recorded too.</p>
+        <div class="example-block">
+          <span class="example-label">Verified example · NVDA · as of 7 August 2026</span>
+          <p>Convergence reads <strong>Central Agreement</strong> — <code>PRICE_NORMAL__STRUCTURE_NORMAL</code>. Price behavior and financial-structure behavior both sit in the normal band relative to NVIDIA&rsquo;s own multi-year history. There isn&rsquo;t a clean split to resolve on this date; the two stories are reading as aligned. That&rsquo;s still informative: agreement is an observable state, not only disagreement.</p>
+          <p class="scope-note" style="margin-top:0.75rem">This is observation, not a forecast. Convergence does not tell you what will happen next — or what NVIDIA is &ldquo;really&rdquo; worth.</p>
+        </div>
+
+        <div class="example-block secondary">
+          <span class="example-label">Abstract framing (no company named)</span>
+          <p>Sometimes a company&rsquo;s price and its underlying financial structure genuinely disagree — and there&rsquo;s no reliable way to know in advance which one is &ldquo;right.&rdquo; Convergence doesn&rsquo;t try to force an answer. It observes the disagreement and tracks what happens to it.</p>
+          <p>Other times, they agree — and that&rsquo;s worth naming too. Either way, the framework classifies the relationship as it stands today and re-checks it every month.</p>
+        </div>
+
+        <h2 class="section-subhead">Classification, not prediction</h2>
+        <p>Convergence is a research framework that <strong>classifies</strong> how a company&rsquo;s price behavior and financial-structure behavior relate at a specific point in time — then re-observes that classification every month as new data arrives.</p>
+        <p>A <strong>relationship state</strong> describes the relationship between two signals, not whether a stock is &ldquo;good&rdquo; or &ldquo;bad.&rdquo; It is descriptive — not a buy signal, sell signal, or price target.</p>
+        <p>Each month, on the 7th, the framework pulls point-in-time data — only information that would actually have been available on that date — and asks: has the relationship changed?</p>
         <p><strong>What Convergence gives you:</strong> a named description of what is observed now, and a record of how that observation has shifted over time.</p>
         <p><strong>What it does not give you:</strong> a prediction of what happens next, a valuation, or an investment recommendation.</p>
-        <p class="scope-note">Not a buy signal, sell signal, or price target.</p>
-      </div>
-    </section>
 
-    <!-- Section 3 -->
-    <section class="page-section" id="why">
-      <h2 class="section-headline">Most frameworks rush to a verdict. Convergence names the relationship first.</h2>
-      <div class="section-body">
-        <p>When people talk about companies, the conversation usually collapses quickly: cheap or expensive, buy or sell, bullish or bearish. To get there, almost every approach quietly picks a side — trust the price, or trust the fundamentals.</p>
-        <p>Convergence takes a different starting point. Before asking &ldquo;what should someone do,&rdquo; it asks: <strong>what is the state of agreement between price and structure right now — and how has that state changed?</strong></p>
-        <p>That matters because the relationship itself carries information that a single verdict can erase:</p>
+        <h2 class="section-subhead">Most frameworks rush to a verdict. Convergence names the relationship first.</h2>
+        <p>When people talk about companies, the conversation usually collapses quickly: cheap or expensive, buy or sell, bullish or bearish. Convergence takes a different starting point. Before asking &ldquo;what should someone do,&rdquo; it asks: <strong>what is the state of agreement between price and structure right now — and how has that state changed?</strong></p>
         <ul class="plain-list">
           <li>A company can look &ldquo;expensive&rdquo; on price while its structure reads stable — or the reverse.</li>
           <li>Two companies in the same industry can share a headline narrative while their price–structure relationships diverge completely.</li>
           <li>A relationship that looked settled last month may look different this month, without either story having &ldquo;won.&rdquo;</li>
         </ul>
-        <p>For anyone making high-stakes judgments — in investing, research, or collaboration — the question isn&rsquo;t only &ldquo;what do I think?&rdquo; It&rsquo;s also &ldquo;what am I actually observing, and has it shifted?&rdquo; Convergence is built for that second question. It holds the verdict open long enough to describe what&rsquo;s going on.</p>
       </div>
+      <footer class="tab-footer">
+        Want to explore this further?
+        <a href="#" data-goto-tab="framework">See how the framework works →</a>
+        or
+        <a href="#" data-goto-tab="application" data-goto-contact="1">Get in touch / Discuss the work</a>
+      </footer>
     </section>
 
-    <!-- Section 4 -->
-    <section class="page-section" id="how">
+    <!-- Tab 2: Framework -->
+    <section class="tab-panel" id="tab-framework" role="tabpanel" aria-labelledby="tab-btn-framework" aria-hidden="true">
       <h2 class="section-headline">Observe. Classify. Track. Test.</h2>
       <div class="section-body">
         <p class="preview-line">Convergence operates in four repeating stages: observe point-in-time data, classify the price–structure relationship, track how that classification changes, and test hypotheses against historical outcomes.</p>
@@ -451,7 +486,7 @@
           </div>
           <div class="step">
             <p class="step-title">Step 2 — Classify the relationship</p>
-            <p>The framework compares a company&rsquo;s recent price behavior against its recent financial-structure behavior — each measured relative to that company&rsquo;s own history, not a generic industry average. The output is a <strong>relationship state</strong>: a plain description of how the two signals relate right now.</p>
+            <p>The framework compares a company&rsquo;s recent price <em>behavior</em> against its recent financial-structure behavior — each measured relative to that company&rsquo;s own multi-year normalized history, not a generic industry average or a simple 1-year price chart. The output is a <strong>relationship state</strong>: a plain description of how the two signals relate right now.</p>
           </div>
           <div class="step">
             <p class="step-title">Step 3 — Track transitions over time</p>
@@ -463,58 +498,104 @@
             <p style="margin-top:0.5rem">The result is published whether it holds or not.</p>
           </div>
         </div>
+
+        <div class="method-note">
+          <strong>How to read &ldquo;unusual&rdquo; in Convergence.</strong>
+          When Convergence says a company&rsquo;s price is reading &ldquo;unusually&rdquo; low or high, it means recent price momentum — how the stock has been moving year over year — looks weak or strong compared to that same company&rsquo;s own history over many years. That is <em>not</em> the same as where the stock sits on a 1-year chart. A company can trade near recent highs on a standard chart while still reading as unusually weak on price behavior, if its recent momentum is negative relative to its own longer history — and vice versa.
+        </div>
+
         <p class="scope-note">None of this is a return forecast. The tests measure whether a structural pattern showed up in a follow-up window — not whether anyone made money.</p>
       </div>
+      <footer class="tab-footer">
+        Want to explore this further?
+        <a href="#" data-goto-tab="evidence">See what the historical tests found →</a>
+        or
+        <a href="#" data-goto-tab="application" data-goto-contact="1">Get in touch / Discuss the work</a>
+      </footer>
     </section>
 
-    <!-- Section 5 -->
-    <section class="page-section" id="proof">
+    <!-- Tab 3: Evidence -->
+    <section class="tab-panel" id="tab-evidence" role="tabpanel" aria-labelledby="tab-btn-evidence" aria-hidden="true">
       <h2 class="section-headline">Six hypotheses. Tested on real historical data. Including the ones that failed.</h2>
       <div class="section-body">
-        <p>Investigation D scored six pre-registered principles across independent comparison units in historical data. Below is what actually happened — confirmed and falsified results treated the same way.</p>
+        <p class="evidence-intro">Investigation D scored six pre-registered principles across independent comparison units in historical data. Confirmed and falsified results are treated the same way — lead with the number, then the plain-language result.</p>
 
-        <div class="proof-grid">
-          <article class="proof-card">
-            <span class="verdict-badge falsified">Falsified</span>
-            <h3>Principle A</h3>
-            <p><strong>Hypothesis:</strong> When two similar companies shared the same relationship type on the same date, the one with fuller internal consistency would reach a better subsequent structural state within ~12 months.</p>
-            <p style="margin-top:0.65rem"><strong>Result:</strong> It did not hold. Across 8,234 independent comparison pairs, the pattern appeared roughly 4 times out of 10 — below the 50% coin-flip baseline.</p>
-          </article>
+        <div class="evidence-tier">
+          <p class="tier-label">Strongest results</p>
+          <div class="result-grid result-grid-strong">
+            <article class="result-card result-card-strong">
+              <div class="result-pct">68%</div>
+              <p class="result-oneline">When a relationship type was still unresolved, follow-up confidence was historically capped — roughly 7 in 10 cases.</p>
+              <span class="verdict-badge confirmed">Confirmed · Principle E</span>
+              <details>
+                <summary>Full hypothesis &amp; details</summary>
+                <p><strong>Hypothesis:</strong> When a company&rsquo;s relationship type is still unresolved, confidence in reading its subsequent path is capped.</p>
+                <p><strong>n:</strong> 205 independent comparisons · <strong>Yes-rate:</strong> 67.80%</p>
+              </details>
+            </article>
+            <article class="result-card result-card-strong">
+              <div class="result-pct">61%</div>
+              <p class="result-oneline">An active structural fracture signal marked path instability — roughly 6 in 10 cases.</p>
+              <span class="verdict-badge confirmed">Confirmed · Principle F</span>
+              <details>
+                <summary>Full hypothesis &amp; details</summary>
+                <p><strong>Hypothesis:</strong> An active structural fracture signal marks instability.</p>
+                <p><strong>n:</strong> 4,145 independent pairs · <strong>Yes-rate:</strong> 61.35%</p>
+              </details>
+            </article>
+          </div>
+        </div>
 
-          <article class="proof-card">
-            <span class="verdict-badge falsified">Falsified</span>
-            <h3>Principle B</h3>
-            <p><strong>Hypothesis:</strong> Among flagged companies, those with passing forensic integrity would transition more favorably within ~12 months than flagged peers with weaker structural reads.</p>
-            <p style="margin-top:0.65rem"><strong>Result:</strong> It did not hold. Across 285 independent cases, the pattern appeared roughly 4 times out of 10.</p>
-          </article>
+        <div class="evidence-tier">
+          <p class="tier-label">Confirmed, barely above chance</p>
+          <div class="result-grid result-grid-standard">
+            <article class="result-card">
+              <div class="result-pct">51%</div>
+              <p class="result-oneline">Current static quality did not determine the direction of subsequent structural transition.</p>
+              <span class="verdict-badge confirmed">Confirmed · Principle C</span>
+              <details>
+                <summary>Full hypothesis &amp; details</summary>
+                <p><strong>Hypothesis:</strong> A company&rsquo;s current static quality read does not determine the direction of its subsequent structural transition.</p>
+                <p><strong>n:</strong> 330 · <strong>Yes-rate:</strong> 50.61%</p>
+              </details>
+            </article>
+            <article class="result-card">
+              <div class="result-pct">51%</div>
+              <p class="result-oneline">A change-underway structural profile had a slightly more informative subsequent transition than a static peer.</p>
+              <span class="verdict-badge confirmed">Confirmed · Principle D</span>
+              <details>
+                <summary>Full hypothesis &amp; details</summary>
+                <p><strong>Hypothesis:</strong> A company showing a change-underway structural profile would have a more informative subsequent transition than a peer with a static profile.</p>
+                <p><strong>n:</strong> 3,251 · <strong>Yes-rate:</strong> 50.75% (includes Abbott vs. AMD, July 2022 — scored Yes per source file)</p>
+              </details>
+            </article>
+          </div>
+        </div>
 
-          <article class="proof-card">
-            <span class="verdict-badge confirmed">Confirmed</span>
-            <h3>Principle C</h3>
-            <p><strong>Hypothesis:</strong> A company&rsquo;s current static quality read does not determine the direction of its subsequent structural transition.</p>
-            <p style="margin-top:0.65rem"><strong>Result:</strong> It held, barely above chance. Across 330 independent comparisons, the pattern appeared just over half the time — 51%.</p>
-          </article>
-
-          <article class="proof-card">
-            <span class="verdict-badge confirmed">Confirmed</span>
-            <h3>Principle D</h3>
-            <p><strong>Hypothesis:</strong> A company showing a change-underway structural profile would have a more informative subsequent transition than a peer with a static profile.</p>
-            <p style="margin-top:0.65rem"><strong>Result:</strong> It held, just above chance. Across 3,251 independent pairs, the pattern appeared just over half the time — 51%. (One required case — Abbott vs. AMD, July 2022 — was scored individually and answered Yes, as reported in the source file.)</p>
-          </article>
-
-          <article class="proof-card">
-            <span class="verdict-badge confirmed">Confirmed</span>
-            <h3>Principle E</h3>
-            <p><strong>Hypothesis:</strong> When a company&rsquo;s relationship type is still unresolved, confidence in reading its subsequent path is capped.</p>
-            <p style="margin-top:0.65rem"><strong>Result:</strong> It held clearly. Across 205 independent comparisons, the pattern appeared roughly 7 times out of 10 — 68%.</p>
-          </article>
-
-          <article class="proof-card">
-            <span class="verdict-badge confirmed">Confirmed</span>
-            <h3>Principle F</h3>
-            <p><strong>Hypothesis:</strong> An active structural fracture signal marks instability.</p>
-            <p style="margin-top:0.65rem"><strong>Result:</strong> It held. Across 4,145 independent pairs, the pattern appeared roughly 6 times out of 10 — 61%.</p>
-          </article>
+        <div class="evidence-tier">
+          <p class="tier-label">Falsified</p>
+          <div class="result-grid result-grid-standard">
+            <article class="result-card">
+              <div class="result-pct">42%</div>
+              <p class="result-oneline">Fuller internal consistency among similar peers did not predict better subsequent structural states.</p>
+              <span class="verdict-badge falsified">Falsified · Principle A</span>
+              <details>
+                <summary>Full hypothesis &amp; details</summary>
+                <p><strong>Hypothesis:</strong> When two similar companies shared the same relationship type on the same date, the one with fuller internal consistency would reach a better subsequent structural state within ~12 months.</p>
+                <p><strong>n:</strong> 8,234 · <strong>Yes-rate:</strong> 42.06% — below the 50% coin-flip baseline</p>
+              </details>
+            </article>
+            <article class="result-card">
+              <div class="result-pct">44%</div>
+              <p class="result-oneline">Passing forensic integrity among flagged companies did not predict more favorable transitions than weaker peers.</p>
+              <span class="verdict-badge falsified">Falsified · Principle B</span>
+              <details>
+                <summary>Full hypothesis &amp; details</summary>
+                <p><strong>Hypothesis:</strong> Among flagged companies, those with passing forensic integrity would transition more favorably within ~12 months than flagged peers with weaker structural reads.</p>
+                <p><strong>n:</strong> 285 · <strong>Yes-rate:</strong> 43.86%</p>
+              </details>
+            </article>
+          </div>
         </div>
 
         <p class="scope-note">These are tests of structural patterns in historical data — not return forecasts, not proof that any portfolio beat a benchmark, and not a reason to trade. Convergence publishes the failures alongside the confirmations because a framework that only reports what worked isn&rsquo;t one you can trust.</p>
@@ -529,13 +610,7 @@
           <div class="expand-inner">
             <table class="data-table">
               <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Hypothesis (short)</th>
-                  <th>n</th>
-                  <th>Yes-rate</th>
-                  <th>Verdict</th>
-                </tr>
+                <tr><th>ID</th><th>Hypothesis (short)</th><th>n</th><th>Yes-rate</th><th>Verdict</th></tr>
               </thead>
               <tbody>
                 <tr><td>A</td><td>Fuller-consistency peer transitions better</td><td>8,234</td><td>42.06%</td><td>Falsified</td></tr>
@@ -552,13 +627,19 @@
           </div>
         </details>
       </div>
+      <footer class="tab-footer">
+        Want to explore this further?
+        <a href="#" data-goto-tab="application">See how the framework is applied today →</a>
+        or
+        <a href="#" data-goto-tab="application" data-goto-contact="1">Get in touch / Discuss the work</a>
+      </footer>
     </section>
 
-    <!-- Section 6 -->
-    <section class="page-section" id="live">
-      <h2 class="section-headline">The framework running today — on paper.</h2>
+    <!-- Tab 4: Application -->
+    <section class="tab-panel" id="tab-application" role="tabpanel" aria-labelledby="tab-btn-application" aria-hidden="true">
+      <h2 class="section-headline">The framework running today — in live trading (paper).</h2>
       <div class="section-body">
-        <p>Convergence maintains a live paper-simulation application layer — three parallel modes, each tested across three Mix variants (Mix 1, Mix 2, and Mix 3 are different combinations of company types the framework can hold, run side by side for comparison — <strong>not</strong> a ladder from safer to riskier).</p>
+        <p>Convergence maintains a live trading (paper) application layer — three parallel modes, each tested across three Mix variants (Mix 1, Mix 2, and Mix 3 are different combinations of company types the framework can hold, run side by side for comparison — <strong>not</strong> a ladder from safer to riskier).</p>
 
         <div class="mode-list">
           <div class="mode-item">
@@ -577,48 +658,40 @@
 
         <p><strong>Scope, stated plainly:</strong></p>
         <ul class="scope-list">
-          <li>This is paper simulation only — internal ledgers, no live trading, not a fund, not investment advice.</li>
-          <li>Holdings and classifications update on a monthly cadence (7th of each month).</li>
+          <li>This is live trading (paper) only — internal ledgers, simulated execution, not a fund, not investment advice.</li>
+          <li>Holdings update on a monthly cadence (7th of each month); prices refresh on weekdays via the publish pipeline.</li>
           <li>Portfolio C requires human input for final picks; that step cannot run unattended without defeating its purpose.</li>
           <li>Price data comes from yfinance (adjusted closes); execution is simulated, not broker-submitted by default.</li>
         </ul>
 
-        <details class="expand-block" id="live-detail">
-          <summary>View live paper track (holdings, charts, classifications)</summary>
-          <div class="expand-inner monitor-wrap">
-            <p class="descriptive-note">Descriptive only — not a performance claim. Figures show mark-to-market values since last review, not investment results.</p>
-            <p id="monitor-meta">Loading observation dates…</p>
-            <p>Mix 1, Mix 2, and Mix 3 correspond to conservative, balanced, and aggressive profile configurations — different framework mixes compared in parallel, none labeled safer or better.</p>
-            <p>Automation: weekday price refresh and publish run via scheduled pipeline; full framework review runs automatically on the 7th for Portfolios A and B; Portfolio C requires the operator to run the monthly review interactively afterward.</p>
+        <div class="monitor-wrap" id="monitor-root">
+          <p class="descriptive-note">Descriptive only — not a performance claim. Figures show mark-to-market values since last review, not investment results.</p>
+          <p id="monitor-meta">Loading observation dates…</p>
+          <p style="font-size:0.88rem;color:var(--muted)">Mix 1, Mix 2, and Mix 3 correspond to conservative, balanced, and aggressive profile configurations — different framework mixes compared in parallel, none labeled safer or better.</p>
 
-            <p class="prices-strip" id="prices-strip">Loading…</p>
-            <div id="portfolio-a"></div>
-            <div id="portfolios"></div>
-            <section class="spy-section" id="spy-section" hidden>
-              <h2>SPY benchmark</h2>
-              <div class="spy-metrics" id="spy-metrics"></div>
-              <div class="spy-head"><span class="spy-stat" id="spy-refreshed">Last refreshed: —</span></div>
-              <div class="chart-box"><canvas id="chart-spy-benchmark" aria-label="SPY return since tracking start"></canvas></div>
-            </section>
+          <p class="prices-strip" id="prices-strip">Loading…</p>
+          <div id="portfolio-a"></div>
+          <div id="portfolios"></div>
+          <section class="spy-section" id="spy-section" hidden>
+            <h2>SPY benchmark</h2>
+            <div class="spy-metrics" id="spy-metrics"></div>
+            <div class="spy-head"><span class="spy-stat" id="spy-refreshed">Last refreshed: —</span></div>
+            <div class="chart-box"><canvas id="chart-spy-benchmark" aria-label="SPY return since tracking start"></canvas></div>
+          </section>
+        </div>
 
-            <div class="event-section">
-              <h3>Current classifications</h3>
-              <p id="class-count"></p>
-              <div class="class-grid" id="classifications-grid">Loading…</div>
-            </div>
-            <div id="activity-page">Loading activity log…</div>
-          </div>
-        </details>
+        <div class="contact-block" id="contact-block">
+          <h3>Interested in the work?</h3>
+          <p>Convergence is an ongoing research program — classification, historical testing, and a live trading (paper) track — not a product or a fund. If you&rsquo;re curious about the methodology, want to discuss collaboration, or have questions about what the framework does and doesn&rsquo;t claim, get in touch.</p>
+          <a class="cta-btn" href="mailto:brendankoh2004@gmail.com">Discuss collaboration</a>
+        </div>
       </div>
-    </section>
-
-    <!-- Section 7 -->
-    <section class="page-section cta-section" id="contact">
-      <h2 class="section-headline">Interested in the work?</h2>
-      <div class="section-body">
-        <p>Convergence is an ongoing research program — classification, historical testing, and a live paper track — not a product or a fund. If you&rsquo;re curious about the methodology, want to discuss collaboration, or have questions about what the framework does and doesn&rsquo;t claim, get in touch.</p>
-        <a class="cta-btn" href="mailto:brendankoh2004@gmail.com">Discuss collaboration</a>
-      </div>
+      <footer class="tab-footer">
+        Want to explore this further?
+        <a href="#" data-goto-tab="overview">Return to the overview →</a>
+        or
+        <a href="mailto:brendankoh2004@gmail.com">Get in touch / Discuss the work</a>
+      </footer>
     </section>
   </main>
 
@@ -634,9 +707,9 @@
     };
     const MULTI_VARIANT_DISPLAY = ["B", "C"];
     const CHART_COLORS = { A: "#6d28d9", B: "#0f766e", C: "#c2410c", SPY: "#78716c" };
+    const TAB_ORDER = ["overview", "framework", "evidence", "application"];
     const charts = [];
     let liveData = null;
-    let activityData = null;
     let chartsBuilt = false;
 
     function dataKeyFor(displayLetter) { return PORTFOLIO_META[displayLetter].dataKey; }
@@ -680,6 +753,46 @@
       if (!res.ok) throw new Error(name + ": HTTP " + res.status);
       return res.json();
     }
+
+    function switchTab(tabId, opts) {
+      const optsSafe = opts || {};
+      TAB_ORDER.forEach((id) => {
+        const panel = document.getElementById("tab-" + id);
+        const btn = document.querySelector('.tab-btn[data-tab="' + id + '"]');
+        const active = id === tabId;
+        if (panel) panel.setAttribute("aria-hidden", active ? "false" : "true");
+        if (btn) btn.setAttribute("aria-selected", active ? "true" : "false");
+      });
+      if (tabId === "application") {
+        if (liveData && !chartsBuilt) requestAnimationFrame(() => buildCharts(liveData));
+        if (optsSafe.scrollContact) {
+          const block = document.getElementById("contact-block");
+          if (block) block.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }
+      history.replaceState(null, "", "#" + tabId);
+    }
+
+    document.querySelectorAll(".tab-btn").forEach((btn) => {
+      btn.addEventListener("click", () => switchTab(btn.dataset.tab));
+    });
+    document.querySelectorAll("[data-goto-tab]").forEach((link) => {
+      link.addEventListener("click", (e) => {
+        e.preventDefault();
+        switchTab(link.dataset.gotoTab, { scrollContact: link.dataset.gotoContact === "1" });
+      });
+    });
+
+    function tabFromHash() {
+      return (location.hash || "").replace(/^#/, "");
+    }
+    function syncTabFromHash() {
+      const tabId = tabFromHash();
+      if (TAB_ORDER.includes(tabId)) switchTab(tabId);
+    }
+    window.addEventListener("hashchange", syncTabFromHash);
+    syncTabFromHash();
+
     function computeReturnsFallback(p, series) {
       const since = p.gain_loss_pct_since_inception;
       const month = p.return_since_review;
@@ -793,7 +906,7 @@
     const endLabelPlugin = {
       id: "endLabels",
       afterDatasetsDraw(chart) {
-        const { ctx, chartArea } = chart;
+        const { ctx } = chart;
         const ds = chart.data.datasets[0];
         if (!ds) return;
         const meta = chart.getDatasetMeta(0);
@@ -860,31 +973,7 @@
       if (!pts.length) return null;
       return { since_start_pct: pts[pts.length - 1].return_pct / 100, month_pct: pts[pts.length - 1].return_pct / 100, points: pts };
     }
-    function renderClassifications(data) {
-      const grid = document.getElementById("classifications-grid");
-      const countEl = document.getElementById("class-count");
-      const rows = data?.classifications || [];
-      if (!rows.length) { grid.textContent = "No classification data yet."; return; }
-      countEl.textContent = rows.length + " companies classified as of " + (data.as_of || "—") + ".";
-      grid.innerHTML = rows.map((r) =>
-        '<div class="class-card"><div class="ticker">' + r.ticker + '</div><div class="state">' + (r.state || "—") + '</div><div class="date">' + (r.as_of || "—") + '</div></div>'
-      ).join("");
-    }
-    function renderActivityPage(activity) {
-      const root = document.getElementById("activity-page");
-      const events = activity?.recent_events || [];
-      const eventHtml = events.length ? events.slice(0, 20).map((e) => {
-        const who = [e.portfolio, e.profile ? PROFILE_LABELS[e.profile] || e.profile : ""].filter(Boolean).join(" · ");
-        const detail = e.ticker || (e.tickers || []).join(", ") || "";
-        return '<div class="event-item"><strong>' + (e.event_type || "event") + '</strong>' + (who ? " · " + who : "") + (detail ? " · " + detail : "") +
-          (e.reason ? " — " + e.reason : "") + '<div class="finding-def">' + fmtTimestamp(e.recorded_at) + '</div></div>';
-      }).join("") : '<div class="event-item">No operational events recorded yet.</div>';
-      const illus = activity?.historical_illustrations || [];
-      const illusHtml = illus.length ? '<div class="event-section"><h3>Historical illustrations</h3><p class="illus-note">' + (activity.historical_illustrations_note || "") + '</p><div class="event-list">' +
-        illus.map((item) => '<div class="event-item"><span class="verdict unresolved">' + (item.kind || "Illustration") + '</span>' + (item.text || "") + '</div>').join("") + '</div></div>' : "";
-      root.innerHTML = '<div class="event-section"><h3>Operational event log</h3><div class="event-list">' + eventHtml + '</div></div>' + illusHtml;
-    }
-    function renderMonitorShell(live, activity) {
+    function renderMonitorShell(live) {
       const vr = live.valuation_refresh || {};
       const cycle = (live.cycles || [])[0] || {};
       document.getElementById("monitor-meta").textContent =
@@ -898,9 +987,7 @@
       const referenceCycle = cyclesByProfile.balanced || cyclesByProfile.conservative || cyclesByProfile.aggressive;
       document.getElementById("portfolio-a").innerHTML = renderPortfolioASection(referenceCycle);
       document.getElementById("portfolios").innerHTML = MULTI_VARIANT_DISPLAY.map((letter) => renderPortfolioBlock(letter, cyclesByProfile)).join("");
-      renderClassifications({ classifications: activity.classifications || [], as_of: activity.as_of });
-      renderActivityPage(activity);
-      document.getElementById("footer").textContent = "Paper simulation only · not a fund · Tracking since " + (live.tracking_since || "—");
+      document.getElementById("footer").textContent = "Live trading (paper) only · not a fund · Tracking since " + (live.tracking_since || "—");
     }
     function buildCharts(live) {
       if (chartsBuilt || typeof Chart === "undefined") return;
@@ -930,19 +1017,11 @@
     }
     async function init() {
       try {
-        const [live, activity] = await Promise.all([
-          loadJson("live_cycles.json"),
-          loadJson("activity.json").catch(() => loadJson("classifications.json").then((c) => ({
-            classifications: c.classifications, as_of: c.as_of, recent_events: [], historical_illustrations: [],
-          }))),
-        ]);
-        liveData = live;
-        activityData = activity;
-        renderMonitorShell(live, activity);
-        const detail = document.getElementById("live-detail");
-        detail.addEventListener("toggle", () => {
-          if (detail.open) requestAnimationFrame(() => buildCharts(liveData));
-        });
+        liveData = await loadJson("live_cycles.json");
+        renderMonitorShell(liveData);
+        if (document.getElementById("tab-application").getAttribute("aria-hidden") === "false") {
+          requestAnimationFrame(() => buildCharts(liveData));
+        }
       } catch (err) {
         document.getElementById("prices-strip").innerHTML = '<span class="error">Failed to load live data: ' + err.message + '</span>';
         document.getElementById("footer").textContent = "Convergence · research framework";
