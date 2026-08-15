@@ -113,7 +113,7 @@
           ],
           "missing_prices": [],
           "valuation": {
-            "refreshed_at": "2026-08-15T06:53:14Z",
+            "refreshed_at": "2026-08-15T07:00:48Z",
             "prices_as_of": "2026-08-14",
             "price_source": "yfinance+local_cache"
           },
@@ -219,7 +219,7 @@
           ],
           "missing_prices": [],
           "valuation": {
-            "refreshed_at": "2026-08-15T06:53:14Z",
+            "refreshed_at": "2026-08-15T07:00:48Z",
             "prices_as_of": "2026-08-14",
             "price_source": "yfinance+local_cache"
           },
@@ -1271,7 +1271,7 @@
           ],
           "missing_prices": [],
           "valuation": {
-            "refreshed_at": "2026-08-15T06:53:14Z",
+            "refreshed_at": "2026-08-15T07:00:48Z",
             "prices_as_of": "2026-08-14",
             "price_source": "yfinance+local_cache"
           },
@@ -1442,7 +1442,7 @@
           ],
           "missing_prices": [],
           "valuation": {
-            "refreshed_at": "2026-08-15T06:53:14Z",
+            "refreshed_at": "2026-08-15T07:00:48Z",
             "prices_as_of": "2026-08-14",
             "price_source": "yfinance+local_cache"
           },
@@ -1944,7 +1944,7 @@
           ],
           "missing_prices": [],
           "valuation": {
-            "refreshed_at": "2026-08-15T06:53:14Z",
+            "refreshed_at": "2026-08-15T07:00:48Z",
             "prices_as_of": "2026-08-14",
             "price_source": "yfinance+local_cache"
           },
@@ -2070,7 +2070,7 @@
           ],
           "missing_prices": [],
           "valuation": {
-            "refreshed_at": "2026-08-15T06:53:14Z",
+            "refreshed_at": "2026-08-15T07:00:48Z",
             "prices_as_of": "2026-08-14",
             "price_source": "yfinance+local_cache"
           },
@@ -3124,7 +3124,7 @@
           ],
           "missing_prices": [],
           "valuation": {
-            "refreshed_at": "2026-08-15T06:53:14Z",
+            "refreshed_at": "2026-08-15T07:00:48Z",
             "prices_as_of": "2026-08-14",
             "price_source": "yfinance+local_cache"
           },
@@ -3295,7 +3295,7 @@
           ],
           "missing_prices": [],
           "valuation": {
-            "refreshed_at": "2026-08-15T06:53:14Z",
+            "refreshed_at": "2026-08-15T07:00:48Z",
             "prices_as_of": "2026-08-14",
             "price_source": "yfinance+local_cache"
           },
@@ -3779,7 +3779,7 @@
           ],
           "missing_prices": [],
           "valuation": {
-            "refreshed_at": "2026-08-15T06:53:14Z",
+            "refreshed_at": "2026-08-15T07:00:48Z",
             "prices_as_of": "2026-08-14",
             "price_source": "yfinance+local_cache"
           },
@@ -3875,7 +3875,7 @@
           ],
           "missing_prices": [],
           "valuation": {
-            "refreshed_at": "2026-08-15T06:53:14Z",
+            "refreshed_at": "2026-08-15T07:00:48Z",
             "prices_as_of": "2026-08-14",
             "price_source": "yfinance+local_cache"
           },
@@ -4926,7 +4926,7 @@
           ],
           "missing_prices": [],
           "valuation": {
-            "refreshed_at": "2026-08-15T06:53:14Z",
+            "refreshed_at": "2026-08-15T07:00:48Z",
             "prices_as_of": "2026-08-14",
             "price_source": "yfinance+local_cache"
           },
@@ -5097,7 +5097,7 @@
           ],
           "missing_prices": [],
           "valuation": {
-            "refreshed_at": "2026-08-15T06:53:14Z",
+            "refreshed_at": "2026-08-15T07:00:48Z",
             "prices_as_of": "2026-08-14",
             "price_source": "yfinance+local_cache"
           },
@@ -5516,7 +5516,7 @@
     ]
   },
   "valuation_refresh": {
-    "refreshed_at": "2026-08-15T06:53:14Z",
+    "refreshed_at": "2026-08-15T07:00:48Z",
     "prices_as_of": "2026-08-14",
     "calendar_today": "2026-08-15",
     "market_data_through": "2026-08-14",
