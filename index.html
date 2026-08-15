@@ -142,7 +142,14 @@
     }
     .fw-diagram-wrap svg { width: min(100%, 44rem); height: auto; display: block; margin: 0 auto; }
 
-    .ev-tier { margin-bottom: 2.5rem; }
+    .ev-part { margin-bottom: 2.5rem; }
+    .ev-part-label {
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; margin: 0 0 0.75rem; color: var(--structure);
+    }
+    .ev-part-lead { font-size: 0.95rem; line-height: 1.6; color: var(--text); margin: 0 0 1.25rem; max-width: 40rem; }
+    .ev-part-note { margin-top: 0.85rem; font-size: 0.88rem; line-height: 1.55; color: var(--text); max-width: 40rem; }
+    .ev-foundation .ev-card-strong { margin-bottom: 0; }
     .ev-card {
       background: var(--surface); padding: 1.5rem 1.25rem;
       border: 1px solid var(--line);
@@ -153,6 +160,13 @@
     .ev-card .ev-result { font-size: 1rem; margin: 0.35rem 0 0; }
     .ev-card .stat-xl, .ev-card .stat-lg { margin-bottom: 0.25rem; }
     .ev-item .ev-takeaway { margin-top: 0.65rem; font-size: 0.88rem; color: var(--text); font-style: normal; line-height: 1.5; }
+    .ev-review-badge {
+      display: inline-block; font-size: 0.58rem; font-weight: 700; letter-spacing: 0.06em;
+      text-transform: uppercase; color: #92400e; background: rgba(146, 64, 14, 0.12);
+      padding: 0.15rem 0.4rem; border-radius: 2px; margin-bottom: 0.5rem;
+    }
+    .ev-card-under-review { border-left: 3px solid #d97706; }
+    .ev-review-note { margin-top: 0.65rem; font-size: 0.78rem; line-height: 1.5; color: var(--muted); }
     .ev-intro { font-size: 0.95rem; line-height: 1.6; color: var(--text); margin: 0 0 1.25rem; max-width: 40rem; }
     .ev-transition {
       margin: 2.5rem 0; padding: 2rem 1.25rem;
@@ -234,6 +248,33 @@
 
     .evidence-head { margin-bottom: 2.25rem; }
     .evidence-head .narrative { font-size: 1.02rem; max-width: 38rem; }
+    #tab-evidence { max-width: var(--wide); margin: 0 auto; padding: 0 1.25rem 3rem; }
+    .ev-arc {
+      display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem;
+      margin-bottom: 2rem; align-items: start;
+    }
+    @media (max-width: 900px) { .ev-arc { grid-template-columns: 1fr; } }
+    .ev-arc .ev-part { margin-bottom: 0; }
+    .ev-arc .ev-card { height: 100%; }
+    .ev-path-demos { display: flex; flex-direction: column; gap: 0.75rem; margin: 1rem 0 0.85rem; }
+    .ev-path-row {
+      display: grid; grid-template-columns: 1fr auto 1fr; gap: 0.5rem; align-items: center;
+      padding: 0.65rem 0.55rem; background: var(--surface-2); border: 1px solid var(--line);
+    }
+    .ev-path-side { min-width: 0; }
+    .ev-path-tag {
+      display: block; font-size: 0.58rem; font-weight: 700; letter-spacing: 0.07em;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 0.35rem;
+    }
+    .ev-dim {
+      font-size: 0.72rem; line-height: 1.35; margin-bottom: 0.2rem;
+    }
+    .ev-dim .dim-k { font-weight: 600; }
+    .ev-dim .dim-k.price { color: var(--price); }
+    .ev-dim .dim-k.struct { color: var(--structure); }
+    .ev-path-arrow {
+      font-size: 1.1rem; font-weight: 600; color: var(--muted); text-align: center; padding: 0 0.15rem;
+    }
     .tier-label {
       font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em;
       text-transform: uppercase; margin: 0 0 1rem; color: var(--text);
@@ -473,65 +514,77 @@
     <section class="tab-panel" id="tab-evidence" role="tabpanel" aria-labelledby="tab-btn-evidence" aria-hidden="true">
       <div class="evidence-head">
         <h2 class="type-lg">Can we actually map change?</h2>
-        <p class="narrative">Convergence records a company&rsquo;s current state and how that state changes over time. We tested whether those observations contained meaningful information in historical data.</p>
       </div>
 
-      <div class="ev-tier">
-        <p class="tier-label">What the historical tests found</p>
-        <p class="ev-intro">Convergence tested whether the states and changes it records contain meaningful information in historical data.</p>
-        <div class="ev-strong">
+      <div class="ev-arc">
+        <div class="ev-part ev-foundation">
+          <p class="ev-part-label">Can we actually map change?</p>
           <article class="ev-card ev-card-strong">
-            <div class="stat-xl">68%</div>
-            <p class="ev-q">When price and books were out of alignment, did they tend to return to alignment?</p>
-            <p class="ev-result">68% — In roughly 7 out of 10 cases, they did. (205 comparisons)</p>
+            <div class="stat-xl">97.4%</div>
+            <p class="ev-q">We tested whether genuine state changes could be observed and recorded.</p>
+            <p class="ev-result">Across 341 companies from 2017&ndash;2023, Convergence recorded <strong>10,140</strong> genuine state changes at its monthly observation cadence.</p>
           </article>
+        </div>
+
+        <div class="ev-part">
+          <p class="ev-part-label">Within those changes, do we see recurring types?</p>
           <article class="ev-card ev-card-strong">
-            <div class="stat-xl">61%</div>
-            <p class="ev-q">Can Convergence identify when structural instability is underway?</p>
-            <p class="ev-result">61% — In roughly 6 out of 10 cases, an active instability signal was followed by a less stable structural path. (4,145 comparisons)</p>
+            <div class="stat-xl">74%</div>
+            <p class="ev-result">The 10 most common joint-state paths account for roughly <strong>74%</strong> of all observed changes.</p>
+            <p class="ev-result"><strong>12</strong> paths occurred at least 100 times.</p>
+            <div class="ev-path-demos" aria-label="Examples of recurring joint-state transitions">
+              <div class="ev-path-row">
+                <div class="ev-path-side">
+                  <span class="ev-path-tag">Before</span>
+                  <div class="ev-dim"><span class="dim-k price">Price</span> Unusually Low</div>
+                  <div class="ev-dim"><span class="dim-k struct">Structure</span> Unusually Low</div>
+                </div>
+                <div class="ev-path-arrow" aria-hidden="true">&rarr;</div>
+                <div class="ev-path-side">
+                  <span class="ev-path-tag">After</span>
+                  <div class="ev-dim"><span class="dim-k price">Price</span> Normal</div>
+                  <div class="ev-dim"><span class="dim-k struct">Structure</span> Unusually Low</div>
+                </div>
+              </div>
+              <div class="ev-path-row">
+                <div class="ev-path-side">
+                  <span class="ev-path-tag">Before</span>
+                  <div class="ev-dim"><span class="dim-k price">Price</span> Normal</div>
+                  <div class="ev-dim"><span class="dim-k struct">Structure</span> Unusually Low</div>
+                </div>
+                <div class="ev-path-arrow" aria-hidden="true">&rarr;</div>
+                <div class="ev-path-side">
+                  <span class="ev-path-tag">After</span>
+                  <div class="ev-dim"><span class="dim-k price">Price</span> Unusually High</div>
+                  <div class="ev-dim"><span class="dim-k struct">Structure</span> Unusually Low</div>
+                </div>
+              </div>
+            </div>
+            <p class="ev-result">The changes are not random. They recur in recognizable patterns.</p>
+          </article>
+        </div>
+
+        <div class="ev-part">
+          <p class="ev-part-label">Can we predict what happens next?</p>
+          <article class="ev-card">
+            <div class="stat-xl">51%</div>
+            <p class="ev-result">The current state was only able to indicate the direction of the next state about half the time &mdash; essentially a coin toss.</p>
+            <p class="ev-result">And that&rsquo;s expected.</p>
+            <p class="ev-result">Convergence is not built to predict where the state goes next.</p>
+            <p class="ev-result">It cares about observing the change &mdash; and mapping it.</p>
           </article>
         </div>
       </div>
 
-      <div class="ev-transition">
-        <p>You cannot reliably predict a stock.<br />You can, however, observe when its state changes.</p>
-      </div>
-
-      <div class="ev-tier">
-        <div class="ev-rest">
-          <article class="ev-card">
-            <div class="stat-lg">51%</div>
-            <p class="ev-q">Does a company&rsquo;s current state tell us what happens next?</p>
-            <p class="ev-result">51% — Barely above chance. (330 comparisons)</p>
-            <p class="ev-takeaway">A current state describes where a company is. It does not reliably tell us where it will go next.</p>
-          </article>
-          <article class="ev-card">
-            <div class="stat-lg">51%</div>
-            <p class="ev-q">Does a changing state contain more information than a static one?</p>
-            <p class="ev-result">51% — Barely above chance. (3,251 comparisons)</p>
-            <p class="ev-takeaway">The test did not establish a strong advantage. It reinforces the distinction between observing a state and observing how that state changes.</p>
-          </article>
-          <article class="ev-card">
-            <div class="stat-lg">44%</div>
-            <p class="ev-q">Does stronger financial integrity tend to lead to a better outcome?</p>
-            <p class="ev-result">44% — The pattern did not hold. (285 comparisons)</p>
-            <p class="ev-takeaway">Not every structural distinction proved useful.</p>
-          </article>
-          <article class="ev-card">
-            <div class="stat-lg">42%</div>
-            <p class="ev-q">Does greater internal consistency make the subsequent path more informative?</p>
-            <p class="ev-result">42% — The pattern did not hold. (8,234 comparisons)</p>
-          </article>
-        </div>
-      </div>
-
-      <p class="ev-closing">The evidence does not show that Convergence can predict what comes next. It shows that changes in the relationship between price and books can be observed, classified and tested historically — with some patterns holding and others not.</p>
+      <p class="ev-closing">Convergence maps change. It does not need to predict it.</p>
 
       <div class="methodology-block">
         <details>
           <summary>View methodology →</summary>
           <div class="inner">
-            <p>Each test was pre-registered and scored across independent comparison units over a ~12-month follow-up window. Yes-rates: 67.80% (205), 61.35% (4,145), 50.61% (330), 50.75% (3,251), 43.86% (285), 42.06% (8,234). Supported = above 50% baseline with trust-bar strata met. Not a return or performance measure.</p>
+            <p><strong>Part 1</strong> uses genuine state changes only (no significance, duration, or desirability filter) across 341 companies, 2017&ndash;2023. Monthly observation recorded 10,140 genuine state changes vs 10,408 at weekly (97.4% of weekly volume; 2.64% fewer).</p>
+            <p><strong>Part 2</strong> pools 10,206 genuine monthly transitions on the same panel. Pearson &chi;&sup2; test of independence on the 9&times;9 origin&rarr;destination matrix (&chi;&sup2; = 35,232.09, df = 64, <em>p</em> &lt; 0.001); Cram&eacute;r&rsquo;s <em>V</em> = 0.657. Top-10 recurring joint paths: 73.95% of all transitions; 12 paths with &ge;100 occurrences. Permutation corroboration: observed &chi;&sup2; exceeds 99.9th percentile of 10,000 label-shuffle nulls.</p>
+            <p><strong>Part 3</strong> uses pre-registered historical comparison units (330 comparisons; yes-rate 50.61%, rounded to 51% for display). Reported rates are structural pattern detection, not returns or investment performance.</p>
           </div>
         </details>
       </div>

@@ -1,6 +1,6 @@
 {
   "schema": "event_library_export/1.1",
-  "generated_at": "2026-08-13T05:56:47Z",
+  "generated_at": "2026-08-15T06:53:19Z",
   "intro": "Change is constant. Convergence observes and classifies how the relationship between a company's price behavior and its financial-structure behavior shifts over time \u2014 not prediction.",
   "state_label_note": "Labels such as Central Agreement, High Agreement, Unresolved, and similar describe the framework's relationship-identity classification at a point in time \u2014 not buy/sell or valuation judgments.",
   "metric_definitions": {
@@ -61,7 +61,9 @@
       "definition": "A company showing a change-underway structural profile was hypothesized to have a more informative subsequent path than a peer with a static profile on the same date.",
       "yes_rate_definition": "Yes-rate: the share of independent comparison units in which the stated structural pattern was detected in the ~12-month follow-up window \u2014 not a return or performance measure.",
       "n_definition": "n: the number of independent comparison units scored in that validation run \u2014 each unit pairs two companies on the same date under fixed pre-scoring rules.",
-      "verdict_definition": "Confirmed: the pattern occurred above the 50% coin-flip baseline with trust-bar strata met."
+      "verdict_definition": "Confirmed: the pattern occurred above the 50% coin-flip baseline with trust-bar strata met.",
+      "review_status": "under_review",
+      "review_note": "Cadence-sensitivity research (August 2026) raised a real question about this borderline result's robustness when follow-up classification uses the Clock-2 observation path. Original Investigation D panel: 50.75% (Confirmed); alternate cadence-correct follow measurement: ~47.7%. Under active re-examination \u2014 not withdrawn."
     },
     {
       "kind": "Finding",
